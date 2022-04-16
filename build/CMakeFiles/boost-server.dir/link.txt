@@ -1,0 +1,1 @@
+/usr/bin/c++    -L /usr/lib -lboost_system -lboost_thread -lphtread -rdynamic CMakeFiles/boost-server.dir/main.cpp.o  -o boost-server 

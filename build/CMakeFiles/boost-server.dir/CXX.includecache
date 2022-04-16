@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/vladislav/server/libserver/listener.h
+thread
+-
+string
+-
+boost/beast/core.hpp
+-
+
+/home/vladislav/server/libserver/server.h
+thread
+-
+string
+-
+boost/beast/websocket.hpp
+-
+listener.h
+/home/vladislav/server/libserver/listener.h
+
+/home/vladislav/server/main.cpp
+iostream
+-
+memory
+-
+string
+-
+thread
+-
+boost/asio/io_context.hpp
+-
+libserver/server.h
+/home/vladislav/server/libserver/server.h
+
