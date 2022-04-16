@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+!/usr/bin/env bash
 
-#set -e
+set -e
 
 mkdir -p build
 cd build
