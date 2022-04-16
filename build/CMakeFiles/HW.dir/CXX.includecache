@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../DB_lib/DB.h
+vector
+-
+mysql_connection.h
+../DB_lib/mysql_connection.h
+cppconn/driver.h
+-
+cppconn/exception.h
+-
+cppconn/resultset.h
+-
+cppconn/statement.h
+-
+cppconn/prepared_statement.h
+-
+
+../DB_lib/DB_tables.h
+DB.h
+../DB_lib/DB.h
+string
+-
+
+/mnt/c/Users/egoro/Documents/GitHub/UML/main.cpp
+DB_tables.h
+/mnt/c/Users/egoro/Documents/GitHub/UML/DB_tables.h
+iostream
+/mnt/c/Users/egoro/Documents/GitHub/UML/iostream
+
