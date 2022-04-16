@@ -1,0 +1,23 @@
+on: push
+
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+    needs: [check]
+    steps:
+    - name: Setup cmake
+      uses: jwlawson/actions-setup-cmake@v1.12
+      with:
+        cmake-version: '3.16.x'
+    - name: update
+      run: sudo apt update
+    - name: valgrind install
+      run: sudo apt install -y valgrind
+    - name: lcov install
+      run: sudo apt install lcov
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - run: make build
+  
