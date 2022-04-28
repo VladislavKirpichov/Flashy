@@ -6,3 +6,9 @@
 #define CLIENT_SERIALIZER_H
 
 #endif //CLIENT_SERIALIZER_H
+class Serializer{
+public:
+
+private:
+
+};
