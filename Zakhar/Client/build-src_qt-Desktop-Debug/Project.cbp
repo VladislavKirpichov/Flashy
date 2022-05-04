@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Project"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\custompage\;CMake Files\mainpage\;CMake Files\mainwindow\;CMake Files\recompage\;CMake Files\regpage\;CMake Files\startpage\;CMake Files\userpage\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="custompage">
+				<Option output="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/custompage/libcustompage.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/custompage"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/custompage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/recompage"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/custompage/Makefile&quot;  VERBOSE=1 custompage"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/custompage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/custompage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/custompage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="custompage/fast">
+				<Option output="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/custompage/libcustompage.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/custompage"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/custompage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/recompage"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/custompage/Makefile&quot;  VERBOSE=1 custompage/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/custompage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/custompage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/custompage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="mainpage">
+				<Option output="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainpage/libmainpage.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainpage"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainpage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/custompage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/recompage"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainpage/Makefile&quot;  VERBOSE=1 mainpage"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainpage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainpage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainpage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="mainpage/fast">
+				<Option output="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainpage/libmainpage.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainpage"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainpage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/custompage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/recompage"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainpage/Makefile&quot;  VERBOSE=1 mainpage/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainpage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainpage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainpage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="mainwindow">
+				<Option output="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainwindow/libmainwindow.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainwindow"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainwindow"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainpage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/custompage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/recompage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/userpage"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainwindow/Makefile&quot;  VERBOSE=1 mainwindow"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainwindow/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainwindow/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainwindow/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="mainwindow/fast">
+				<Option output="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainwindow/libmainwindow.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainwindow"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainwindow"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainpage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/custompage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/recompage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/userpage"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainwindow/Makefile&quot;  VERBOSE=1 mainwindow/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainwindow/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainwindow/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/mainwindow/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="recompage">
+				<Option output="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/recompage/librecompage.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/recompage"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/recompage"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/recompage/Makefile&quot;  VERBOSE=1 recompage"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/recompage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/recompage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/recompage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="recompage/fast">
+				<Option output="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/recompage/librecompage.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/recompage"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/recompage"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/recompage/Makefile&quot;  VERBOSE=1 recompage/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/recompage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/recompage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/recompage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="regpage">
+				<Option output="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/regpage/libregpage.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/regpage"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/regpage"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/regpage/Makefile&quot;  VERBOSE=1 regpage"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/regpage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/regpage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/regpage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="regpage/fast">
+				<Option output="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/regpage/libregpage.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/regpage"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/regpage"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/regpage/Makefile&quot;  VERBOSE=1 regpage/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/regpage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/regpage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/regpage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="startpage">
+				<Option output="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/startpage/libstartpage.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/startpage"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/startpage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainwindow"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainpage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/custompage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/recompage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/userpage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/regpage"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/startpage/Makefile&quot;  VERBOSE=1 startpage"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/startpage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/startpage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/startpage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="startpage/fast">
+				<Option output="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/startpage/libstartpage.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/startpage"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/startpage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainwindow"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainpage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/custompage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/recompage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/userpage"/>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/regpage"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/startpage/Makefile&quot;  VERBOSE=1 startpage/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/startpage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/startpage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/startpage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="userpage">
+				<Option output="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/userpage/libuserpage.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/userpage"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/userpage"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/userpage/Makefile&quot;  VERBOSE=1 userpage"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/userpage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/userpage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/userpage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="userpage/fast">
+				<Option output="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/userpage/libuserpage.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/userpage"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/userpage"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/userpage/Makefile&quot;  VERBOSE=1 userpage/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/userpage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/userpage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug/userpage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/custompage/custompage.cpp">
+			<Option target="custompage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/custompage/custompage.h">
+			<Option target="custompage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/custompage/custompage.ui">
+			<Option target="custompage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainpage/mainpage.cpp">
+			<Option target="mainpage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainpage/mainpage.h">
+			<Option target="mainpage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainpage/mainpage.ui">
+			<Option target="mainpage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainwindow/mainwindow.cpp">
+			<Option target="mainwindow"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainwindow/mainwindow.h">
+			<Option target="mainwindow"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainwindow/mainwindow.ui">
+			<Option target="mainwindow"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/recompage/recompage.cpp">
+			<Option target="recompage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/recompage/recompage.h">
+			<Option target="recompage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/recompage/recompage.ui">
+			<Option target="recompage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/regpage/regpage.cpp">
+			<Option target="regpage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/regpage/regpage.h">
+			<Option target="regpage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/regpage/regpage.ui">
+			<Option target="regpage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/startpage/startpage.cpp">
+			<Option target="startpage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/startpage/startpage.h">
+			<Option target="startpage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/startpage/startpage.ui">
+			<Option target="startpage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/userpage/userpage.cpp">
+			<Option target="userpage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/userpage/userpage.h">
+			<Option target="userpage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/userpage/userpage.ui">
+			<Option target="userpage"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/custompage/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\custompage\"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainpage/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\mainpage\"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainwindow/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\mainwindow\"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/recompage/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\recompage\"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/regpage/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\regpage\"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/startpage/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\startpage\"/>
+		</Unit>
+		<Unit filename="/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/userpage/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\userpage\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

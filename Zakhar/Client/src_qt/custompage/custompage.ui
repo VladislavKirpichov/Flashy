@@ -36,8 +36,6 @@ top: 315px;
 
 background: #005DF7;
 border: 2px solid rgba(255, 255, 255, 0.64);
-box-sizing: border-box;
-box-shadow: 0px 10px 20px rgba(32, 63, 84, 0.18), 0px 2px 6px rgba(32, 63, 84, 0.12), 0px 0px 1px rgba(0, 0, 0, 0.04);
 border-radius: 12px;</string>
    </property>
    <property name="text">

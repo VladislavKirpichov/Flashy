@@ -1,0 +1,186 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7
+					],
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "custompage",
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "custompage",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "mainpage",
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "mainpage",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "mainwindow",
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "mainwindow",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "recompage",
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "recompage",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "regpage",
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "regpage",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "startpage",
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "startpage",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"build" : "userpage",
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "userpage",
+					"targetIndexes" : 
+					[
+						6
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7
+					],
+					"name" : "Project",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "custompage::@88dab6ee8fe055e99a24",
+					"jsonFile" : "target-custompage-Debug-5c258b3f98e98eef112a.json",
+					"name" : "custompage",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "mainpage::@10f1737ddd73b226c2d9",
+					"jsonFile" : "target-mainpage-Debug-54773822f1456ba17213.json",
+					"name" : "mainpage",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "mainwindow::@21af6c1ed8cb00ef8340",
+					"jsonFile" : "target-mainwindow-Debug-4a50e1ad44ec5bfecdc3.json",
+					"name" : "mainwindow",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "recompage::@a4c8f802f69bfa8e7069",
+					"jsonFile" : "target-recompage-Debug-30384d25ebc0491652c4.json",
+					"name" : "recompage",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "regpage::@934564630e2a3b1016da",
+					"jsonFile" : "target-regpage-Debug-604f96c9800e10a21fd6.json",
+					"name" : "regpage",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "startpage::@004ae0d995d45424cb45",
+					"jsonFile" : "target-startpage-Debug-e8f80c8f51551861385f.json",
+					"name" : "startpage",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "userpage::@fbcac04315e7038f5011",
+					"jsonFile" : "target-userpage-Debug-de6aa79d26f33c20eef9.json",
+					"name" : "userpage",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/zuhropenchik/Flashy/Zakhar/Client/build-src_qt-Desktop-Debug",
+		"source" : "/home/zuhropenchik/Flashy/Zakhar/Client/src_qt"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 0
+	}
+}

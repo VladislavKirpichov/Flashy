@@ -1,0 +1,157 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "mainwindow/libmainwindow.a"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"target_link_libraries",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"mainwindow/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 1,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 3,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 2,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g  "
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainwindow"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/mainpage"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/custompage"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/recompage"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/zuhropenchik/Flashy/Zakhar/Client/src_qt/userpage"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "custompage::@88dab6ee8fe055e99a24"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "mainpage::@10f1737ddd73b226c2d9"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "recompage::@a4c8f802f69bfa8e7069"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "userpage::@fbcac04315e7038f5011"
+		}
+	],
+	"id" : "mainwindow::@21af6c1ed8cb00ef8340",
+	"name" : "mainwindow",
+	"nameOnDisk" : "libmainwindow.a",
+	"paths" : 
+	{
+		"build" : "mainwindow",
+		"source" : "mainwindow"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		},
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				2
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "mainwindow/mainwindow.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "mainwindow/mainwindow.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "mainwindow/mainwindow.ui",
+			"sourceGroupIndex" : 2
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

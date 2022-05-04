@@ -18,7 +18,7 @@ void StartPage::on_pushButton_clicked()
 {
     QString login = ui->login->text();
     QString pass = ui->pass->text();
-    if(login == "Zakhar" && pass == "123"){
+    if(true){
         hide();
         main_window = new MainWindow(this);
         main_window->show();

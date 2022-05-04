@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmainwindow.a  CMakeFiles/mainwindow.dir/mainwindow.o
+/usr/bin/ranlib libmainwindow.a
