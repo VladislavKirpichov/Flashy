@@ -1,0 +1,7 @@
+add_subdirectory(custompage)
+add_subdirectory(mainpage)
+add_subdirectory(mainwindow)
+add_subdirectory(recompage)
+add_subdirectory(regpage)
+add_subdirectory(startpage)
+add_subdirectory(userpage)

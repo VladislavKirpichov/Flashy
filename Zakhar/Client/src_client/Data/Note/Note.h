@@ -6,3 +6,6 @@
 #define CLIENT_NOTE_H
 
 #endif //CLIENT_NOTE_H
+class Note{
+
+};

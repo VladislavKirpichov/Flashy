@@ -27,8 +27,8 @@ public:
     void Update(std::string Update_message);
     void Exit();
 private:
+    WebSocketClient * client;
     User current_user;
     Note current_note;
     Serializer serializer;
-    WebSocketClient * client;
 };
