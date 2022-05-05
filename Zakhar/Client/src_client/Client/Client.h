@@ -1,11 +1,7 @@
-//
-// Created by zuhropenchik on 28.04.22.
-//
+
 
 #ifndef CLIENT_CLIENT_H
 #define CLIENT_CLIENT_H
-
-#endif //CLIENT_CLIENT_H
 #include <boost/beast/core.hpp>
 #include <boost/beast/websocket.hpp>
 #include <boost/asio/connect.hpp>
@@ -20,7 +16,7 @@ using tcp = boost::asio::ip::tcp;
 class WebSocketClient{
 public:
     WebSocketClient(net::io_context &ioc);
-    void Connect(std::string host, std::string port);
+    void Connect(std::string &host, std::string &port);
     void Write(std::string text);
     void Read();
     void Disconnect();
@@ -31,3 +27,4 @@ private:
     websocket::stream<tcp::socket> ws;
     beast::flat_buffer buffer;
 };
+#endif //CLIENT_CLIENT_H

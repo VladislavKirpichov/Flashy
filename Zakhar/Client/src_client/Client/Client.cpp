@@ -3,7 +3,7 @@
 
 WebSocketClient::WebSocketClient(net::io_context &ioc):
 resolver(ioc), ws(ioc){}
-void WebSocketClient::Connect(std::string host, std::string port){
+void WebSocketClient::Connect(std::string &host, std::string &port){
     auto const results = resolver.resolve(host, port);
     auto ep = net::connect(ws.next_layer(), results);
 

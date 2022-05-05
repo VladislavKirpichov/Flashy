@@ -1,11 +1,10 @@
-#include <boost/beast/core.hpp>
-#include <boost/beast/websocket.hpp>
 #include <boost/asio/connect.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <iostream>
 #include <string>
 #include "Client.h"
 #include "Serializer.h"
+#include "Manager.h"
 #include <QApplication>
 #include "startpage.h"
 
@@ -27,12 +26,6 @@ int main(int argc, char *argv[])
     std::cout << "Hello!\n";
     StartPage w;
     w.show();
-    WebSocketClient client = WebSocketClient(ioc);
-//    client.Connect(host, port);
-//    client.Write(text);
-//    client.Read();
-//    client.data_to_string();
-//    client.Disconnect();
-    std::cout << "Hello!\n";
+    Manager manager(ioc);
     return a.exec();
 }

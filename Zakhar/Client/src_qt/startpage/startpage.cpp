@@ -1,4 +1,5 @@
 #include "startpage.h"
+#include <iostream>
 #include "ui_startpage.h"
 #include <QMessageBox>
 StartPage::StartPage(QWidget *parent)
@@ -22,6 +23,7 @@ void StartPage::on_pushButton_clicked()
         hide();
         main_window = new MainWindow(this);
         main_window->show();
+        std::cout << "Hello";
     } else {
         QMessageBox::information(this, "Auth error", "Uncorrent Login or password");
     }
