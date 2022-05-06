@@ -18,14 +18,17 @@ using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 int main(int argc, char *argv[])
 {
     std::string host = "127.0.0.1";
-    auto const  port = "8080";
+    unsigned short port = 8080;
     auto const  text = "Hello, VLAD!";
     net::io_context ioc;
-    std::cout << "Hello!\n";
-    QApplication a(argc, argv);
-    std::cout << "Hello!\n";
-    StartPage w;
-    w.show();
-    Manager manager(ioc);
-    return a.exec();
+    WebSocketClient client(ioc);
+    client.getResponce(host, port);
+//    std::cout << "Hello!\n";
+//    QApplication a(argc, argv);
+//    std::cout << "Hello!\n";
+//    StartPage w;
+//    w.show();
+//    Manager manager(ioc);
+//    return a.exec();
+
 }
