@@ -1,21 +1,35 @@
 #include "DB_tables.h"
 
-User::User (std::string a, std::string b, std::string c, std::string d){
-
-}
-size_t User::getID(){
-
-}
-std::vector<std::vector<std::string>> User::get_all_user_info(){
-
+void User::add_user (std::string nick, std::string pass, std::string email, std::string status) {
+    DB conn = DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
+    conn.Insert("INSERT INTO users(nick,pass,email,status) VALUES (?, ?, ?, ?)", { "S:" + nick , "S:" + pass , "S:" + email, "S:" + status });
+    conn.Close();
 }
 
-void User::delete_user(){
-
+std::vector<std::vector<std::string>> User::getID(std::string nick){
+    DB conn = DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
+    return conn.Get("SELECT id FROM users WHERE nick=?", { "S:" + nick}, 1);
+    conn.Close();
+}
+std::vector<std::vector<std::string>> User::get_all_user_info(size_t id){
+    DB conn = DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
+    std::string ID = std::to_string(id);
+    return conn.Get("SELECT * FROM users WHERE id=?", {"I:"+ ID}, 5);
+    conn.Close();
 }
 
-std::string User::get_nick(){
+void User::delete_user(size_t id){
+    DB conn = DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
+    std::string ID = std::to_string(id);
+    return conn.Delete("DELETE FROM users WHERE id=?", { "I:" + ID});
+    conn.Close();
+}
 
+std::string User::get_nick(size_t id){
+    DB conn = DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
+    std::string ID = std::to_string(id);
+    return conn.Get("SELECT nick FROM users WHERE id=?", { "I:" + ID});
+    conn.Close();
 }
 
 void User::set_nick(std::string){

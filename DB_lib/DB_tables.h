@@ -6,6 +6,7 @@
 
 class User : public DB {
     private:
+        DB conn = DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
         size_t id;
         std::string nickname;
         std::string password;
@@ -13,11 +14,11 @@ class User : public DB {
         std::string status;
 
     public:
-        User (std::string, std::string, std::string, std::string);
+        void add_user (std::string, std::string, std::string, std::string);
 
-        size_t getID();
+        std::vector<std::vector<std::string>> getID(std::string);
 
-        std::vector<std::vector<std::string>> get_all_user_info();
+        std::vector<std::vector<std::string>> get_all_user_info(size_t);
 
         void delete_user();
 
