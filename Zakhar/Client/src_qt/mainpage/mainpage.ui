@@ -16,41 +16,11 @@
   <property name="styleSheet">
    <string notr="true">background: #FFFFFF;</string>
   </property>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>230</x>
-     <y>10</y>
-     <width>121</width>
-     <height>71</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">position: absolute;
-width: 194px;
-height: 25px;
-left: 747px;
-top: 59px;
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 500;
-font-size: 36px;
-line-height: 44px;
-text-align: center;
-background: rgba(255,255,255,0);
-color: #000000;
-</string>
-   </property>
-   <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;For you&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton_14">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>270</y>
+     <x>210</x>
+     <y>70</y>
      <width>131</width>
      <height>41</height>
     </rect>
@@ -74,8 +44,8 @@ border-radius: 8px;</string>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>200</y>
+     <x>190</x>
+     <y>0</y>
      <width>181</width>
      <height>71</height>
     </rect>
@@ -101,87 +71,11 @@ color: #000000;
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;Your pages&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_9">
-   <property name="geometry">
-    <rect>
-     <x>86</x>
-     <y>80</y>
-     <width>80</width>
-     <height>121</height>
-    </rect>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Recom1</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_10">
-   <property name="geometry">
-    <rect>
-     <x>187</x>
-     <y>80</y>
-     <width>80</width>
-     <height>121</height>
-    </rect>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Recom2</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_11">
-   <property name="geometry">
-    <rect>
-     <x>289</x>
-     <y>80</y>
-     <width>80</width>
-     <height>121</height>
-    </rect>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Recom3</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_12">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>80</y>
-     <width>80</width>
-     <height>121</height>
-    </rect>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Recom4</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton_6">
    <property name="geometry">
     <rect>
-     <x>98</x>
-     <y>330</y>
+     <x>88</x>
+     <y>130</y>
      <width>111</width>
      <height>181</height>
     </rect>
@@ -199,8 +93,8 @@ color: #000000;
   <widget class="QPushButton" name="pushButton_7">
    <property name="geometry">
     <rect>
-     <x>228</x>
-     <y>330</y>
+     <x>218</x>
+     <y>130</y>
      <width>111</width>
      <height>181</height>
     </rect>
@@ -218,8 +112,8 @@ color: #000000;
   <widget class="QPushButton" name="pushButton_8">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>330</y>
+     <x>350</x>
+     <y>130</y>
      <width>111</width>
      <height>181</height>
     </rect>
@@ -248,13 +142,8 @@ color: #000000;
    </property>
   </widget>
   <zorder>label_5</zorder>
-  <zorder>label</zorder>
   <zorder>pushButton_14</zorder>
   <zorder>label_2</zorder>
-  <zorder>pushButton_9</zorder>
-  <zorder>pushButton_10</zorder>
-  <zorder>pushButton_11</zorder>
-  <zorder>pushButton_12</zorder>
   <zorder>pushButton_6</zorder>
   <zorder>pushButton_7</zorder>
   <zorder>pushButton_8</zorder>

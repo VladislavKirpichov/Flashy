@@ -1,8 +1,7 @@
 #ifndef CLIENT_TEXT_FIELD_H
 #define CLIENT_TEXT_FIELD_H
-#include"Block.h"
 #include<string>
-class TextField: public Block{
+class TextField{
 public:
 
 private:

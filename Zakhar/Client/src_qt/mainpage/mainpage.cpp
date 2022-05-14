@@ -28,8 +28,3 @@ void MainPage::on_pushButton_6_clicked()
     hide();
     custom_page->show();
 }
-
-void MainPage::on_pushButton_9_clicked()
-{
-
-}

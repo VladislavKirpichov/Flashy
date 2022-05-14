@@ -11,3 +11,6 @@ void Manager::Update(std::string Update_message){}
 void Manager::Exit(){
     client.Disconnect();
 }
+void Manager::ChangeUser(const User & new_user){
+    current_user = new_user;
+}

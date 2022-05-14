@@ -8,6 +8,3 @@ Note::Note(unsigned int user){
     user_id = user;
     note_id = 0;
 }
-void Note::add_block(std::string type){
-
-}

@@ -7,6 +7,7 @@
 #include "userpage.h"
 #include "custompage.h"
 #include "recompage.h"
+#include "testpage.h"
 namespace Ui {
 class MainWindow;
 }
@@ -30,6 +31,7 @@ private:
     MainPage * main_page;
     CustomPage * custom_page;
     RecomPage * recom_page;
+    TestPage * test_page;
 };
 
 #endif // MAINWINDOW_H

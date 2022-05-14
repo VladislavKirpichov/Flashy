@@ -130,19 +130,6 @@ color: #000000;</string>
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>170</y>
-     <width>141</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Similar to this note</string>
-   </property>
-  </widget>
   <widget class="QTextBrowser" name="textBrowser">
    <property name="geometry">
     <rect>
@@ -193,13 +180,26 @@ p, li { white-space: pre-wrap; }
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;What is an orthogonal system? Orthonormal system?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>170</y>
+     <width>141</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Similar to this note</string>
+   </property>
+  </widget>
   <zorder>label_10</zorder>
   <zorder>pushButton</zorder>
   <zorder>label</zorder>
   <zorder>layoutWidget</zorder>
-  <zorder>pushButton_2</zorder>
   <zorder>textBrowser</zorder>
   <zorder>label_11</zorder>
+  <zorder>pushButton_2</zorder>
  </widget>
  <resources/>
  <connections/>

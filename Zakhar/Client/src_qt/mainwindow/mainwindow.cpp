@@ -12,7 +12,11 @@ MainWindow::MainWindow(QWidget *parent) :
     recom_page->move(100,0);
     recom_page->hide();
 
-    custom_page = new CustomPage(this, recom_page);
+    test_page = new TestPage(this);
+    test_page->move(100,0);
+    test_page->hide();
+
+    custom_page = new CustomPage(this, recom_page, test_page);
     custom_page->move(100,0);
     custom_page->hide();
 
@@ -23,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     user_page = new UserPage(this);
     user_page->move(100,0);
     user_page->hide();
+
 
     this->show();
 

@@ -26,6 +26,7 @@ public:
     void Get_Page(std::string page_id);
     void Update(std::string Update_message);
     void Exit();
+    void ChangeUser(const User & new_user);
 private:
     WebSocketClient client;
     User current_user;

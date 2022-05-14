@@ -4,16 +4,17 @@
 #include<vector>
 #include <ctime>
 #include <string>
-#include"Block.h"
+#include "Test.h"
+#include "Text_field.h"
 class Note{
 public:
     Note();
     Note(unsigned int user);
-    void add_block(std::string type);
 
 private:
     std::string name;
-    std::vector<Block*> blocks;
+    TextField text;
+    Test test;
     unsigned int note_id;
     unsigned int user_id;
     time_t date_of_creation;

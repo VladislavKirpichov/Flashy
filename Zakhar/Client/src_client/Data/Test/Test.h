@@ -1,10 +1,9 @@
 
 #ifndef CLIENT_TEST_H
 #define CLIENT_TEST_H
-#include"Block.h"
 #include<string>
 #include<vector>
-class Test: public Block{
+class Test{
 public:
 
 private:
