@@ -1,2 +1,0 @@
-/usr/bin/ar qc libDB_lib.a  CMakeFiles/DB_lib.dir/DB_tables.cpp.o CMakeFiles/DB_lib.dir/DB.cpp.o
-/usr/bin/ranlib libDB_lib.a
