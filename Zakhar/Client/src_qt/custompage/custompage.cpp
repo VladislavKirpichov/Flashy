@@ -14,6 +14,7 @@ CustomPage::CustomPage(QWidget *parent, RecomPage * recom, TestPage * test) :
     ui->setupUi(this);
     recom_page = recom;
     test_page = test;
+
 }
 
 CustomPage::~CustomPage()

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libmainpage.a  CMakeFiles/mainpage.dir/mainpage.o
-/usr/bin/ranlib libmainpage.a

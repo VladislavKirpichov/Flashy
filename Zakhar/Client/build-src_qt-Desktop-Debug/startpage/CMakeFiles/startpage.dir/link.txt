@@ -1,2 +1,0 @@
-/usr/bin/ar qc libstartpage.a  CMakeFiles/startpage.dir/startpage.o
-/usr/bin/ranlib libstartpage.a

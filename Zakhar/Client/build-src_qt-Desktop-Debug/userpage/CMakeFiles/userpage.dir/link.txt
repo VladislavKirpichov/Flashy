@@ -1,2 +1,0 @@
-/usr/bin/ar qc libuserpage.a  CMakeFiles/userpage.dir/userpage.o
-/usr/bin/ranlib libuserpage.a

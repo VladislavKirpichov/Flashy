@@ -1,2 +1,0 @@
-/usr/bin/ar qc libcustompage.a  CMakeFiles/custompage.dir/custompage.o
-/usr/bin/ranlib libcustompage.a

@@ -16,15 +16,25 @@ using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 
 
 int main(int argc, char *argv[]) {
-    std::string host = "127.0.0.1";
-    User example = User("Example user", {"Example note 1", "Example note 2", "Example note 3"});
     unsigned short port = 8080;
     auto const text = "Hello, VLAD!";
-//    WebSocketClient client(ioc);
-//    client.getResponce(host, port);
+
+    std::string jsonka = "{\n"
+                         "  \"user_id\": \"137\",\n"
+                         "  \"name\": \"Boris\",\n"
+                         "  \"login\": \"Boris17\",\n"
+                         "  \"password\": \"Demon123\",\n"
+                         "  \"categories\": [ \"2\", \"3\"],\n"
+                         "  \"notes_id\": [ \"12\", \"17\"],\n"
+                         "  \"notes_name\": [\"Example 1\", \"Example 2\"]\n"
+                         "}";
+    std::string host = "127.0.0.1";
+    User example = User("Example user", {"Example note 1", "Example note 2", "Example note 3"});
     net::io_context ioc;
     Manager manager(ioc);
     manager.ChangeUser(example);
+    Serializer ser;
+    ser.user_deserialize(jsonka);
     QApplication a(argc, argv);
     StartPage w;
     w.show();

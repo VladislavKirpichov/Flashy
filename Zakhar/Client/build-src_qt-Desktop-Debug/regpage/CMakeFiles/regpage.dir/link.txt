@@ -1,2 +1,0 @@
-/usr/bin/ar qc libregpage.a  CMakeFiles/regpage.dir/regpage.o
-/usr/bin/ranlib libregpage.a
