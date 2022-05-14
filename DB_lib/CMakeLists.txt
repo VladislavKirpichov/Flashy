@@ -4,9 +4,9 @@ project(DB_lib)
 
 #set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-fprofile-arcs -ftest-coverage -fPIC -O0")
 
-set(SOURCES DB_tables.cpp DB.cpp )
+set(SOURCES DB_tables_page.cpp DB_tables_users.cpp DB_tables_question.cpp DB.cpp )
 
-set(HEADERS DB_tables.h DB.h)
+set(HEADERS DB.h)
 
 add_library(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
