@@ -24,7 +24,6 @@
 #include <tuple>
 
 #include "RequestHandler.hpp"
-#include "websocket_connection.h"
 #include "Logger.hpp"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>

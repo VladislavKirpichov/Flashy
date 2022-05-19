@@ -15,6 +15,7 @@
 #include <memory>
 #include <string>
 
+#include "nlohmann/json.hpp"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
@@ -61,16 +62,23 @@ private:
 
 template<typename Body, typename Allocator, typename Send>
 void GetPageManager<Body, Allocator, Send>::handle_request() {
-    http::file_body::value_type body = create_body("./doc_root/index.json");
+    nlohmann::json json_data;
 
-    http::response<http::file_body> res{
-            std::piecewise_construct,
-            std::make_tuple(std::move(body)),
-            std::make_tuple(http::status::ok, this->_request.version()),
+    std::vector<std::vector<std::string>> data {
+            {"headline", "Test Page"},
+            {"page_id", "1"}
     };
 
+    for (auto& field : data) {
+        json_data[*field.begin()] = *(field.end() - 1);
+    }
+
+    http::file_body::value_type body;
+
+    http::response<http::string_body> res{http::status::ok, this->_request.version()};
     res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
     res.set(http::field::content_type, "text/json");
+    res.body() = to_string(json_data);
     res.content_length(res.body().size());
     res.keep_alive(this->_request.keep_alive());
 

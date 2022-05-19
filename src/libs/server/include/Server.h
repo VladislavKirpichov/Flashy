@@ -6,9 +6,7 @@
 #define SERVER_H
 
 
-#include <thread>
 #include <string>
-#include <boost/beast/websocket.hpp>
 
 #include "Listener.h"
 

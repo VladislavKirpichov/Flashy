@@ -1,13 +1,20 @@
+cmake_minimum_required(VERSION 3.16)
 project(src)
 
-file(GLOB SOURCES server/src/Server.cpp server/src/Listener.cpp main.cpp)
-file(GLOB INDEX "index.html")
-file(COPY server/include/doc_root/${INDEX} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/doc_root)
+find_package(Boost REQUIRED)
+find_package(nlohmann_json REQUIRED)
+file(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/data)
 
-add_executable(${PROJECT_NAME} ${SOURCES} server/include/API_Gateway.hpp server/include/API_Gateway.hpp server/src/websocket_connection.cpp server/include/websocket_connection.h server/include/Logger.hpp)
+# add libs
+add_subdirectory(libs/API)
+add_subdirectory(libs/server)
 
-# API
+add_executable(${PROJECT_NAME} main.cpp)
 
+# link libs
+target_link_libraries(${PROJECT_NAME} PUBLIC API)
+target_link_libraries(${PROJECT_NAME} PUBLIC server)
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/server/include server/include/API/page server/include/API/user server/include/API/auth)
+# Packages
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
