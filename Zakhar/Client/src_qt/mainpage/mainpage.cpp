@@ -9,7 +9,7 @@ MainPage::MainPage(QWidget *parent) :
     ui->setupUi(this);
 
 }
-MainPage::MainPage(QWidget *parent, CustomPage * custom) :
+MainPage::MainPage(QWidget *parent, CustomPage * custom):
     QWidget(parent),
     ui(new Ui::MainPage)
 {
