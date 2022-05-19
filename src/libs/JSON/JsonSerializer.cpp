@@ -14,7 +14,7 @@ std::string JsonSerializer::serialize(const std::vector<std::vector<std::string>
         if (field.size() == 2)
             json_data[*field.begin()] = *value_it;
         else
-            for (value_it; value_it != field.end(); ++value_it)
+            for (; value_it != field.end(); ++value_it)
                 json_data[*field.begin()] += *value_it;
     }
 

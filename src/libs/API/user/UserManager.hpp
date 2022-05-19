@@ -66,7 +66,6 @@ public:
 
 protected:
     virtual http::file_body::value_type create_body(const char* file_path) = 0;
-    // virtual http::file_body::value_type create_responce() = 0;
 
     Send _send;
     http::request<Body, http::basic_fields<Allocator>> _request;

@@ -22,8 +22,7 @@ using error_code = boost::system::error_code;
 
 Listener::Listener(net::io_context &ioc, boost::asio::ip::tcp::endpoint&& endpoint)
 : _ioc(ioc), _acceptor(net::make_strand(ioc)), _socket(ioc) {
-    Logger::Info(__LINE__, __FILE__, "hello from Listener constuctor");
-
+    // Initialize Listener
     error_code ec;
     _acceptor.open(endpoint.protocol(), ec);
     if (ec) {

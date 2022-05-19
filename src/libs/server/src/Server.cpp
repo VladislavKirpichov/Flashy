@@ -27,18 +27,13 @@ ServerManager::ServerManager() {
 ServerManager::ServerManager(Options &opts) : _opts(opts) {}
 
 void ServerManager::run() {
-    /*
-     * For now:
-     * - single threaded
-     * - single io_context
-     * */
-
     net::io_context ioc;
-    Logger::Info(__LINE__, __FILE__, "Hello from run: %s", "test");
 
-    // Listener responsible for the life of the shared_ptr
-    // _acceptor(ioc, {net::ip::make_address(ip_address), port}),
+    // make endpoit
     tcp::endpoint endpoint{{net::ip::make_address(_opts.ip)}, _opts.port};
+
+    // call to Listener
+    // Listener responsible for the life of the shared_ptr
     std::make_shared<Listener>(ioc, std::move(endpoint))->async_accept();
 
     // FOR MULTITHREAD SERVER
@@ -50,5 +45,4 @@ void ServerManager::run() {
 //        threads.emplace_back([&ioc](){ ioc.run(); }).detach();
 
     ioc.run();
-    return;
 }

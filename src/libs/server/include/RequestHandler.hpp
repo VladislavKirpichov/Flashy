@@ -9,14 +9,11 @@
 #include <boost/beast/http.hpp>
 #include <boost/beast/http/message.hpp>
 #include <boost/beast/version.hpp>
-#include <boost/beast/websocket.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/dispatch.hpp>
 #include <boost/asio/strand.hpp>
 #include <boost/asio/detail/reactive_socket_service_base.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/config.hpp>
-#include <ctime>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -30,6 +27,7 @@
 #include "UserManagerCreator.hpp"
 #include "AuthManagerCreator.hpp"
 
+
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
 namespace net = boost::asio;            // from <boost/asio.hpp>
@@ -39,10 +37,12 @@ using error_code = boost::system::error_code;
 
 namespace RequestHandler {
 
+    // Interface for handlers
     template<typename Body, typename Allocator, typename Send>
     class RequestHandler: public std::enable_shared_from_this<RequestHandler<Body, Allocator, Send>> {
     public:
-        RequestHandler(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
+        RequestHandler(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send)
+            : _request(std::move(req)), _send(send) {}
 
         virtual void process_request() = 0;
 
@@ -51,14 +51,9 @@ namespace RequestHandler {
         Send _send;
 
     private:
-        // здесь можно описать базовые лямда для 404, 500 и т.д. ошибок
+        // Пока не работает
         static std::string_view define_mime_type(const std::string_view& path);
     };
-
-    template<typename Body, typename Allocator, typename Send>
-    RequestHandler<Body, Allocator, Send>::RequestHandler(http::request<Body, http::basic_fields<Allocator>> &&req,
-                                                          Send &&send)
-        : _request(std::move(req)), _send(send) {}
 
     template<typename Body, typename Allocator, typename Send>
     std::string_view RequestHandler<Body, Allocator, Send>::define_mime_type(const std::string_view& path) {
@@ -100,6 +95,8 @@ namespace RequestHandler {
 
 
     // GET HANDLER
+
+
     template<typename Body, typename Allocator, typename Send>
     class GETHandler : public RequestHandler<Body, Allocator, Send> {
     public:
@@ -118,7 +115,7 @@ namespace RequestHandler {
             this->_url_path = HttpParser::define_page_type(this->_request.base().target().template to_string());
         }
         catch (std::runtime_error& re) {
-            // bad_request
+            // handle bad_request
             Logger::Info(__LINE__, __FILE__, "bad_request");
             return;
         }
@@ -132,19 +129,18 @@ namespace RequestHandler {
         if (this->_url_path == "page")
             PageManagerCreator<Body, Allocator, Send>
                 ::create_GetPageManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
-        if (this->_url_path == "user")
+        else if (this->_url_path == "user")
             UserManagerCreator<Body, Allocator, Send>
                 ::create_GetUserManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
-        if (this->_url_path == "auth")
+        else if (this->_url_path == "auth")
             AuthManagerCreator<Body, Allocator, Send>
                 ::create_GetAuthManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
     }
 
 
-    // ----------------
-
-
     // PUT HANDLER
+
+
     template<typename Body, typename Allocator, typename Send>
     class PUTHandler : public RequestHandler<Body, Allocator, Send> {
     public:

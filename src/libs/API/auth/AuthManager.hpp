@@ -27,11 +27,9 @@ template<typename Body, typename Allocator, typename Send>
 class AuthManager : public std::enable_shared_from_this<AuthManager<Body, Allocator, Send>> {
 public:
     AuthManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
-
     virtual void handle_request() = 0;
 
 protected:
-
     virtual http::file_body::value_type create_body(const char* file_path) = 0;
     // virtual http::file_body::value_type create_responce() = 0;
 

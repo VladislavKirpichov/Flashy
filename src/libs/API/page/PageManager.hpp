@@ -34,7 +34,6 @@ public:
 protected:
 
     virtual http::file_body::value_type create_body(const char* file_path) = 0;
-    // virtual http::file_body::value_type create_responce() = 0;
 
     Send _send;
     http::request<Body, http::basic_fields<Allocator>> _request;
@@ -55,10 +54,11 @@ public:
 
 private:
     http::file_body::value_type create_body(const char* file_path) final;
-    // http::file_body::value_type create_responce() final;
 };
 
-// GET_PageManager, POST_PageManager, PUT_PageManager ...
+
+// GET
+
 
 template<typename Body, typename Allocator, typename Send>
 void GetPageManager<Body, Allocator, Send>::handle_request() {
@@ -82,6 +82,150 @@ void GetPageManager<Body, Allocator, Send>::handle_request() {
 
 template<typename Body, typename Allocator, typename Send>
 http::file_body::value_type GetPageManager<Body, Allocator, Send>::create_body(const char* file_path) {
+    http::file_body::value_type body;
+    error_code ec_http_body;
+    body.open(file_path, beast::file_mode::scan, ec_http_body);
+
+    if (ec_http_body) {
+        // Logger::Error(__LINE__, __FILE__, "error in body.open()");
+    }
+    return body;
+}
+
+
+// PUT
+
+
+template<typename Body, typename Allocator, typename Send>
+class PutPageManager : public PageManager<Body, Allocator, Send> {
+public:
+    PutPageManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send)
+            : PageManager<Body, Allocator, Send>(std::move(req), std::forward<Send>(send)) {}
+
+    void handle_request() final;
+
+private:
+    http::file_body::value_type create_body(const char* file_path) final;
+};
+
+template<typename Body, typename Allocator, typename Send>
+void PutPageManager<Body, Allocator, Send>::handle_request() {
+    std::vector<std::vector<std::string>> data {
+            {"headline", "Test Page"},
+            {"page_id", "1"},
+            {"tests_id", "1", "2", "3", "4"}
+    };
+
+    http::file_body::value_type body;
+
+    http::response<http::string_body> res{http::status::ok, this->_request.version()};
+    res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+    res.set(http::field::content_type, "text/json");
+    res.body() = JsonSerializer::serialize(data);
+    res.content_length(res.body().size());
+    res.keep_alive(this->_request.keep_alive());
+
+    return this->_send(std::move(res));
+}
+
+template<typename Body, typename Allocator, typename Send>
+http::file_body::value_type PutPageManager<Body, Allocator, Send>::create_body(const char* file_path) {
+    http::file_body::value_type body;
+    error_code ec_http_body;
+    body.open(file_path, beast::file_mode::scan, ec_http_body);
+
+    if (ec_http_body) {
+        // Logger::Error(__LINE__, __FILE__, "error in body.open()");
+    }
+    return body;
+}
+
+
+// POST
+
+
+template<typename Body, typename Allocator, typename Send>
+class PostPageManager : public PageManager<Body, Allocator, Send> {
+public:
+    PostPageManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send)
+            : PageManager<Body, Allocator, Send>(std::move(req), std::forward<Send>(send)) {}
+
+    void handle_request() final;
+
+private:
+    http::file_body::value_type create_body(const char* file_path) final;
+};
+
+template<typename Body, typename Allocator, typename Send>
+void PostPageManager<Body, Allocator, Send>::handle_request() {
+    std::vector<std::vector<std::string>> data {
+            {"headline", "Test Page"},
+            {"page_id", "1"},
+            {"tests_id", "1", "2", "3", "4"}
+    };
+
+    http::file_body::value_type body;
+
+    http::response<http::string_body> res{http::status::ok, this->_request.version()};
+    res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+    res.set(http::field::content_type, "text/json");
+    res.body() = JsonSerializer::serialize(data);
+    res.content_length(res.body().size());
+    res.keep_alive(this->_request.keep_alive());
+
+    return this->_send(std::move(res));
+}
+
+template<typename Body, typename Allocator, typename Send>
+http::file_body::value_type PostPageManager<Body, Allocator, Send>::create_body(const char* file_path) {
+    http::file_body::value_type body;
+    error_code ec_http_body;
+    body.open(file_path, beast::file_mode::scan, ec_http_body);
+
+    if (ec_http_body) {
+        // Logger::Error(__LINE__, __FILE__, "error in body.open()");
+    }
+    return body;
+}
+
+
+// DELETE
+
+
+template<typename Body, typename Allocator, typename Send>
+class DeletePageManager : public PageManager<Body, Allocator, Send> {
+public:
+    DeletePageManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send)
+            : PageManager<Body, Allocator, Send>(std::move(req), std::forward<Send>(send)) {}
+
+    void handle_request() final;
+
+private:
+    http::file_body::value_type create_body(const char* file_path) final;
+};
+
+template<typename Body, typename Allocator, typename Send>
+void DeletePageManager<Body, Allocator, Send>::handle_request() {
+    std::vector<std::vector<std::string>> data {
+            {"headline", "Test Page"},
+            {"page_id", "1"},
+            {"tests_id", "1", "2", "3", "4"}
+    };
+
+    http::file_body::value_type body;
+
+    http::response<http::string_body> res{http::status::ok, this->_request.version()};
+    res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+    res.set(http::field::content_type, "text/json");
+    res.body() = JsonSerializer::serialize(data);
+    res.content_length(res.body().size());
+    res.keep_alive(this->_request.keep_alive());
+
+    return this->_send(std::move(res));
+}
+
+template<typename Body, typename Allocator, typename Send>
+http::file_body::value_type DeletePageManager<Body, Allocator, Send>::create_body(const char* file_path) {
     http::file_body::value_type body;
     error_code ec_http_body;
     body.open(file_path, beast::file_mode::scan, ec_http_body);

@@ -116,10 +116,6 @@ void API_Gateway::read_request() {
 
 void API_Gateway::handle_request() {
     if (_request.method() == http::verb::get) {
-//        if (boost::starts_with(_request.target(), "/api/")) {
-//            RequestHandler::GETHandler getHandler(std::move(_request), std::forward<Send>(send));
-//            getHandler.process_request();   // expects rvalue
-//        }
         RequestHandler::GETHandler getHandler(std::move(_request), std::forward<Send>(send));
         getHandler.process_request();   // expects rvalue
     }
