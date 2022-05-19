@@ -13,8 +13,8 @@ public:
 
 private:
     std::string name;
-    TextField text;
-    Test test;
+    TextField * text;
+    Test * test;
     unsigned int note_id;
     unsigned int user_id;
     time_t date_of_creation;

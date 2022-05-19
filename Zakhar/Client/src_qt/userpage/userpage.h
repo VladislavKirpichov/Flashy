@@ -15,7 +15,9 @@ public:
     ~UserPage();
 
 private slots:
-    void on_pushButton_2_clicked();
+
+
+    void on_exit_button_clicked();
 
 private:
     Ui::UserPage *ui;

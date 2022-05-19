@@ -186,25 +186,6 @@ color: rgba(32, 63, 84, 0.5);</string>
        <string>Create account</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_4">
-      <property name="geometry">
-       <rect>
-        <x>280</x>
-        <y>400</y>
-        <width>160</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background: #005DF7;
-border: 2px solid rgba(0, 93,247 , 0.3);
-border-radius: 12px;
-color: #FFFFFF;</string>
-      </property>
-      <property name="text">
-       <string>Sign up</string>
-      </property>
-     </widget>
      <widget class="QLineEdit" name="login_2">
       <property name="geometry">
        <rect>
@@ -269,25 +250,25 @@ border-radius: 10px;</string>
        <string>Password</string>
       </property>
      </widget>
-    </widget>
-    <widget class="QPushButton" name="pushButton">
-     <property name="geometry">
-      <rect>
-       <x>280</x>
-       <y>400</y>
-       <width>160</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background: #005DF7;
+     <widget class="QPushButton" name="sign_up_button">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>400</y>
+        <width>160</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: #005DF7;
 border: 2px solid rgba(0, 93,247 , 0.3);
 border-radius: 12px;
 color: #FFFFFF;</string>
-     </property>
-     <property name="text">
-      <string>Sign up</string>
-     </property>
+      </property>
+      <property name="text">
+       <string>Sign up</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QLineEdit" name="login">
      <property name="geometry">

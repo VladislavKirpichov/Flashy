@@ -12,3 +12,8 @@ regpage::~regpage()
 {
     delete ui;
 }
+
+void regpage::on_create_acc_button_clicked()
+{
+
+}

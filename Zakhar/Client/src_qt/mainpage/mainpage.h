@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "custompage.h"
+#include "page.h"
 namespace Ui {
 class MainPage;
 }
@@ -17,7 +18,9 @@ public:
     ~MainPage();
 
 private slots:
-    void on_pushButton_6_clicked();
+    void on_add_page_button_clicked();
+
+    void on_custom_page_button_clicked();
 
 private:
     Ui::MainPage *ui;

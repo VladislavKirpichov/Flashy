@@ -12,3 +12,8 @@ TestPage::~TestPage()
 {
     delete ui;
 }
+
+void TestPage::on_end_test_button_clicked()
+{
+
+}

@@ -29,19 +29,6 @@
     <string>Example5</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_13">
-   <property name="geometry">
-    <rect>
-     <x>19</x>
-     <y>65</y>
-     <width>89</width>
-     <height>81</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>User</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
@@ -121,7 +108,7 @@ color: #C4C4C4;</string>
     <string>Example2</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_6">
+  <widget class="QPushButton" name="flashy_button">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -146,6 +133,19 @@ color: #FB5B8D;
    </property>
    <property name="text">
     <string>Flashy</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="user_button">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>70</y>
+     <width>89</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>User</string>
    </property>
   </widget>
  </widget>

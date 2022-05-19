@@ -67,25 +67,6 @@ spacing: -0.07em;</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>470</y>
-      <width>160</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background: #005DF7;
-border: 2px solid rgba(0, 93,247 , 0.3);
-border-radius: 12px;
-color: #FFFFFF;</string>
-    </property>
-    <property name="text">
-     <string>Create account!</string>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="login">
     <property name="geometry">
      <rect>
@@ -178,6 +159,25 @@ border-radius: 10px;</string>
     </property>
     <property name="placeholderText">
      <string>Password</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="create_acc_button">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>460</y>
+      <width>160</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: #005DF7;
+border: 2px solid rgba(0, 93,247 , 0.3);
+border-radius: 12px;
+color: #FFFFFF;</string>
+    </property>
+    <property name="text">
+     <string>Create account!</string>
     </property>
    </widget>
   </widget>

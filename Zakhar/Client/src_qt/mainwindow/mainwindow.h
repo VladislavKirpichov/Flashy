@@ -21,9 +21,10 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_13_clicked();
 
-    void on_pushButton_6_clicked();
+    void on_user_button_clicked();
+
+    void on_flashy_button_clicked();
 
 private:
     Ui::MainWindow *ui;

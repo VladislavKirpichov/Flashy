@@ -46,7 +46,7 @@ color: #000000;</string>
     <string>Zakhar</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="change_name_button">
    <property name="geometry">
     <rect>
      <x>70</x>
@@ -71,7 +71,7 @@ border-radius: 8px;</string>
     <string>Change name</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="exit_button">
    <property name="geometry">
     <rect>
      <x>70</x>
@@ -205,8 +205,8 @@ color: #000000;</string>
   </widget>
   <zorder>label_5</zorder>
   <zorder>label</zorder>
-  <zorder>pushButton</zorder>
-  <zorder>pushButton_2</zorder>
+  <zorder>change_name_button</zorder>
+  <zorder>exit_button</zorder>
   <zorder>label_3</zorder>
   <zorder>checkBox</zorder>
   <zorder>checkBox_2</zorder>

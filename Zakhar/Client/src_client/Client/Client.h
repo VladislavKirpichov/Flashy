@@ -24,7 +24,7 @@ public:
     void Read();
     void Disconnect();
     void data_to_string();
-    void getResponce(std::string host, unsigned short port);
+    void getResponse(const std::string& host,const unsigned short& port);
 
 private:
     tcp::resolver resolver;

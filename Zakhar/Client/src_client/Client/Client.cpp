@@ -31,7 +31,7 @@ void WebSocketClient::Disconnect(){
 void WebSocketClient::data_to_string(){
     std::cout << beast::make_printable(buffer.data());
 }
-void WebSocketClient::getResponce(std::string host, unsigned short port) {
+void WebSocketClient::getResponse(const std::string& host, const unsigned short& port) {
     auto const results = resolver.resolve(host, std::to_string(port));
     stream.connect(results);
 
@@ -42,7 +42,6 @@ void WebSocketClient::getResponce(std::string host, unsigned short port) {
 
     http::write(stream, req);
 
-    beast::flat_buffer buffer;
     http::response<http::dynamic_body> res;
     http::read(stream, buffer, res);
 

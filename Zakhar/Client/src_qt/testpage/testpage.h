@@ -15,6 +15,9 @@ public:
     explicit TestPage(QWidget *parent = nullptr);
     ~TestPage();
 
+private slots:
+    void on_end_test_button_clicked();
+
 private:
     Ui::TestPage *ui;
 };

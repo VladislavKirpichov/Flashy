@@ -16,6 +16,7 @@ MainPage::MainPage(QWidget *parent, CustomPage * custom) :
     ui->setupUi(this);
     custom_page = custom;
     custom_page->hide();
+    this->move(100,0);
 }
 
 MainPage::~MainPage()
@@ -23,7 +24,15 @@ MainPage::~MainPage()
     delete ui;
 }
 
-void MainPage::on_pushButton_6_clicked()
+
+
+void MainPage::on_add_page_button_clicked()
+{
+    hide();
+    custom_page->show();
+}
+
+void MainPage::on_custom_page_button_clicked()
 {
     hide();
     custom_page->show();

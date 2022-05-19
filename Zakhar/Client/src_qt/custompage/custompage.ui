@@ -16,32 +16,6 @@
   <property name="styleSheet">
    <string notr="true">background:white</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>150</y>
-     <width>141</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">padding: 16px 24px;
-
-position: absolute;
-width: 134px;
-height: 51px;
-left: 724px;
-top: 315px;
-
-background: #005DF7;
-border: 2px solid rgba(255, 255, 255, 0.64);
-border-radius: 12px;</string>
-   </property>
-   <property name="text">
-    <string>Start testing</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
@@ -180,7 +154,33 @@ p, li { white-space: pre-wrap; }
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;What is an orthogonal system? Orthonormal system?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="start_testing_button">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>150</y>
+     <width>141</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">padding: 16px 24px;
+
+position: absolute;
+width: 134px;
+height: 51px;
+left: 724px;
+top: 315px;
+
+background: #005DF7;
+border: 2px solid rgba(255, 255, 255, 0.64);
+border-radius: 12px;</string>
+   </property>
+   <property name="text">
+    <string>Start testing</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="Similar_notes_button">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -194,12 +194,12 @@ p, li { white-space: pre-wrap; }
    </property>
   </widget>
   <zorder>label_10</zorder>
-  <zorder>pushButton</zorder>
   <zorder>label</zorder>
   <zorder>layoutWidget</zorder>
   <zorder>textBrowser</zorder>
   <zorder>label_11</zorder>
-  <zorder>pushButton_2</zorder>
+  <zorder>start_testing_button</zorder>
+  <zorder>Similar_notes_button</zorder>
  </widget>
  <resources/>
  <connections/>

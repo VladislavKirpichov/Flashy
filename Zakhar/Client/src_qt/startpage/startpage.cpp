@@ -25,8 +25,14 @@ StartPage::~StartPage()
     delete ui;
 }
 
+void StartPage::on_reg_button_clicked()
+{
+    hide();
+    reg_page = new regpage(this);
+    reg_page->show();
+}
 
-void StartPage::on_pushButton_clicked()
+void StartPage::on_sign_up_button_clicked()
 {
     QString login = ui->login->text();
     QString pass = ui->pass->text();
@@ -38,12 +44,4 @@ void StartPage::on_pushButton_clicked()
     } else {
         QMessageBox::information(this, "Auth error", "Uncorrent Login or password");
     }
-
-}
-
-void StartPage::on_reg_button_clicked()
-{
-    hide();
-    reg_page = new regpage(this);
-    reg_page->show();
 }

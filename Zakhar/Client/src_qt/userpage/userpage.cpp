@@ -13,7 +13,9 @@ UserPage::~UserPage()
     delete ui;
 }
 
-void UserPage::on_pushButton_2_clicked()
+
+
+void UserPage::on_exit_button_clicked()
 {
 
 }

@@ -44,7 +44,7 @@ color: #000000;</string>
     <string>Example page</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="end_test_button">
    <property name="geometry">
     <rect>
      <x>170</x>
@@ -207,7 +207,7 @@ border-radius: 12px;</string>
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>40</x>

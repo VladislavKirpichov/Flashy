@@ -15,6 +15,10 @@ public:
     explicit regpage(QWidget *parent = nullptr);
     ~regpage();
 
+private slots:
+
+    void on_create_acc_button_clicked();
+
 private:
     Ui::regpage *ui;
 };

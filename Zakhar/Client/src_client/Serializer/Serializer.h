@@ -7,10 +7,13 @@
 #include<boost/property_tree/ptree.hpp>
 #include<boost/property_tree/json_parser.hpp>
 #include "User.h"
+#include "Note.h"
 class Serializer{
 public:
     User user_deserialize(std::string);
-    std::string user_serialize(const User & user);
+    std::string user_serialize(User & user);
+    Note note_deserialize(std::string);
+    std::string note_serialize(Note & note);
 private:
 
 };

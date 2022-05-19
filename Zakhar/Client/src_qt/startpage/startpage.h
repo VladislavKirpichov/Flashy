@@ -17,9 +17,10 @@ public:
     ~StartPage();
 
 private slots:
-    void on_pushButton_clicked();
 
     void on_reg_button_clicked();
+
+    void on_sign_up_button_clicked();
 
 private:
     Ui::StartPage *ui;

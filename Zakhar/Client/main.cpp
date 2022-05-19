@@ -14,7 +14,6 @@ namespace websocket = beast::websocket; // from <boost/beast/websocket.hpp>
 namespace net = boost::asio;            // from <boost/asio.hpp>
 using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 
-
 int main(int argc, char *argv[]) {
     unsigned short port = 8080;
     auto const text = "Hello, VLAD!";
@@ -29,16 +28,16 @@ int main(int argc, char *argv[]) {
                          "  \"notes_name\": [\"Example 1\", \"Example 2\"]\n"
                          "}";
     std::string host = "127.0.0.1";
-    User example = User("Example user", {"Example note 1", "Example note 2", "Example note 3"});
+    User example;
     net::io_context ioc;
     Manager manager(ioc);
-    manager.ChangeUser(example);
     Serializer ser;
-    ser.user_deserialize(jsonka);
-    QApplication a(argc, argv);
-    StartPage w;
-    w.show();
-
-    return a.exec();
-
+    example = ser.user_deserialize(jsonka);
+    std::cout << ser.user_serialize(example);
+//    QApplication a(argc, argv);
+//    StartPage w;
+//    w.show();
+//
+//    return a.exec();
+    return 0;
 }

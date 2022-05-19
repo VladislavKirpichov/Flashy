@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     custom_page->hide();
 
     main_page = new MainPage(this, custom_page);
-    main_page->move(100,0);
+   // main_page->move(100,0);
     main_page->show();
 
     user_page = new UserPage(this);
@@ -39,15 +39,20 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_13_clicked()
+
+void MainWindow::on_user_button_clicked()
 {
-      recom_page->hide();
-      main_page->hide();
-      user_page->show();
+    custom_page->hide();
+    test_page->hide();
+    recom_page->hide();
+    main_page->hide();
+    user_page->show();
 }
 
-void MainWindow::on_pushButton_6_clicked()
+void MainWindow::on_flashy_button_clicked()
 {
+    custom_page->hide();
+    test_page->hide();
     recom_page->hide();
     user_page->hide();
     main_page->show();

@@ -22,13 +22,13 @@ CustomPage::~CustomPage()
     delete ui;
 }
 
-void CustomPage::on_pushButton_2_clicked()
+void CustomPage::on_Similar_notes_button_clicked()
 {
     this->hide();
     recom_page->show();
 }
 
-void CustomPage::on_pushButton_clicked()
+void CustomPage::on_start_testing_button_clicked()
 {
     this->hide();
     test_page->show();
