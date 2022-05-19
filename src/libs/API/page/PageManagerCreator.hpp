@@ -23,7 +23,8 @@ using error_code = boost::system::error_code;
 template<typename Body, typename Allocator, typename Send>
 class PageManagerCreator {
 public:
-    static std::shared_ptr<GetPageManager<Body, Allocator, Send>> create_GetPageManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
+    static std::shared_ptr<GetPageManager<Body, Allocator, Send>>
+    create_GetPageManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
 
     /* --- ADD HERE NEW MANAGERS --- */
 };

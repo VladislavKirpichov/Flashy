@@ -23,6 +23,8 @@
 
 #include "Logger.hpp"
 
+#include "HttpParser.h"
+
 #include "PageManagerCreator.hpp"
 #include "UserManagerCreator.hpp"
 #include "AuthManagerCreator.hpp"
@@ -43,6 +45,7 @@ namespace RequestHandler {
 
         virtual void process_request() = 0;
 
+        std::string_view _url_path;
         http::request<Body, http::basic_fields<Allocator>> _request;
         Send _send;
 
@@ -109,17 +112,36 @@ namespace RequestHandler {
     void GETHandler<Body, Allocator, Send>::process_request() {
         Logger::Info(__LINE__, __FILE__, "new request accepted");
 
-        if (boost::starts_with(this->_request.target(), "/page/"))
-            PageManagerCreator<Body, Allocator, Send>::create_GetPageManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
-        if (boost::starts_with(this->_request.target(), "/user/"))
-            UserManagerCreator<Body, Allocator, Send>::create_GetUserManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
-        if (boost::starts_with(this->_request.target(), "/auth/"))
-            AuthManagerCreator<Body, Allocator, Send>::create_GetAuthManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
-        // ...
+        // Try to read url path
+        try {
+            this->_url_path = HttpParser::define_page_type(this->_request.base().target().template to_string());
+        }
+        catch (std::runtime_error& re) {
+            // bad_request
+            Logger::Info(__LINE__, __FILE__, "bad_request");
+            return;
+        }
+        catch (...) {
+            // some other error
+            Logger::Info(__LINE__, __FILE__, "url_path_error");
+            return;
+        }
+
+        // Send a request to the desired manager
+        if (this->_url_path == "page")
+            PageManagerCreator<Body, Allocator, Send>
+                ::create_GetPageManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
+        if (this->_url_path == "user")
+            UserManagerCreator<Body, Allocator, Send>
+                ::create_GetUserManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
+        if (this->_url_path == "auth")
+            AuthManagerCreator<Body, Allocator, Send>
+                ::create_GetAuthManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
     }
 
 
     // ----------------
+
 
     // PUT HANDLER
     template<typename Body, typename Allocator, typename Send>

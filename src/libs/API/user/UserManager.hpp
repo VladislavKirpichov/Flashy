@@ -15,6 +15,9 @@
 #include <memory>
 #include <string>
 
+#include "JsonSerializer.h"
+#include "HttpParser.h"
+
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
@@ -61,10 +64,11 @@ template<typename Body, typename Allocator, typename Send>
 void GetUserManager<Body, Allocator, Send>::handle_request() {
 
     http::response<http::string_body> res{ http::status::ok, this->_request.version()};
+    auto args = HttpParser::define_args(this->_request.base().target().template to_string());
 
     res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
     res.set(http::field::content_type, "text/json");
-    res.body() = "test";
+    res.body() = JsonSerializer::serialize(args);
     res.content_length(res.body().size());
     res.keep_alive(this->_request.keep_alive());
 

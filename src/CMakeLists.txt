@@ -6,12 +6,16 @@ find_package(nlohmann_json REQUIRED)
 file(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/data)
 
 # add libs
+add_subdirectory(libs/JSON)
+add_subdirectory(libs/HTTP_PARSER)
 add_subdirectory(libs/API)
 add_subdirectory(libs/server)
 
 add_executable(${PROJECT_NAME} main.cpp)
 
 # link libs
+target_link_libraries(${PROJECT_NAME} PUBLIC JSON)
+target_link_libraries(${PROJECT_NAME} PUBLIC HTTP)
 target_link_libraries(${PROJECT_NAME} PUBLIC API)
 target_link_libraries(${PROJECT_NAME} PUBLIC server)
 

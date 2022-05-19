@@ -32,7 +32,7 @@ public:
     void set_opts(Options opts);
 
 private:
-    bool started;
+    bool started{};
     Options _opts;
 };
 
