@@ -22,6 +22,7 @@
 #include <string>
 
 #include "Logger.hpp"
+#include "Errors.hpp"
 
 #include "HttpParser.h"
 
@@ -163,7 +164,8 @@ namespace RequestHandler {
             UserManagerCreator<Body, Allocator, Send>::create_GetUserManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
         if (boost::starts_with(this->_request.target(), "/auth/"))
             AuthManagerCreator<Body, Allocator, Send>::create_GetAuthManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
-        // ...
+        else
+            ErrorCreator<Body, Allocator, Send>::create_BadRequest(std::move(this->_request), std::forward<Send>(this->_send))->send_response();
     }
 
 

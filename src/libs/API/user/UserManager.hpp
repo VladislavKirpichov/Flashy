@@ -26,6 +26,37 @@ using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 using error_code = boost::system::error_code;
 
 
+// -------------- SAMPLE DATA --------------
+std::vector<std::vector<std::string>> USER_1 {
+        {"username", "vladislav"},
+        {"email", "vladislav@gmail.com"},
+        {"password", "12345"},
+        {"status", "student"}
+};
+
+std::vector<std::vector<std::string>> USER_2 {
+        {"username", "zahar"},
+        {"email", "zahar@gmail.com"},
+        {"password", "12345"},
+        {"status", "student"}
+};
+
+std::vector<std::vector<std::string>> USER_3 {
+        {"username", "akim"},
+        {"email", "akim@gmail.com"},
+        {"password", "12345"},
+        {"status", "student"}
+};
+
+std::vector<std::vector<std::string>> USER_4 {
+        {"username", "vova"},
+        {"email", "vladimir@gmail.com"},
+        {"password", "12345"},
+        {"status", "student"}
+};
+// ------------------------------------------
+
+
 template<typename Body, typename Allocator, typename Send>
 class UserManager : public std::enable_shared_from_this<UserManager<Body, Allocator, Send>> {
 public:
@@ -66,11 +97,24 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
     http::response<http::string_body> res{ http::status::ok, this->_request.version()};
     auto args = HttpParser::define_args(this->_request.base().target().template to_string());
 
+
     res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
     res.set(http::field::content_type, "text/json");
-    res.body() = JsonSerializer::serialize(args);
-    res.content_length(res.body().size());
     res.keep_alive(this->_request.keep_alive());
+
+    if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "1")
+        res.body() = JsonSerializer::serialize(USER_1);
+
+    if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "2")
+        res.body() = JsonSerializer::serialize(USER_2);
+
+    if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "3")
+        res.body() = JsonSerializer::serialize(USER_3);
+
+    if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "4")
+        res.body() = JsonSerializer::serialize(USER_4);
+
+    res.content_length(res.body().size());
 
     return this->_send(std::move(res));
 }
