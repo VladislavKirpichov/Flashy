@@ -22,6 +22,7 @@
 #include "Errors.hpp"
 
 #include "HttpParser.h"
+#include "HttpErrorCreator.hpp"
 
 #include "PageManagerCreator.hpp"
 #include "UserManagerCreator.hpp"
@@ -117,6 +118,7 @@ namespace RequestHandler {
         catch (std::runtime_error& re) {
             // handle bad_request
             Logger::Info(__LINE__, __FILE__, "bad_request");
+            HttpErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->_send), this->_request.version())->send_response();
             return;
         }
         catch (...) {

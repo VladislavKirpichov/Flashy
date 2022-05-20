@@ -17,6 +17,8 @@
 
 #include "JsonSerializer.h"
 #include "HttpParser.h"
+#include "HttpErrorCreator.hpp"
+#include "Exceptions.h"
 
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
@@ -94,24 +96,38 @@ template<typename Body, typename Allocator, typename Send>
 void GetUserManager<Body, Allocator, Send>::handle_request() {
 
     http::response<http::string_body> res{ http::status::ok, this->_request.version()};
-    auto args = HttpParser::define_args(this->_request.base().target().template to_string());
+    std::vector<std::tuple<std::string, std::string>> args{};
 
+    // Try to get args from url
+    try {
+        args = HttpParser::define_args(this->_request.base().target().template to_string());
+    }
+    catch (HttpException::InvalidArguments& ec) {
+        Logger::Error(__LINE__, __FILE__, ec.what());
+        HttpErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->_send), this->_request.version())->send_response();
+        return;
+    }
 
+    // Set flags
     res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
     res.set(http::field::content_type, "text/json");
     res.keep_alive(this->_request.keep_alive());
 
+    // Defind user by id
     if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "1")
         res.body() = JsonSerializer::serialize(USER_1);
 
-    if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "2")
+    else if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "2")
         res.body() = JsonSerializer::serialize(USER_2);
 
-    if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "3")
+    else if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "3")
         res.body() = JsonSerializer::serialize(USER_3);
 
-    if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "4")
+    else if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "4")
         res.body() = JsonSerializer::serialize(USER_4);
+
+    else
+        res.body() = std::string_view {"bad user id"};
 
     res.content_length(res.body().size());
 

@@ -3,10 +3,10 @@
 //
 
 #include <boost/algorithm/string/predicate.hpp>
-#include <algorithm>
 
 #include "Errors.hpp"
 #include "HttpParser.h"
+#include "Exceptions.h"
 
 #define MAX_VAR_NAME_LENGTH 50
 #define MAX_VAR_VALUE_LENGTH 32 // int max length
@@ -21,12 +21,14 @@ std::string_view HttpParser::define_page_type(const std::string& url_path) noexc
     else if (boost::starts_with(url_path, "/test") || boost::starts_with(url_path, "/test/"))
         return {"test"};
     else
-        throw Error::url_error("url error");
+        throw HttpException::NotDefinedType("not type of user || page || auth || test");
 }
 
 std::vector<std::tuple<std::string, std::string>> HttpParser::define_args(const std::string& url_path) {
     // find where args starts
     auto args_start = std::find(url_path.begin(), url_path.end(), '?');
+    if (args_start == url_path.end())
+        throw HttpException::InvalidArguments("? not found");
 
     // vars for search
     std::string var_name{};

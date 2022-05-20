@@ -21,8 +21,10 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
+# libs
 target_link_libraries(${PROJECT_NAME} PUBLIC API)
 target_link_libraries(${PROJECT_NAME} PUBLIC HTTP)
+target_link_libraries(${PROJECT_NAME} PUBLIC HTTP_ERRORS_RESPONSE)
 
 # Packages
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})

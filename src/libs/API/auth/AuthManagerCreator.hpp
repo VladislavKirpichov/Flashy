@@ -23,7 +23,8 @@ using error_code = boost::system::error_code;
 template<typename Body, typename Allocator, typename Send>
 class AuthManagerCreator {
 public:
-    static std::shared_ptr<GetAuthManager<Body, Allocator, Send>> create_GetAuthManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
+    static std::shared_ptr<GetAuthManager<Body, Allocator, Send>>
+    create_GetAuthManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
 
     /* --- ADD HERE NEW MANAGERS --- */
 };
