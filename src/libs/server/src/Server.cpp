@@ -4,13 +4,11 @@
 
 #include "Server.h"
 
-#include <boost/beast/core.hpp>
 #include <boost/asio/ip/tcp.hpp>
-#include <iostream>
 #include <vector>
 #include <thread>
 
-#include "Logger.hpp"
+#include "Exceptions.h"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace websocket = beast::websocket; // from <boost/beast/websocket.hpp>
@@ -32,9 +30,13 @@ void ServerManager::run() {
     // make endpoit
     tcp::endpoint endpoint{{net::ip::make_address(_opts.ip)}, _opts.port};
 
-    // call to Listener
     // Listener responsible for the life of the shared_ptr
-    std::make_shared<Listener>(ioc, std::move(endpoint))->async_accept();
+    try {
+        std::make_shared<Listener>(ioc, std::move(endpoint))->async_accept();
+    }
+    catch (ServerException::ListenerException& ec) {
+        // ...
+    }
 
     // FOR MULTITHREAD SERVER
 //    size_t n = NUMBER_OF_THREADS;

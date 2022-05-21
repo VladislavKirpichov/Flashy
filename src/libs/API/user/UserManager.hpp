@@ -28,7 +28,7 @@ using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 using error_code = boost::system::error_code;
 
 
-// -------------- SAMPLE DATA --------------
+// --------------- SAMPLE DATA ---------------
 std::vector<std::vector<std::string>> USER_1 {
         {"username", "vladislav"},
         {"email", "vladislav@gmail.com"},
@@ -56,7 +56,7 @@ std::vector<std::vector<std::string>> USER_4 {
         {"password", "12345"},
         {"status", "student"}
 };
-// ------------------------------------------
+// --------------------------------------------
 
 
 template<typename Body, typename Allocator, typename Send>
@@ -77,6 +77,10 @@ template<typename Body, typename Allocator, typename Send>
 UserManager<Body, Allocator, Send>::UserManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send)
         : _request(std::move(req)),
           _send(std::forward<Send>(send)) {}
+
+
+// --------------- GET ---------------
+
 
 template<typename Body, typename Allocator, typename Send>
 class GetUserManager : public UserManager<Body, Allocator, Send> {
@@ -127,7 +131,7 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
         res.body() = JsonSerializer::serialize(USER_4);
 
     else
-        res.body() = std::string_view {"bad user id"};
+        throw APIException::UserExepction("user not found");
 
     res.content_length(res.body().size());
 

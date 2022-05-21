@@ -7,7 +7,7 @@ set(INCLUDE include/API_Gateway.hpp
             include/RequestHandler.hpp
             include/Server.h
             include/Listener.h
-            include/Errors.hpp)
+        )
 
 add_library(server SHARED ${SRC} ${INCLUDE})
 target_include_directories(${PROJECT_NAME}

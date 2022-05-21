@@ -115,7 +115,7 @@ namespace RequestHandler {
         try {
             this->_url_path = HttpParser::define_page_type(this->_request.base().target().template to_string());
         }
-        catch (std::runtime_error& re) {
+        catch (HttpException::InvalidArguments& ec) {
             // handle bad_request
             Logger::Info(__LINE__, __FILE__, "bad_request");
             HttpErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->_send), this->_request.version())->send_response();
@@ -124,19 +124,27 @@ namespace RequestHandler {
         catch (...) {
             // some other error
             Logger::Info(__LINE__, __FILE__, "url_path_error");
-            return;
+            throw ServerException::RequestHandlerException("HttpParser Exception");
         }
 
         // Send a request to the desired manager
-        if (this->_url_path == "page")
-            PageManagerCreator<Body, Allocator, Send>
+        try {
+            if (this->_url_path == "page")
+                PageManagerCreator<Body, Allocator, Send>
                 ::create_GetPageManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
-        else if (this->_url_path == "user")
-            UserManagerCreator<Body, Allocator, Send>
+            else if (this->_url_path == "user")
+                UserManagerCreator<Body, Allocator, Send>
                 ::create_GetUserManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
-        else if (this->_url_path == "auth")
-            AuthManagerCreator<Body, Allocator, Send>
+            else if (this->_url_path == "auth")
+                AuthManagerCreator<Body, Allocator, Send>
                 ::create_GetAuthManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
+        }
+        catch (APIException::APIException& ec) {
+            throw ServerException::ServerException(ec);
+        }
+        catch (...) {
+            throw ServerException::RequestHandlerException("Not API exception in RequestHandler");
+        }
     }
 
 
@@ -162,8 +170,6 @@ namespace RequestHandler {
             UserManagerCreator<Body, Allocator, Send>::create_GetUserManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
         if (boost::starts_with(this->_request.target(), "/auth/"))
             AuthManagerCreator<Body, Allocator, Send>::create_GetAuthManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
-        else
-            ErrorCreator<Body, Allocator, Send>::create_BadRequest(std::move(this->_request), std::forward<Send>(this->_send))->send_response();
     }
 
 

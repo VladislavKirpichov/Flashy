@@ -12,6 +12,7 @@
 
 #include "API_Gateway.hpp"
 #include "Logger.hpp"
+#include "Exceptions.h"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace websocket = beast::websocket; // from <boost/beast/websocket.hpp>
@@ -25,28 +26,20 @@ Listener::Listener(net::io_context &ioc, boost::asio::ip::tcp::endpoint&& endpoi
     // Initialize Listener
     error_code ec;
     _acceptor.open(endpoint.protocol(), ec);
-    if (ec) {
-        Logger::Error(__LINE__, __FILE__, "Listener constructor error: %s", ec.message().data());
-        return;
-    }
+    if (ec)
+        throw (ServerException::ListenerException(ec));
 
     _acceptor.set_option(net::socket_base::reuse_address(true), ec);
-    if (ec) {
-        Logger::Error(__LINE__, __FILE__, "Listener constructor error: %s", ec.message().data());
-        return;
-    }
+    if (ec)
+        throw (ServerException::ListenerException(ec));
 
     _acceptor.bind(endpoint, ec);
-    if (ec) {
-        Logger::Error(__LINE__, __FILE__, "Listener constructor error: %s", ec.message().data());
-        return;
-    }
+    if (ec)
+        throw (ServerException::ListenerException(ec));
 
     _acceptor.listen(net::socket_base::max_listen_connections, ec);
-    if (ec) {
-        Logger::Error(__LINE__, __FILE__, "Listener constructor error: %s", ec.message().data());
-        return;
-    }
+    if (ec)
+        throw (ServerException::ListenerException(ec));
 }
 
 Listener::~Listener() {
@@ -61,6 +54,9 @@ void Listener::async_accept() {
         // socket holds new connection
         // shared_from_this extends lifetime of shared_ptr
         _acceptor.async_accept(_socket, [self{shared_from_this()}](error_code ec){
+            if (ec == http::error::end_of_stream)
+                return;
+
             if (ec) {
                 Logger::Error(__LINE__, __FILE__, "error in async_accept: %s", ec.message().data());
                 return;
@@ -84,5 +80,7 @@ void Listener::on_accept(error_code &ec) {
     }
 
     std::make_shared<API_Gateway>(std::move(_ioc), std::move(_socket))->read_request();
+
+    // Allows to create an event loop
     async_accept();
 }

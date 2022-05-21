@@ -6,9 +6,10 @@
 #define SERVER_V0_1_ERRORS_H
 
 #include <stdexcept>
+#include <boost/system/error_code.hpp>
 
 
-// ---------- LAYER 4.1 | HTTP ----------
+// ---------- LAYER 3.1 | HTTP ----------
 
 
 namespace HttpException {
@@ -24,11 +25,13 @@ namespace HttpException {
     class NotDefinedType : public HttpException {
     public:
         using HttpException::HttpException;
+        NotDefinedType() : HttpException("Not Defined Type") {}
     };
 
     class InvalidArguments : public HttpException {
     public:
         using HttpException::HttpException;
+        InvalidArguments() : HttpException("Invalid Arguments") {}
     };
 
 }   // namespace HttpException
@@ -45,8 +48,6 @@ namespace JsonException {
         explicit JsonException(const char* msg) : std::runtime_error(msg) {}
         explicit JsonException(std::string& msg) : std::runtime_error(msg) {}
         using std::runtime_error::runtime_error;
-
-        const char *what() const noexcept { return "Json Exception\n"; }
     };
 }   // namespace JsonException
 
@@ -62,6 +63,11 @@ namespace APIException {
     class APIException : public std::runtime_error {
     public:
         using std::runtime_error::runtime_error;
+
+        APIException()
+            : std::runtime_error("API Exception"),
+              http_exception("\0"),
+              json_exception("\0") {}
 
         explicit APIException(const char *msg)
                 : std::runtime_error(msg),
@@ -82,6 +88,11 @@ namespace APIException {
                 : std::runtime_error(msg),
                   http_exception(http_exception.what()),
                   json_exception(json_exception.what()) {}
+
+        APIException(APIException& api_exception)
+            : std::runtime_error(api_exception.what()),
+              http_exception("\0"),
+              json_exception("\0") {}
 
         [[nodiscard]] const char *what() const noexcept {
             http_exception.what();
@@ -131,17 +142,94 @@ namespace APIException {
     public:
         using APIException::APIException;
 
-        const char *what() const noexcept {
+        [[nodiscard]] const char *what() const noexcept override {
             http_exception.what();
             json_exception.what();
             return "API Exception: tests exception\n";
         }
     };
 
-}
+}   // namespace APIException
+
 
 // ---------- LAYER 1 | SERVER ----------
 
+
+namespace ServerException {
+    typedef HttpException::HttpException HttpException;
+    typedef JsonException::JsonException JsonException;
+    typedef APIException::APIException APIException;
+
+    // Interface for all Server exceptions
+    class ServerException : public std::runtime_error {
+    public:
+        using std::runtime_error::runtime_error;
+
+        ServerException()
+            : api_exception(),
+              std::runtime_error("Server Exception") {}
+
+        explicit ServerException(APIException& api_exception)
+            : api_exception(api_exception),
+              std::runtime_error("Server Exception") {}
+
+        explicit ServerException(const char *msg)
+                : api_exception(),
+                  std::runtime_error(msg) {}
+
+        explicit ServerException(const std::string& msg)
+                : api_exception(),
+                  std::runtime_error(msg) {}
+
+    protected:
+        APIException api_exception;
+    };
+
+    class RequestHandlerException : public ServerException {
+    public:
+        using ServerException::ServerException;
+    };
+
+    class APIGatewayException : public ServerException {
+    public:
+        using ServerException::ServerException;
+        explicit APIGatewayException(boost::system::error_code& ec)
+        : ec(ec),
+                ServerException::ServerException("Listener Exception") {}
+
+        APIGatewayException(const char* msg, boost::system::error_code& ec)
+                : ec(ec),
+                  ServerException::ServerException(msg) {}
+
+        APIGatewayException(const std::string& msg, boost::system::error_code& ec)
+                : ec(ec),
+                  ServerException::ServerException(msg) {}
+
+    protected:
+        boost::system::error_code ec;
+    };
+
+    class ListenerException : public ServerException {
+    public:
+        using ServerException::ServerException;
+        explicit ListenerException(boost::system::error_code& ec)
+            : ec(ec),
+              ServerException::ServerException("Listener Exception") {}
+
+        ListenerException(const char* msg, boost::system::error_code& ec)
+                : ec(ec),
+                  ServerException::ServerException(msg) {}
+
+        ListenerException(const std::string& msg, boost::system::error_code& ec)
+                : ec(ec),
+                  ServerException::ServerException(msg) {}
+
+    protected:
+        boost::system::error_code ec;
+    };
+
+
+}   // namespace ServerException
 
 
 #endif //SERVER_V0_1_ERRORS_H

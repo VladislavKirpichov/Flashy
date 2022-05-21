@@ -25,6 +25,7 @@
 
 #include "RequestHandler.hpp"
 #include "Logger.hpp"
+#include "Exceptions.h"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
@@ -84,6 +85,7 @@ private:
     void handle_request();
 
     // Closes socket to cancel any outstanding operation
+    void close_connection();
 
     boost::beast::tcp_stream _stream;
     boost::asio::ip::tcp::resolver _resolver;
@@ -103,11 +105,13 @@ API_Gateway::API_Gateway(boost::asio::io_context &&ioc, tcp::socket &&socket):
 void API_Gateway::read_request() {
     Logger::Info(__LINE__, __FILE__, "handle_request");
 
-    http::async_read(_stream, _buffer, _request, [self{shared_from_this()}](error_code ec, std::size_t bytes_transferred){
-        if (ec) {
-            Logger::Error(__LINE__, __FILE__, "read_request: %s", ec.message().data());
+    http::async_read(_stream, _buffer, _request, [self{shared_from_this()}](error_code ec, std::size_t bytes_transferred) {
+        if (ec == http::error::end_of_stream)
             return;
-            // return close_connection();
+
+        if (ec) {
+            self->close_connection();
+            throw ServerException::APIGatewayException(ec);
         }
 
         self->handle_request();
@@ -117,8 +121,24 @@ void API_Gateway::read_request() {
 void API_Gateway::handle_request() {
     if (_request.method() == http::verb::get) {
         RequestHandler::GETHandler getHandler(std::move(_request), std::forward<Send>(send));
-        getHandler.process_request();   // expects rvalue
+        try {
+            getHandler.process_request();
+        }
+        catch (HttpException::HttpException& ec) {
+            Logger::Info(__LINE__, __FILE__, ec.what());
+        }
+        catch (ServerException::ServerException& ec) {
+            Logger::Error(__LINE__, __FILE__, ec.what());
+        }
+        catch (...) {
+
+        }
     }
+}
+
+void API_Gateway::close_connection() {
+    error_code ec;
+    _stream.socket().close(ec);
 }
 
 
