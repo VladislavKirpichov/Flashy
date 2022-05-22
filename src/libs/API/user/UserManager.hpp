@@ -15,6 +15,7 @@
 #include <memory>
 #include <string>
 
+#include "IManager.hpp"
 #include "JsonSerializer.h"
 #include "HttpParser.h"
 #include "HttpSuccessCreator.hpp"
@@ -63,98 +64,104 @@ std::vector<std::vector<std::string>> USER_4 {
 // TODO: Добавить классы POST, PUT, DELETE
 
 template<typename Body, typename Allocator, typename Send>
-class UserManager : public std::enable_shared_from_this<UserManager<Body, Allocator, Send>> {
+class IUserManager : public IManager<Body, Allocator, Send> {
 public:
-    UserManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
-
+    using IManager<Body, Allocator, Send>::IManager;
     virtual void handle_request() = 0;
 
-    Send _send;
+protected:
+    virtual void set_flags(http::response<http::string_body>& response);
+    // virtual void find_user_in_db();
+};
+
+template<typename Body, typename Allocator, typename Send>
+void IUserManager<Body, Allocator, Send>::set_flags(http::response<http::string_body>& response) {
+    response.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+    response.set(http::field::content_type, "text/text");
+    response.keep_alive(this->get_request_keep_alive());
+}
+
+
+/*
+ * The GET method requests a representation of the specified resource.
+ * Requests using GET should only retrieve data and should have no other effect.
+*/
+
+
+template<typename Body, typename Allocator, typename Send>
+class GetUserManager : public IUserManager<Body, Allocator, Send> {
+public:
+    using IUserManager<Body, Allocator, Send>::IUserManager;
+    void handle_request() final;
 
 protected:
-    std::string get_request_target();
-    std::string get_request_data();
-    unsigned int get_request_version();
-    bool request_keep_alive() { return this->_request.keep_alive(); }
-
-private:
-    http::request<Body, http::basic_fields<Allocator>> _request;
+    std::vector<std::tuple<std::string, std::string>> get_args_url();
+    void set_flags(http::response<http::string_body>&) override;
 };
 
 template<typename Body, typename Allocator, typename Send>
-UserManager<Body, Allocator, Send>::UserManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send)
-        : _request(std::move(req)),
-          _send(std::forward<Send>(send)) {}
-
-template<typename Body, typename Allocator, typename Send>
-std::string UserManager<Body, Allocator, Send>::get_request_target() {
-    return this->_request.base().target().template to_string();
+void GetUserManager<Body, Allocator, Send>::set_flags(http::response<http::string_body>& response) {
+    response.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+    response.set(http::field::content_type, "text/json");
+    response.keep_alive(this->get_request_keep_alive());
 }
 
 template<typename Body, typename Allocator, typename Send>
-unsigned int UserManager<Body, Allocator, Send>::get_request_version() {
-    return this->_request.version();
+std::vector<std::tuple<std::string, std::string>> GetUserManager<Body, Allocator, Send>::get_args_url() {
+    std::vector<std::tuple<std::string, std::string>> args{};
+    args = HttpParser::define_args(this->get_request_target());
+    return args;
 }
-
-template<typename Body, typename Allocator, typename Send>
-std::string UserManager<Body, Allocator, Send>::get_request_data() {
-    return beast::buffers_to_string(this->_request.body().data());
-}
-
-
-// --------------- GET ---------------
-
-
-template<typename Body, typename Allocator, typename Send>
-class GetUserManager : public UserManager<Body, Allocator, Send> {
-public:
-    GetUserManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send)
-            : UserManager<Body, Allocator, Send>(std::move(req), std::forward<Send>(send)) {}
-
-    void handle_request() final;
-};
 
 template<typename Body, typename Allocator, typename Send>
 void GetUserManager<Body, Allocator, Send>::handle_request() {
-
-    http::response<http::string_body> res{ http::status::ok, this->get_request_version()};
+    http::response<http::string_body> response{ http::status::ok, this->get_request_version()};
     std::vector<std::tuple<std::string, std::string>> args{};
 
     // Try to get args from url
     try {
-        args = HttpParser::define_args(this->get_request_target());
+        args = this->get_args_url();
     }
     catch (HttpException::InvalidArguments& ec) {
         Logger::Error(__LINE__, __FILE__, ec.what());
-        HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->_send), this->get_request_version())->send_response();
+        HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->get_send()), this->get_request_version())->send_response();
         return;
     }
 
-    // Set flags
-    res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-    res.set(http::field::content_type, "text/json");
-    res.keep_alive(this->request_keep_alive());
+    this->set_flags(response);
 
     // Find user by id
     // TODO: взять информацию о пользователе из БД
-    if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "1")
-        res.body() = JsonSerializer::serialize(USER_1);
+    // this->find_user_in_db();
 
-    else if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "2")
-        res.body() = JsonSerializer::serialize(USER_2);
+    try {
+        if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "1")
+            response.body() = JsonSerializer::serialize(USER_1);
 
-    else if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "3")
-        res.body() = JsonSerializer::serialize(USER_3);
+        else if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "2")
+            response.body() = JsonSerializer::serialize(USER_2);
 
-    else if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "4")
-        res.body() = JsonSerializer::serialize(USER_4);
+        else if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "3")
+            response.body() = JsonSerializer::serialize(USER_3);
 
-    else
-        throw APIException::UserException("user not found");
+        else if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "4")
+            response.body() = JsonSerializer::serialize(USER_4);
 
-    res.content_length(res.body().size());
+        else
+            throw APIException::UserException("user not found");
+    }
+    catch (JsonException::JsonException& ec) {
+        // TODO: написать обработчик
+        return;
+    }
+    catch (APIException::UserException& ec) {
+        // TODO: написат обработчик
+        return;
+    }
 
-    return this->_send(std::move(res));
+    response.content_length(response.body().size());
+
+    return this->get_send()(std::move(response));
 }
 
 
@@ -167,30 +174,28 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
 
 
 template<typename Body, typename Allocator, typename Send>
-class PutUserManager : public UserManager<Body, Allocator, Send> {
+class PutUserManager : public IUserManager<Body, Allocator, Send> {
 public:
-    PutUserManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send)
-            : UserManager<Body, Allocator, Send>(std::move(req), std::forward<Send>(send)) {}
-
+    using IUserManager<Body, Allocator, Send>::IUserManager;
     void handle_request() final;
 
 protected:
-    std::vector<std::vector<std::string>> get_data_from_request();
+    std::vector<std::vector<std::string>> get_request_data_in_vector();
 };
 
 template<typename Body, typename Allocator, typename Send>
 void PutUserManager<Body, Allocator, Send>::handle_request() {
-    std::vector<std::vector<std::string>> request_data = this->get_data_from_request();
+    std::vector<std::vector<std::string>> request_data = this->get_request_data_in_vector();
 
     // TODO: Положить данные в базу
     //  Ссылка с описанием методов: https://www.boost.org/doc/libs/1_67_0/boost/beast/http/verb.hpp
 
-    HttpSuccessCreator<Send>::create_ok_200(std::move(this->_send), this->get_request_version())->send_response();
+    HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
 }
 
 template<typename Body, typename Allocator, typename Send>
-std::vector<std::vector<std::string>> PutUserManager<Body, Allocator, Send>::get_data_from_request() {
-    std::string data = this->get_request_data();
+std::vector<std::vector<std::string>> PutUserManager<Body, Allocator, Send>::get_request_data_in_vector() {
+    std::string data = this->get_request_body_data();
     std::vector<std::vector<std::string>> vector_data = JsonSerializer::deserialize(data);
     return vector_data;
 }
@@ -213,11 +218,9 @@ std::vector<std::vector<std::string>> PutUserManager<Body, Allocator, Send>::get
 
 
 template<typename Body, typename Allocator, typename Send>
-class PostUserManager : public UserManager<Body, Allocator, Send> {
+class PostUserManager : public IUserManager<Body, Allocator, Send> {
 public:
-    PostUserManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send)
-            : UserManager<Body, Allocator, Send>(std::move(req), std::forward<Send>(send)) {}
-
+    using IUserManager<Body, Allocator, Send>::IManager;
     void handle_request() final;
 };
 
@@ -228,7 +231,7 @@ void PostUserManager<Body, Allocator, Send>::handle_request() {
     // TODO: Положить данные в базу
     //  Ссылка с описанием методов: https://www.boost.org/doc/libs/1_67_0/boost/beast/http/verb.hpp
 
-    HttpSuccessCreator<Send>::create_ok_200(std::move(this->_send), this->get_request_version())->send_response();
+    HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
 }
 
 #endif //SERVER_V0_1_USERMANAGER_HPP
