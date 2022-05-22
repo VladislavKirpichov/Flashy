@@ -6,7 +6,7 @@ project(DB_lib)
 
 set(SOURCES DB_tables_page.cpp DB_tables_users.cpp DB_tables_question.cpp DB.cpp )
 
-set(HEADERS DB.h)
+set(HEADERS DB.h DB_tables_page.h DB_tables_users.h DB_tables_question.h)
 
 add_library(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
