@@ -45,7 +45,7 @@ public:
     void send_response() noexcept final {
         http::response<http::string_body> res{http::status::ok, this->get_response_version()};
 
-        res.body() = "ok";
+        res.body() = "ok\n";
         this->set_response_filds(res);
 
         return this->_send(std::move(res));

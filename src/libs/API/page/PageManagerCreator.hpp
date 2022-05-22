@@ -13,11 +13,7 @@
 
 #include "PageManager.hpp"
 
-namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
-namespace net = boost::asio;            // from <boost/asio.hpp>
-using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
-using error_code = boost::system::error_code;
 
 
 template<typename Body, typename Allocator, typename Send>
@@ -25,14 +21,36 @@ class PageManagerCreator {
 public:
     static std::shared_ptr<GetPageManager<Body, Allocator, Send>>
     create_GetPageManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
-
-    /* --- ADD HERE NEW MANAGERS --- */
+    static std::shared_ptr<PutPageManager<Body, Allocator, Send>>
+    create_PutPageManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
+    static std::shared_ptr<PostPageManager<Body, Allocator, Send>>
+    create_PostPageManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
+    static std::shared_ptr<DeletePageManager<Body, Allocator, Send>>
+    create_DeletePageManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
 };
 
 template<typename Body, typename Allocator, typename Send>
 std::shared_ptr<GetPageManager<Body, Allocator, Send>>
 PageManagerCreator<Body, Allocator, Send>::create_GetPageManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send) {
-    return std::make_shared<GetPageManager<Body, Allocator, Send>>(std::move(req), std::forward<Send>(send));
+    return std::make_shared<GetPageManager<Body, Allocator, Send>>(std::move(req), std::move(send));
+}
+
+template<typename Body, typename Allocator, typename Send>
+std::shared_ptr<PutPageManager<Body, Allocator, Send>>
+PageManagerCreator<Body, Allocator, Send>::create_PutPageManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send) {
+    return std::make_shared<PutPageManager<Body, Allocator, Send>>(std::move(req), std::move(send));
+}
+
+template<typename Body, typename Allocator, typename Send>
+std::shared_ptr<PostPageManager<Body, Allocator, Send>>
+PageManagerCreator<Body, Allocator, Send>::create_PostPageManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send) {
+    return std::make_shared<PostPageManager<Body, Allocator, Send>>(std::move(req), std::move(send));
+}
+
+template<typename Body, typename Allocator, typename Send>
+std::shared_ptr<DeletePageManager<Body, Allocator, Send>>
+PageManagerCreator<Body, Allocator, Send>::create_DeletePageManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send) {
+    return std::make_shared<DeletePageManager<Body, Allocator, Send>>(std::move(req), std::move(send));
 }
 
 #endif //SERVER_V0_1_PAGEMANAGERCREATOR_H

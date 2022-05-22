@@ -170,7 +170,7 @@ namespace RequestHandler {
         try {
             if (this->_url_path == "page")
                 PageManagerCreator<Body, Allocator, Send>
-                ::create_GetPageManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
+                ::create_PutPageManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
             else if (this->_url_path == "user")
                 UserManagerCreator<Body, Allocator, Send>
                 ::create_PutUserManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
