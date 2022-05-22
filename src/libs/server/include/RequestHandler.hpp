@@ -52,46 +52,7 @@ namespace RequestHandler {
 
     protected:
         void define_type_by_path();
-        static std::string_view define_mime_type(const std::string_view& path); // TODO: Сделать определение mime типов
     };
-
-    template<typename Body, typename Allocator, typename Send>
-    std::string_view RequestHandler<Body, Allocator, Send>::define_mime_type(const std::string_view& path) {
-        using beast::iequals;
-
-        auto const ext = [&path]() {
-            auto const pos = path.find(".");
-
-            // check if we at the end of string
-            if (pos == std::string_view::npos)
-                return std::string_view {};
-
-            return path.substr(pos);    // Returns a substring [pos, pos+count)
-        };
-
-        if(iequals(ext, ".htm"))  return "text/html";
-        if(iequals(ext, ".html")) return "text/html";
-        if(iequals(ext, ".php"))  return "text/html";
-        if(iequals(ext, ".css"))  return "text/css";
-        if(iequals(ext, ".txt"))  return "text/plain";
-        if(iequals(ext, ".js"))   return "application/javascript";
-        if(iequals(ext, ".json")) return "application/json";
-        if(iequals(ext, ".xml"))  return "application/xml";
-        if(iequals(ext, ".swf"))  return "application/x-shockwave-flash";
-        if(iequals(ext, ".flv"))  return "video/x-flv";
-        if(iequals(ext, ".png"))  return "image/png";
-        if(iequals(ext, ".jpe"))  return "image/jpeg";
-        if(iequals(ext, ".jpeg")) return "image/jpeg";
-        if(iequals(ext, ".jpg"))  return "image/jpeg";
-        if(iequals(ext, ".gif"))  return "image/gif";
-        if(iequals(ext, ".bmp"))  return "image/bmp";
-        if(iequals(ext, ".ico"))  return "image/vnd.microsoft.icon";
-        if(iequals(ext, ".tiff")) return "image/tiff";
-        if(iequals(ext, ".tif"))  return "image/tiff";
-        if(iequals(ext, ".svg"))  return "image/svg+xml";
-        if(iequals(ext, ".svgz")) return "image/svg+xml";
-        return "application/text";
-    }
 
     template<typename Body, typename Allocator, typename Send>
     void RequestHandler<Body, Allocator, Send>::define_type_by_path() {
@@ -119,8 +80,7 @@ namespace RequestHandler {
     template<typename Body, typename Allocator, typename Send>
     class GETHandler : public RequestHandler<Body, Allocator, Send> {
     public:
-        GETHandler(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send)
-            : RequestHandler<Body, Allocator, Send>(std::move(req), std::forward<Send>(send)) {}
+        using RequestHandler<Body, Allocator, Send>::RequestHandler;
 
         void process_request() final;
     };
@@ -156,8 +116,7 @@ namespace RequestHandler {
     template<typename Body, typename Allocator, typename Send>
     class PUTHandler : public RequestHandler<Body, Allocator, Send> {
     public:
-        PUTHandler(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send)
-                : RequestHandler<Body, Allocator, Send>(std::move(req), std::forward<Send>(send)) {}
+        using RequestHandler<Body, Allocator, Send>::RequestHandler;
 
         void process_request() final;
     };

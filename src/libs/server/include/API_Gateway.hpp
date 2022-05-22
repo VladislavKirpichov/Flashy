@@ -125,12 +125,10 @@ void API_Gateway::handle_request() {
     //  Добавить обработку HEAD, PUT, POST, DELETE
     try {
         if (_request.method() == http::verb::get) {
-            RequestHandler::GETHandler get_handler{std::move(_request), std::forward<Send>(send)};
-            get_handler.process_request();
+            std::make_unique<RequestHandler::GETHandler<http::dynamic_body, std::allocator<char>, Send>>(std::move(_request), std::forward<Send>(send))->process_request();
         }
         else if (_request.method() == http::verb::put) {
-            RequestHandler::PUTHandler put_handler{std::move(_request), std::forward<Send>(send)};
-            put_handler.process_request();
+            std::make_unique<RequestHandler::PUTHandler<http::dynamic_body, std::allocator<char>, Send>>(std::move(_request), std::forward<Send>(send))->process_request();
         }
         else if (_request.method() == http::verb::post) {
             // ...
