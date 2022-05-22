@@ -15,12 +15,14 @@
 #include <memory>
 #include <string>
 
+#include "Logger.hpp"
 #include "IManager.hpp"
 #include "JsonSerializer.h"
 #include "HttpParser.h"
 #include "HttpSuccessCreator.hpp"
 #include "HttpClientErrorCreator.hpp"
 #include "Exceptions.h"
+#include "DB.h"
 
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
@@ -129,6 +131,21 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
     }
 
     this->set_flags(response);
+
+    // I - поставится вместо ?, 3 - кол-во столбцов
+    // 3306
+    DB *db = new DB("LAPTOP-9KQ1QFS1.local", "3306", "vladislav", ".", "Flashy");
+
+    std::vector<std::vector<std::string>> MyData{};
+    MyData = db->Get("SELECT FROM users WHERE id=?", {"I:4"}, 5);
+
+    db->Close();
+
+    for (int a = 0; a < MyData.size(); a++) {
+        for (int c = 0; c < MyData[a].size(); c++) {
+            std::cout << MyData[a][c] + " - ";
+        } std::cout << " " << std::endl;
+    }
 
     // Find user by id
     // TODO: взять информацию о пользователе из БД

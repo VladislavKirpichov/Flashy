@@ -9,6 +9,7 @@ target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
 
 target_link_libraries(${PROJECT_NAME} INTERFACE JSON)
 target_link_libraries(${PROJECT_NAME} INTERFACE HTTP)
+target_link_libraries(${PROJECT_NAME} INTERFACE DB_LIB)
 
 # Packages
 target_link_libraries(${PROJECT_NAME} INTERFACE ${Boost_LIBRARIES})
