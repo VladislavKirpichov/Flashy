@@ -11,7 +11,7 @@ int main() {
 
     DB *database = new DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
 
-    MyData = database->Get("SELECT * FROM users WHERE id=?", {"I:4"}, 5);
+    MyData = database->Get("SELECT * FROM page WHERE id=?", {"I:4"}, 5);
 
     database->Close();
 
