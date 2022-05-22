@@ -2,8 +2,8 @@
 // Created by vladislav on 20.05.22.
 //
 
-#ifndef SERVER_V0_1_HTTPERRORS_HPP
-#define SERVER_V0_1_HTTPERRORS_HPP
+#ifndef SERVER_V0_1_HTTPCLIENTERRORS_HPP
+#define SERVER_V0_1_HTTPCLIENTERRORS_HPP
 
 #include <string>
 #include <boost/beast.hpp>
@@ -12,6 +12,7 @@
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
 
+// Interface for all Http Errors Classes
 template<typename Send>
 class HttpError {
 public:
@@ -141,4 +142,4 @@ public:
 };
 
 
-#endif //SERVER_V0_1_HTTPERRORS_HPP
+#endif //SERVER_V0_1_HTTPCLIENTERRORS_HPP

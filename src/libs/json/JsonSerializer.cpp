@@ -26,12 +26,19 @@ std::string JsonSerializer::serialize(const std::vector<std::tuple<std::string, 
     nlohmann::json json_data{};
     std::vector<std::string>::const_iterator value_it{};
 
-    std::cout << "json_start\n";
-
     for (auto& field : input_data)
         json_data[std::get<0>(field)] = std::basic_string(std::get<1>(field));
 
-    std::cout << "end\n";
-
     return to_string(json_data);
+}
+
+std::vector<std::vector<std::string>> JsonSerializer::deserialize(const std::string& json_str) {
+    nlohmann::json json_data = nlohmann::json::parse(json_str);
+    std::vector<std::vector<std::string>> data{};
+
+    for (auto& [key, value] : json_data.items()) {
+        data.push_back(std::vector<std::string> {key, value});
+    }
+
+    return data;
 }

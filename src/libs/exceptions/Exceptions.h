@@ -18,7 +18,7 @@ namespace HttpException {
     public:
         HttpException() : std::runtime_error("Http Parser Exception") {}
         explicit HttpException(const char* msg) : std::runtime_error("Http Parser Exception: " + std::string(msg)) {}
-        explicit HttpException(std::string& msg) : std::runtime_error("Http Parser Exception: " + msg) {}
+        explicit HttpException(std::string const& msg) : std::runtime_error("Http Parser Exception: " + msg) {}
         using std::runtime_error::runtime_error;
     };
 
@@ -39,13 +39,13 @@ namespace HttpException {
 
 // ---------- LAYER 3.2 | JSON ----------
 
+// TODO: Добавить исключения к JsonException
 
 namespace JsonException {
     // Interface for all JSON exceptions
     class JsonException : public std::runtime_error {
     public:
         JsonException() : std::runtime_error("Json Exception") {}
-        explicit JsonException(const char* msg) : std::runtime_error(msg) {}
         explicit JsonException(std::string& msg) : std::runtime_error(msg) {}
         using std::runtime_error::runtime_error;
     };
@@ -54,10 +54,11 @@ namespace JsonException {
 
 // ---------- LAYER 2 | API ----------
 
+// TODO: Изменить классы дочерние от APIException
 
 namespace APIException {
-    typedef HttpException::HttpException HttpException;
-    typedef JsonException::JsonException JsonException;
+    using HttpException = HttpException::HttpException;
+    using JsonException = JsonException::JsonException;
 
     // Interface for all API exceptions
     class APIException : public std::runtime_error {
@@ -105,7 +106,7 @@ namespace APIException {
         JsonException json_exception;
     };
 
-    class AuthExepction : public APIException{
+    class AuthException : public APIException{
     public:
         using APIException::APIException;
 
@@ -116,7 +117,7 @@ namespace APIException {
         }
     };
 
-    class PageExepction : public APIException{
+    class PageException : public APIException{
     public:
         using APIException::APIException;
 
@@ -127,7 +128,7 @@ namespace APIException {
         }
     };
 
-    class UserExepction : public APIException{
+    class UserException : public APIException{
     public:
         using APIException::APIException;
 
@@ -138,7 +139,7 @@ namespace APIException {
         }
     };
 
-    class TestsExepction : public APIException{
+    class TestsException : public APIException{
     public:
         using APIException::APIException;
 
@@ -156,9 +157,9 @@ namespace APIException {
 
 
 namespace ServerException {
-    typedef HttpException::HttpException HttpException;
-    typedef JsonException::JsonException JsonException;
-    typedef APIException::APIException APIException;
+    using HttpException = HttpException::HttpException;
+    using JsonException = JsonException::JsonException;
+    using APIException = APIException::APIException;
 
     // Interface for all Server exceptions
     class ServerException : public std::runtime_error {
@@ -166,23 +167,23 @@ namespace ServerException {
         using std::runtime_error::runtime_error;
 
         ServerException()
-            : api_exception(),
-              std::runtime_error("Server Exception") {}
+            : std::runtime_error("Server Exception") {}
 
         explicit ServerException(APIException& api_exception)
-            : api_exception(api_exception),
-              std::runtime_error("Server Exception") {}
+            : std::runtime_error("Server Exception"),
+              api_exception(api_exception) {}
 
         explicit ServerException(const char *msg)
-                : api_exception(),
-                  std::runtime_error(msg) {}
+                : std::runtime_error(msg) {}
 
         explicit ServerException(const std::string& msg)
-                : api_exception(),
-                  std::runtime_error(msg) {}
+                : std::runtime_error(msg) {}
 
-    protected:
-        APIException api_exception;
+        ServerException(const ServerException& ec)
+                : std::runtime_error(std::string(ec.what()) + std::string("Server Exception\n")) {}
+
+    private:
+        APIException api_exception{};
     };
 
     class RequestHandlerException : public ServerException {
@@ -205,7 +206,11 @@ namespace ServerException {
                 : ec(ec),
                   ServerException::ServerException(msg) {}
 
-    protected:
+        APIGatewayException(const ServerException& ec)
+                : ec(),
+                  ServerException::ServerException("APIGatewayException\n") {}
+
+    private:
         boost::system::error_code ec;
     };
 
@@ -224,7 +229,7 @@ namespace ServerException {
                 : ec(ec),
                   ServerException::ServerException(msg) {}
 
-    protected:
+    private:
         boost::system::error_code ec;
     };
 

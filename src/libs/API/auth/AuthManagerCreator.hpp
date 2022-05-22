@@ -23,16 +23,16 @@ using error_code = boost::system::error_code;
 template<typename Body, typename Allocator, typename Send>
 class AuthManagerCreator {
 public:
-    static std::shared_ptr<GetAuthManager<Body, Allocator, Send>>
-    create_GetAuthManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
+    static std::shared_ptr<AuthManager<Body, Allocator, Send>>
+    create_AuthManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
 
     /* --- ADD HERE NEW MANAGERS --- */
 };
 
 template<typename Body, typename Allocator, typename Send>
-std::shared_ptr<GetAuthManager<Body, Allocator, Send>>
-AuthManagerCreator<Body, Allocator, Send>::create_GetAuthManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send) {
-    return std::make_shared<GetAuthManager<Body, Allocator, Send>>(std::move(req), std::forward<Send>(send));
+std::shared_ptr<AuthManager<Body, Allocator, Send>>
+AuthManagerCreator<Body, Allocator, Send>::create_AuthManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send) {
+    return std::make_shared<AuthManager<Body, Allocator, Send>>(std::move(req), std::forward<Send>(send));
 }
 
 #endif //SERVER_V0_1_AUTHMANAGERCREATOR_HPP

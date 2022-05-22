@@ -4,7 +4,6 @@
 
 #include <boost/algorithm/string/predicate.hpp>
 
-#include "Errors.hpp"
 #include "HttpParser.h"
 #include "Exceptions.h"
 
@@ -30,12 +29,10 @@ std::vector<std::tuple<std::string, std::string>> HttpParser::define_args(const 
     if (args_start == url_path.end())
         throw HttpException::InvalidArguments("? not found");
 
-    // vars for search
     std::string var_name{};
     std::string var_value{};
     std::vector<std::tuple<std::string, std::string>> return_vars{};
 
-    // function to search var name
     auto search_var_name = [&](std::string::const_iterator& start_from) -> void {
         var_name = std::string(start_from, std::find(start_from, url_path.end(), '='));
 
@@ -43,9 +40,9 @@ std::vector<std::tuple<std::string, std::string>> HttpParser::define_args(const 
             throw HttpException::InvalidArguments("search_var_name");
 
         start_from = std::find(start_from, url_path.end(), '=');
+        start_from++;   // skip '='
     };
 
-    // function to search var value
     auto search_var_value = [&](std::string::const_iterator& start_from,
                                 const std::vector<char>& end_of_value_symbols) -> void {
         var_value = std::string(start_from, std::find_first_of(start_from, url_path.end(), end_of_value_symbols.begin(), end_of_value_symbols.end()));
@@ -59,14 +56,12 @@ std::vector<std::tuple<std::string, std::string>> HttpParser::define_args(const 
     std::vector<char> end_of_value_symbols {'&', '/', '?'};
 
     // start from '?'
-    auto i = args_start;
+    auto i = args_start++;
     while (i != url_path.end()) {
         if (*i == '&' || *i == '?')
             i++;
 
         search_var_name(i);
-        if (*i == '=')
-            i++;
         search_var_value(i, end_of_value_symbols);
 
         return_vars.emplace_back(var_name, var_value);

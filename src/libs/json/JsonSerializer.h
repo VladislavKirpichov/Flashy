@@ -12,6 +12,7 @@
 struct JsonSerializer {
     static std::string serialize(const std::vector<std::vector<std::string>>& input_data);
     static std::string serialize(const std::vector<std::tuple<std::string , std::string>>& input_data);
+    static std::vector<std::vector<std::string>> deserialize(const std::string& json_str);
 
 private:
     JsonSerializer() = default;

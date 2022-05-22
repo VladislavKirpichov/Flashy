@@ -6,11 +6,12 @@ find_package(nlohmann_json REQUIRED)
 file(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/data)
 
 # add libs
+add_subdirectory(libs/nlohmann)
 add_subdirectory(libs/exceptions)
 add_subdirectory(libs/json)
 add_subdirectory(libs/http_parser)
 add_subdirectory(libs/API)
-add_subdirectory(libs/http_errors_response)
+add_subdirectory(libs/http_response)
 add_subdirectory(libs/server)
 
 add_executable(${PROJECT_NAME} main.cpp)
@@ -25,4 +26,4 @@ target_link_libraries(${PROJECT_NAME} PUBLIC server)
 
 # Packages
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann)

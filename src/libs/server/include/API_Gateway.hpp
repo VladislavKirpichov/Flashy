@@ -26,6 +26,7 @@
 #include "RequestHandler.hpp"
 #include "Logger.hpp"
 #include "Exceptions.h"
+#include "HttpClientErrorCreator.hpp"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
@@ -100,7 +101,8 @@ private:
 };
 
 API_Gateway::API_Gateway(boost::asio::io_context &&ioc, tcp::socket &&socket):
-        _resolver(ioc), _stream(std::move(socket)) {}
+        _resolver(ioc),
+        _stream(std::move(socket)) {}
 
 void API_Gateway::read_request() {
     Logger::Info(__LINE__, __FILE__, "handle_request");
@@ -119,21 +121,35 @@ void API_Gateway::read_request() {
 }
 
 void API_Gateway::handle_request() {
-    if (_request.method() == http::verb::get) {
-        RequestHandler::GETHandler getHandler(std::move(_request), std::forward<Send>(send));
-        try {
-            getHandler.process_request();
+    // TODO
+    //  Добавить обработку HEAD, PUT, POST, DELETE
+    try {
+        if (_request.method() == http::verb::get) {
+            RequestHandler::GETHandler get_handler{std::move(_request), std::forward<Send>(send)};
+            get_handler.process_request();
         }
-        catch (HttpException::HttpException& ec) {
-            Logger::Info(__LINE__, __FILE__, ec.what());
+        else if (_request.method() == http::verb::put) {
+            RequestHandler::PUTHandler put_handler{std::move(_request), std::forward<Send>(send)};
+            put_handler.process_request();
         }
-        catch (ServerException::ServerException& ec) {
-            Logger::Error(__LINE__, __FILE__, ec.what());
+        else if (_request.method() == http::verb::post) {
+            // ...
         }
-        catch (...) {
-
+        else if (_request.method() == http::verb::delete_) {
+            // ...
+        }
+        else {
+            HttpClientErrorCreator<Send>::create_method_not_allowed_405(std::forward<Send>(send), this->_request.version())->send_response();
         }
     }
+    catch (HttpException::HttpException& ec) {
+        Logger::Info(__LINE__, __FILE__, ec.what());
+    }
+    catch (ServerException::ServerException& ec) {
+        Logger::Error(__LINE__, __FILE__, ec.what());
+        throw ServerException::APIGatewayException(ec);
+    }
+
 }
 
 void API_Gateway::close_connection() {

@@ -19,10 +19,9 @@
 #include <string>
 
 #include "Logger.hpp"
-#include "Errors.hpp"
 
 #include "HttpParser.h"
-#include "HttpErrorCreator.hpp"
+#include "HttpClientErrorCreator.hpp"
 
 #include "PageManagerCreator.hpp"
 #include "UserManagerCreator.hpp"
@@ -51,9 +50,9 @@ namespace RequestHandler {
         http::request<Body, http::basic_fields<Allocator>> _request;
         Send _send;
 
-    private:
-        // Пока не работает
-        static std::string_view define_mime_type(const std::string_view& path);
+    protected:
+        void define_type_by_path();
+        static std::string_view define_mime_type(const std::string_view& path); // TODO: Сделать определение mime типов
     };
 
     template<typename Body, typename Allocator, typename Send>
@@ -94,6 +93,25 @@ namespace RequestHandler {
         return "application/text";
     }
 
+    template<typename Body, typename Allocator, typename Send>
+    void RequestHandler<Body, Allocator, Send>::define_type_by_path() {
+        // Try to read url path
+        try {
+            this->_url_path = HttpParser::define_page_type(this->_request.base().target().template to_string());
+        }
+        catch (HttpException::InvalidArguments& ec) {
+            // handle bad_request
+            Logger::Info(__LINE__, __FILE__, "bad_request");
+            HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->_send), this->_request.version())->send_response();
+            return;
+        }
+        catch (...) {
+            // some other error
+            Logger::Info(__LINE__, __FILE__, "url_path_error");
+            throw ServerException::RequestHandlerException("HttpParser Exception");
+        }
+    }
+
 
     // GET HANDLER
 
@@ -109,23 +127,7 @@ namespace RequestHandler {
 
     template<typename Body, typename Allocator, typename Send>
     void GETHandler<Body, Allocator, Send>::process_request() {
-        Logger::Info(__LINE__, __FILE__, "new request accepted");
-
-        // Try to read url path
-        try {
-            this->_url_path = HttpParser::define_page_type(this->_request.base().target().template to_string());
-        }
-        catch (HttpException::InvalidArguments& ec) {
-            // handle bad_request
-            Logger::Info(__LINE__, __FILE__, "bad_request");
-            HttpErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->_send), this->_request.version())->send_response();
-            return;
-        }
-        catch (...) {
-            // some other error
-            Logger::Info(__LINE__, __FILE__, "url_path_error");
-            throw ServerException::RequestHandlerException("HttpParser Exception");
-        }
+        this->define_type_by_path();
 
         // Send a request to the desired manager
         try {
@@ -137,10 +139,10 @@ namespace RequestHandler {
                 ::create_GetUserManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
             else if (this->_url_path == "auth")
                 AuthManagerCreator<Body, Allocator, Send>
-                ::create_GetAuthManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
+                ::create_AuthManager(std::move(this->_request), std::forward<Send>(this->_send))->auth_user();
         }
         catch (APIException::APIException& ec) {
-            throw ServerException::ServerException(ec);
+            HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->_send), this->_request.version())->send_response();
         }
         catch (...) {
             throw ServerException::RequestHandlerException("Not API exception in RequestHandler");
@@ -162,16 +164,24 @@ namespace RequestHandler {
 
     template<typename Body, typename Allocator, typename Send>
     void PUTHandler<Body, Allocator, Send>::process_request() {
-        Logger::Info(__LINE__, __FILE__, "new request accepted");
+        this->define_type_by_path();
 
-        if (boost::starts_with(this->_request.target(), "/page/"))
-            PageManagerCreator<Body, Allocator, Send>::create_GetPageManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
-        if (boost::starts_with(this->_request.target(), "/user/"))
-            UserManagerCreator<Body, Allocator, Send>::create_GetUserManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
-        if (boost::starts_with(this->_request.target(), "/auth/"))
-            AuthManagerCreator<Body, Allocator, Send>::create_GetAuthManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
+        // Send a request to the desired manager
+        try {
+            if (this->_url_path == "page")
+                PageManagerCreator<Body, Allocator, Send>
+                ::create_GetPageManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
+            else if (this->_url_path == "user")
+                UserManagerCreator<Body, Allocator, Send>
+                ::create_PutUserManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
+        }
+        catch (APIException::APIException& ec) {
+            HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->_send), this->_request.version())->send_response();
+        }
+        catch (...) {
+            throw ServerException::RequestHandlerException("Not API exception in RequestHandler");
+        }
     }
-
 
     // ----------------
 
