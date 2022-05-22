@@ -1,6 +1,20 @@
 #include "DB.h"
 #include "DB_tables_users.h"
 
+User::User()
+{}
+
+User::User(std::string nick, std::string pass, std::string email, std::string status)
+    : nickname(nick), password(pass), email(email), status(status)
+{
+
+}
+
+User::User(std::string nick)
+    :nickname(nick)
+{
+}
+
 void User::user_connect_DB() {
     database = new DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
 }
@@ -8,20 +22,31 @@ void User::user_connect_DB() {
 void User::user_close_connect() {
     database->Close();
 }
-void User::add_user (std::string nick, std::string pass, std::string email, std::string status) {
 
-    database->Insert("INSERT INTO users(nick,pass,email,status) VALUES (?, ?, ?, ?)", { "S:" + nick , "S:" + pass , "S:" + email, "S:" + status });
+void User::add_user () {
+
+    database->Insert("INSERT INTO users(nick,pass,email,status) VALUES (?, ?, ?, ?)", { "S:" + nickname , "S:" + password , "S:" + email, "S:" + status });
+    std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM users WHERE nick=?", { "S:" + nickname}, 1);
+    id = std::stoi(MyData[0][0]);
 }
 
+int User::get_user_ID_by_nick() {
+    std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM users WHERE nick=?", { "S:" + nickname}, 1);
+    id = std::stoi(MyData[0][0]);
+    return id;
+}
+
+/*
 std::vector<std::vector<std::string>> User::get_user_ID(std::string nick){
     return database->Get("SELECT id FROM users WHERE nick=?", { "S:" + nick}, 1);
 }
-std::vector<std::vector<std::string>> User::get_all_user_info(size_t id){
-    std::string ID = std::to_string(id);
-    return database->Get("SELECT * FROM users WHERE id=?", {"I:"+ ID}, 5);
+*/
+std::vector<std::vector<std::string>> User::get_all_user_info(){
+    //std::string ID = std::to_string(id);
+    return database->Get("SELECT * FROM users WHERE id=?", {"I:"+ id}, 5);
 }
 
-void User::delete_user(size_t id){
+void User::delete_user(int id){
     std::string ID = std::to_string(id);
     database->Delete("DELETE FROM users WHERE id=?", { "I:" + ID});
 }
