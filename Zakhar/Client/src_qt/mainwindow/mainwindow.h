@@ -19,7 +19,8 @@ class MainWindow : public QDialog
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+public slots:
+    void open_page(int page_num);
 private slots:
 
     void on_user_button_clicked();
@@ -33,6 +34,8 @@ private:
     CustomPage * custom_page;
     RecomPage * recom_page;
     TestPage * test_page;
+signals:
+    void signal(int);
 };
 
 #endif // MAINWINDOW_H

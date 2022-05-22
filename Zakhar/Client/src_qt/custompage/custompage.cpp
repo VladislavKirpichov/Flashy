@@ -6,14 +6,8 @@ CustomPage::CustomPage(QWidget *parent) :
     ui(new Ui::CustomPage)
 {
     ui->setupUi(this);
-}
-CustomPage::CustomPage(QWidget *parent, RecomPage * recom, TestPage * test) :
-    QWidget(parent),
-    ui(new Ui::CustomPage)
-{
-    ui->setupUi(this);
-    recom_page = recom;
-    test_page = test;
+    page_num = 3;
+    this->move(100,0);
 
 }
 
@@ -22,14 +16,21 @@ CustomPage::~CustomPage()
     delete ui;
 }
 
+void CustomPage::open_page(int _page_num)
+{
+    if(page_num == _page_num){
+        this->show();
+    } else {
+        this->hide();
+    }
+}
+
 void CustomPage::on_Similar_notes_button_clicked()
 {
-    this->hide();
-    recom_page->show();
+    emit open_page_signal(1);
 }
 
 void CustomPage::on_start_testing_button_clicked()
 {
-    this->hide();
-    test_page->show();
+    emit open_page_signal(2);
 }

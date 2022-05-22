@@ -14,9 +14,11 @@ class RecomPage : public QWidget
 public:
     explicit RecomPage(QWidget *parent = nullptr);
     ~RecomPage();
-
+public slots:
+    void open_page(int _page_num);
 private:
     Ui::RecomPage *ui;
+    int page_num;
 };
 
 #endif // RECOMPAGE_H

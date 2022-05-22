@@ -9,24 +9,26 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     recom_page = new RecomPage(this);
-    recom_page->move(100,0);
     recom_page->hide();
+    connect(this, &MainWindow::signal, recom_page, &RecomPage::open_page);
 
     test_page = new TestPage(this);
-    test_page->move(100,0);
     test_page->hide();
+    connect(this, &MainWindow::signal, test_page, &TestPage::open_page);
 
-    custom_page = new CustomPage(this, recom_page, test_page);
-    custom_page->move(100,0);
+    custom_page = new CustomPage(this);
     custom_page->hide();
+    connect(this, &MainWindow::signal, custom_page, &CustomPage::open_page);
+    connect(custom_page, &CustomPage::open_page_signal, this, &MainWindow::open_page);
 
-    main_page = new MainPage(this, custom_page);
-   // main_page->move(100,0);
+    main_page = new MainPage(this);
     main_page->show();
+    connect(this, &MainWindow::signal, main_page, &MainPage::open_page);
+    connect(main_page, &MainPage::open_page_signal, this, &MainWindow::open_page);
 
     user_page = new UserPage(this);
-    user_page->move(100,0);
     user_page->hide();
+    connect(this, &MainWindow::signal, user_page, &UserPage::open_page);
 
 
     this->show();
@@ -39,21 +41,18 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::open_page(int page_num)
+{
+    emit signal(page_num);
+}
+
 
 void MainWindow::on_user_button_clicked()
 {
-    custom_page->hide();
-    test_page->hide();
-    recom_page->hide();
-    main_page->hide();
-    user_page->show();
+    emit signal(5);
 }
 
 void MainWindow::on_flashy_button_clicked()
 {
-    custom_page->hide();
-    test_page->hide();
-    recom_page->hide();
-    user_page->hide();
-    main_page->show();
+    emit signal(4);
 }

@@ -14,9 +14,9 @@ class CustomPage : public QWidget
 
 public:
     explicit CustomPage(QWidget *parent = nullptr);
-    explicit CustomPage(QWidget *parent = nullptr, RecomPage * recom = nullptr, TestPage * test  = nullptr);
     ~CustomPage();
-
+public slots:
+    void open_page(int _page_num);
 private slots:
 
     void on_Similar_notes_button_clicked();
@@ -25,8 +25,9 @@ private slots:
 
 private:
     Ui::CustomPage *ui;
-    RecomPage * recom_page;
-    TestPage *test_page;
+    int page_num;
+signals:
+    void open_page_signal(int);
 };
 
 #endif // CUSTOMPAGE_H

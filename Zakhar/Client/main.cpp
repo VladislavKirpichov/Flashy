@@ -28,17 +28,18 @@ int main(int argc, char *argv[]) {
                                     "  \"notes_name\": [\"Example 1\", \"Example 2\"]\n"
                                     "}";
     std::string host = "127.0.0.1";
-//    User example;
-//    Serializer ser;
-//    net::io_context ioc;
-//    Manager::get_instance(ioc);
+    User example;
+    Serializer ser;
+    net::io_context ioc;
+    Manager::get_instance(ioc);
 //    std::string json_from_vlad =  Manager::get_instance(ioc)->get_json(host,port);
 //    example = ser.user_deserialize(json_from_vlad);
-//    std::cout << ser.user_serialize(example);
+    example = ser.user_deserialize(user_json_example);
+    std::cout << ser.user_serialize(example);
     QApplication a(argc, argv);
     StartPage w;
     w.show();
 
     return a.exec();
-    return 0;
+//    return 0;
 }

@@ -14,12 +14,14 @@ class TestPage : public QWidget
 public:
     explicit TestPage(QWidget *parent = nullptr);
     ~TestPage();
-
+public slots:
+    void open_page(int _page_num);
 private slots:
     void on_end_test_button_clicked();
 
 private:
     Ui::TestPage *ui;
+    int page_num;
 };
 
 #endif // TESTPAGE_H

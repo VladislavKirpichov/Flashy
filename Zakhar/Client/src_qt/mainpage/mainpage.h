@@ -2,7 +2,6 @@
 #define MAINPAGE_H
 
 #include <QWidget>
-#include "custompage.h"
 #include "page.h"
 namespace Ui {
 class MainPage;
@@ -14,9 +13,10 @@ class MainPage : public QWidget
 
 public:
     explicit MainPage(QWidget *parent = nullptr);
-    explicit MainPage(QWidget *parent = nullptr, CustomPage * custom = nullptr);
     ~MainPage();
 
+public slots:
+    void open_page(int _page_num);
 private slots:
     void on_add_page_button_clicked();
 
@@ -24,7 +24,9 @@ private slots:
 
 private:
     Ui::MainPage *ui;
-    CustomPage * custom_page;
+    int page_num;
+signals:
+    void open_page_signal(int);
 };
 
 #endif // MAINPAGE_H
