@@ -158,7 +158,7 @@ border-radius: 10px;</string>
      <string/>
     </property>
     <property name="placeholderText">
-     <string>Password</string>
+     <string>Repeat the password</string>
     </property>
    </widget>
    <widget class="QPushButton" name="create_acc_button">

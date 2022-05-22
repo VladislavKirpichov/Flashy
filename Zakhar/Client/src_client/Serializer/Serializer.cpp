@@ -9,12 +9,8 @@ User Serializer::user_deserialize(std::string json) {
     temp.set_name(root.get<std::string>("name"));
     temp.set_login(root.get<std::string>("login"));
     temp.set_password(root.get<std::string>("password"));
+    temp.set_status(root.get<std::string>("status"));
 
-    std::vector<unsigned short> categories;
-    for (boost::property_tree::ptree::value_type &category: root.get_child("categories")) {
-        categories.push_back(category.second.get_value<unsigned short>());
-    }
-    temp.set_categories(categories);
 
     std::vector<unsigned int> notes_id;
     for (boost::property_tree::ptree::value_type &note_id: root.get_child("notes_id")) {
@@ -37,7 +33,7 @@ std::string Serializer::user_serialize(User &user) {
                          "  \"name\": \"Boris\",\n"
                          "  \"login\": \"Boris17\",\n"
                          "  \"password\": \"Demon123\",\n"
-                         "  \"categories\": [ \"2\", \"3\"],\n"
+                         "  \"status\": \"Student\",\n"
                          "  \"notes_id\": [ \"12\", \"17\"],\n"
                          "  \"notes_name\": [\"Example 1\", \"Example 2\"]\n"
                          "}";
@@ -59,16 +55,9 @@ std::string Serializer::user_serialize(User &user) {
     res += user.get_password();
     res += "\",\n";
 
-    std::vector<unsigned short> temp_categories = user.get_categories();
-    res += "  \"categories\": [ ";
-    for(size_t i = 0; i < temp_categories.size(); i++){
-        res+= "\"";
-        res+= std::to_string(temp_categories[i]);
-        res+= "\"";
-        if(i<temp_categories.size()-1)
-            res+= ", ";
-    }
-    res += "],\n";
+    res += "  \"status\": \"";
+    res += user.get_status();
+    res += "\",\n";
 
     std::vector<unsigned int> temp_notes_id = user.get_notes_id();
     res += "  \"notes_id\": [ ";

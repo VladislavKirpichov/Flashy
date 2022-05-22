@@ -19,7 +19,7 @@ public:
 
     void set_password(const std::string &new_password);
 
-    void set_categories(const std::vector<unsigned short> &new_categories);
+    void set_status(const std::string &new_status);
 
     void set_notes_id(const std::vector<unsigned int> &new_notes_id);
 
@@ -32,7 +32,7 @@ public:
 
     std::string get_password();
 
-    std::vector<unsigned short> get_categories();
+    std::string get_status();
 
     std::vector<unsigned int> get_notes_id();
 
@@ -43,7 +43,7 @@ private:
     std::string name;
     std::string login;
     std::string password;
-    std::vector<unsigned short> categories;
+    std::string status;
     std::vector<unsigned int> notes_id;
     std::vector<std::string> notes_name;
 };

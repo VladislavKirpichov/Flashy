@@ -1,7 +1,5 @@
 #include "mainpage.h"
 #include "ui_mainpage.h"
-#include "custompage.h"
-#include "page.h"
 
 MainPage::MainPage(QWidget *parent):
     QWidget(parent),

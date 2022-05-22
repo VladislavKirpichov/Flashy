@@ -25,6 +25,11 @@ void CustomPage::open_page(int _page_num)
     }
 }
 
+void CustomPage::save_text(QString new_text)
+{
+    ui->text_field->setText(new_text);
+}
+
 void CustomPage::on_Similar_notes_button_clicked()
 {
     emit open_page_signal(1);
@@ -33,4 +38,9 @@ void CustomPage::on_Similar_notes_button_clicked()
 void CustomPage::on_start_testing_button_clicked()
 {
     emit open_page_signal(2);
+}
+
+void CustomPage::on_edit_button_clicked()
+{
+    emit open_page_signal(6);
 }

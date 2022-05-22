@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
                                     "  \"name\": \"Boris\",\n"
                                     "  \"login\": \"Boris17\",\n"
                                     "  \"password\": \"Demon123\",\n"
-                                    "  \"categories\": [ \"2\", \"3\"],\n"
+                                    "  \"status\": \"Student\",\n"
                                     "  \"notes_id\": [ \"12\", \"17\"],\n"
                                     "  \"notes_name\": [\"Example 1\", \"Example 2\"]\n"
                                     "}";
@@ -31,15 +31,15 @@ int main(int argc, char *argv[]) {
     User example;
     Serializer ser;
     net::io_context ioc;
-    Manager::get_instance(ioc);
-//    std::string json_from_vlad =  Manager::get_instance(ioc)->get_json(host,port);
-//    example = ser.user_deserialize(json_from_vlad);
-    example = ser.user_deserialize(user_json_example);
-    std::cout << ser.user_serialize(example);
+    std::string json_from_vlad =  Manager::get_instance_initial(ioc)->get_json(host,port);
+    example = ser.user_deserialize(json_from_vlad);
+//    example = ser.user_deserialize(user_json_example);
+    Manager::get_instance()->change_user(example);
+//    Manager::get_instance()->get_user_from_server(host,port);
     QApplication a(argc, argv);
     StartPage w;
     w.show();
-
+    std::cout << example.get_name();
     return a.exec();
 //    return 0;
 }

@@ -22,6 +22,8 @@ private slots:
 private:
     Ui::TestPage *ui;
     int page_num;
+signals:
+    void open_page_signal(int);
 };
 
 #endif // TESTPAGE_H

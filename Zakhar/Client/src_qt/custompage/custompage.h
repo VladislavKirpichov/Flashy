@@ -2,8 +2,6 @@
 #define CUSTOMPAGE_H
 
 #include <QWidget>
-#include "recompage.h"
-#include "testpage.h"
 namespace Ui {
 class CustomPage;
 }
@@ -17,11 +15,14 @@ public:
     ~CustomPage();
 public slots:
     void open_page(int _page_num);
+    void save_text(QString new_text);
 private slots:
 
     void on_Similar_notes_button_clicked();
 
     void on_start_testing_button_clicked();
+
+    void on_edit_button_clicked();
 
 private:
     Ui::CustomPage *ui;

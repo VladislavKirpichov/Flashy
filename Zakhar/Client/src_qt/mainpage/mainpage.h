@@ -2,7 +2,6 @@
 #define MAINPAGE_H
 
 #include <QWidget>
-#include "page.h"
 namespace Ui {
 class MainPage;
 }

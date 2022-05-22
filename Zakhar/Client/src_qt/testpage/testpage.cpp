@@ -26,5 +26,5 @@ void TestPage::open_page(int _page_num)
 
 void TestPage::on_end_test_button_clicked()
 {
-
+    emit open_page_signal(3);
 }

@@ -1,14 +1,20 @@
 #include "Manager.h"
-Manager::Manager(net::io_context &ioc): client(HTTPClient(ioc))
-{}
+Manager::Manager(net::io_context &ioc): client(HTTPClient(ioc)){}
 std::string Manager::get_json(const std::string& host,const unsigned short& port){
    return  client.get_response(host, port);
 }
+void Manager::get_user_from_server(const std::string& host,const unsigned short& port){
+    current_user = serializer.user_deserialize(get_json(host, port));
+}
+void Manager::auth(std::string login, std::string password){}
+void Manager::reg(std::string login, std::string password){}
+void Manager::get_page(std::string page_id){}
+void Manager::update(std::string update_message){}
 
-void Manager::Auth(std::string Login, std::string Password){}
-void Manager::Reg(std::string Login, std::string Password){}
-void Manager::Get_Page(std::string page_id){}
-void Manager::Update(std::string Update_message){}
-void Manager::ChangeUser(const User & new_user){
+User Manager::get_user()
+{
+    return current_user;
+}
+void Manager::change_user(const User & new_user){
     current_user = new_user;
 }

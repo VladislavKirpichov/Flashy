@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
-
+#include "Manager.h"
 MainWindow::MainWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MainWindow)
@@ -15,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     test_page = new TestPage(this);
     test_page->hide();
     connect(this, &MainWindow::signal, test_page, &TestPage::open_page);
+    connect(test_page, &TestPage::open_page_signal, this, &MainWindow::open_page);
 
     custom_page = new CustomPage(this);
     custom_page->hide();
@@ -30,7 +30,16 @@ MainWindow::MainWindow(QWidget *parent) :
     user_page->hide();
     connect(this, &MainWindow::signal, user_page, &UserPage::open_page);
 
+    edit_page = new EditPage(this);
+    edit_page->hide();
+    connect(this, &MainWindow::signal, edit_page, &EditPage::open_page);
+    connect(edit_page, &EditPage::open_page_signal, this, &MainWindow::open_page);
 
+    connect(edit_page, &EditPage::save_text_signal, custom_page, &CustomPage::save_text);
+
+
+    connect(this, &MainWindow::user_signal, user_page, &UserPage::get_data);
+    update();
     this->show();
 
 
@@ -39,6 +48,21 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+UserPage *MainWindow::get_page()
+{
+    return user_page;
+}
+
+void MainWindow::update()
+{
+    QString _name = (Manager::get_instance()->get_user().get_name()).c_str();
+    QString _login = (Manager::get_instance()->get_user().get_login()).c_str();
+    QString _password = (Manager::get_instance()->get_user().get_password()).c_str();
+
+    ui->user_button->setText(_name);
+    emit user_signal(_name, _login, _password);
 }
 
 void MainWindow::open_page(int page_num)

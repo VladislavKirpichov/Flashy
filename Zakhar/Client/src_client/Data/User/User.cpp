@@ -23,8 +23,8 @@ void User::set_password(const std::string &new_password){
     password = new_password;
 }
 
-void User::set_categories(const std::vector<unsigned short> &new_categories){
-    categories = new_categories;
+void User::set_status(const std::string &new_status){
+    status = new_status;
 }
 
 void User::set_notes_id(const std::vector<unsigned int> &new_notes_id){
@@ -52,8 +52,8 @@ std::string User::get_password() {
     return password;
 }
 
-std::vector<unsigned short> User::get_categories() {
-    return categories;
+std::string User::get_status() {
+    return status;
 }
 
 std::vector<unsigned int> User::get_notes_id() {

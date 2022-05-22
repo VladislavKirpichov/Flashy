@@ -8,6 +8,7 @@
 #include "custompage.h"
 #include "recompage.h"
 #include "testpage.h"
+#include "editpage.h"
 namespace Ui {
 class MainWindow;
 }
@@ -19,6 +20,8 @@ class MainWindow : public QDialog
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    UserPage * get_page();
+    void update();
 public slots:
     void open_page(int page_num);
 private slots:
@@ -34,8 +37,10 @@ private:
     CustomPage * custom_page;
     RecomPage * recom_page;
     TestPage * test_page;
+    EditPage * edit_page;
 signals:
     void signal(int);
+    void user_signal(QString, QString, QString);
 };
 
 #endif // MAINWINDOW_H
