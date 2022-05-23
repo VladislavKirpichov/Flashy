@@ -7,6 +7,7 @@ file(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/data)
 
 # add libs
 add_subdirectory(libs/DB)
+add_subdirectory(libs/Logger)
 add_subdirectory(libs/exceptions)
 add_subdirectory(libs/json)
 add_subdirectory(libs/http_parser)
@@ -18,6 +19,7 @@ add_executable(${PROJECT_NAME} main.cpp)
 
 # link libs
 target_link_libraries(${PROJECT_NAME} PUBLIC DB_LIB)
+target_link_libraries(${PROJECT_NAME} PUBLIC LOGGER)
 target_link_libraries(${PROJECT_NAME} PUBLIC EXCEPTIONS)
 target_link_libraries(${PROJECT_NAME} PUBLIC JSON)
 target_link_libraries(${PROJECT_NAME} PUBLIC HTTP)

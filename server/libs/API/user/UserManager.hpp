@@ -15,7 +15,7 @@
 #include <memory>
 #include <string>
 
-#include "Logger.hpp"
+#include "../../Logger/Logger.hpp"
 #include "IManager.hpp"
 #include "JsonSerializer.h"
 #include "HttpParser.h"
@@ -99,7 +99,6 @@ public:
     void handle_request() final;
 
 protected:
-    std::vector<std::tuple<std::string, std::string>> get_args_url();
     void set_flags(http::response<http::string_body>&) override;
 };
 
@@ -109,13 +108,6 @@ void GetUserManager<Body, Allocator, Send>::set_flags(http::response<http::strin
     response.set(http::field::content_type, "text/json");
     response.keep_alive(this->get_request_keep_alive());
     response.content_length(response.body().size());
-}
-
-template<typename Body, typename Allocator, typename Send>
-std::vector<std::tuple<std::string, std::string>> GetUserManager<Body, Allocator, Send>::get_args_url() {
-    std::vector<std::tuple<std::string, std::string>> args{};
-    args = HttpParser::define_args(this->get_request_target());
-    return args;
 }
 
 template<typename Body, typename Allocator, typename Send>
@@ -134,21 +126,23 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
         return;
     }
 
-    // I - поставится вместо ?, 3 - кол-во столбцов
-    // 3306
-    // TODO: исправить работу БД
-    // на данный момень сервер падает здесь
-//    try {
-//        DB *db = new DB("LAPTOP-9KQ1QFS1.local", "3306", "vladislav", "9192435969v", "Flashy");
-//        std::vector<std::vector<std::string>> MyData{};
-//        MyData = db->Get("SELECT FROM users WHERE id=?", {"I:4"}, 5);
-//        db->Close();
-//    }
-//    catch (...) {
-//        Logger::Critical(__LINE__, __FILE__, "DB error");
-//        HttpServerErrorCreator<Send>::create_internal_server_error_500(std::move(this->get_send()), this->get_request_version())->send_response();
-//        throw std::exception();
-//    }
+    /*
+     I - поставится вместо ?, 3 - кол-во столбцов
+     3306
+     TODO: исправить работу БД
+     на данный момень сервер падает здесь
+    try {
+        DB *db = new DB("LAPTOP-9KQ1QFS1.local", "3306", "vladislav", "9192435969v", "Flashy");
+        std::vector<std::vector<std::string>> MyData{};
+        MyData = db->Get("SELECT FROM users WHERE id=?", {"I:4"}, 5);
+        db->Close();
+    }
+    catch (...) {
+        Logger::Critical(__LINE__, __FILE__, "DB error");
+        HttpServerErrorCreator<Send>::create_internal_server_error_500(std::move(this->get_send()), this->get_request_version())->send_response();
+        throw std::exception();
+    }
+    */
 
     // Find user by id
     // TODO: взять информацию о пользователе из БД
@@ -254,13 +248,13 @@ std::vector<std::vector<std::string>> PutUserManager<Body, Allocator, Send>::get
 template<typename Body, typename Allocator, typename Send>
 class PostUserManager : public IUserManager<Body, Allocator, Send> {
 public:
-    using IUserManager<Body, Allocator, Send>::IManager;
+    using IUserManager<Body, Allocator, Send>::IUserManager;
     void handle_request() final;
 };
 
 template<typename Body, typename Allocator, typename Send>
 void PostUserManager<Body, Allocator, Send>::handle_request() {
-    std::vector<std::vector<std::string>> request_data = this->get_request_data();
+    std::string request_data = this->get_request_body_data();
 
     // TODO: Положить данные в базу
     //  Ссылка с описанием методов: https://www.boost.org/doc/libs/1_67_0/boost/beast/http/verb.hpp

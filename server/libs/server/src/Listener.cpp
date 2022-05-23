@@ -11,7 +11,7 @@
 #include <boost/asio/strand.hpp>
 
 #include "API_Gateway.hpp"
-#include "Logger.hpp"
+#include "../../Logger/Logger.hpp"
 #include "Exceptions.h"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>

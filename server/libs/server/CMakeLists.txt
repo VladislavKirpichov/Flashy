@@ -3,7 +3,6 @@ project(server)
 set(SRC src/Listener.cpp
         src/Server.cpp)
 set(INCLUDE include/API_Gateway.hpp
-            include/Logger.hpp
             include/RequestHandler.hpp
             include/Server.h
             include/Listener.h
@@ -22,9 +21,7 @@ target_include_directories(${PROJECT_NAME}
 )
 
 # libs
-target_link_libraries(${PROJECT_NAME} PUBLIC API)
-target_link_libraries(${PROJECT_NAME} PUBLIC HTTP)
-target_link_libraries(${PROJECT_NAME} PUBLIC HTTP_ERRORS_RESPONSE)
+target_link_libraries(${PROJECT_NAME} PUBLIC API HTTP HTTP_ERRORS_RESPONSE LOGGER)
 
 # Packages
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})

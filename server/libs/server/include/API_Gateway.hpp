@@ -24,7 +24,7 @@
 #include <tuple>
 
 #include "RequestHandler.hpp"
-#include "Logger.hpp"
+#include "../../Logger/Logger.hpp"
 #include "Exceptions.h"
 #include "HttpClientErrorCreator.hpp"
 
@@ -125,13 +125,13 @@ void API_Gateway::handle_request() {
     //  Добавить обработку HEAD, PUT, POST, DELETE
     try {
         if (_request.method() == http::verb::get) {
-            std::make_unique<RequestHandler::GETHandler<http::dynamic_body, std::allocator<char>, Send>>(std::move(_request), std::forward<Send>(send))->process_request();
+            std::make_unique<GetHandler<http::dynamic_body, std::allocator<char>, Send>>(std::move(_request), std::forward<Send>(send))->process_request();
         }
         else if (_request.method() == http::verb::put) {
-            std::make_unique<RequestHandler::PUTHandler<http::dynamic_body, std::allocator<char>, Send>>(std::move(_request), std::forward<Send>(send))->process_request();
+            std::make_unique<PutHandler<http::dynamic_body, std::allocator<char>, Send>>(std::move(_request), std::forward<Send>(send))->process_request();
         }
         else if (_request.method() == http::verb::post) {
-            // ...
+            std::make_unique<PostHandler<http::dynamic_body, std::allocator<char>, Send>>(std::move(_request), std::forward<Send>(send))->process_request();
         }
         else if (_request.method() == http::verb::delete_) {
             // ...

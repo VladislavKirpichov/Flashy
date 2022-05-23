@@ -42,17 +42,17 @@ namespace HttpException {
 
     class NotDefinedType : public HttpException {
     public:
+        NotDefinedType() : HttpException("Not Defined Type\n") {}
         using HttpException::HttpException;
-        NotDefinedType() : HttpException("Not Defined Type") {}
     };
 
     class InvalidArguments : public HttpException {
     public:
+        InvalidArguments() : HttpException("Invalid Arguments\n") {}
         using HttpException::HttpException;
-        InvalidArguments() : HttpException("Invalid Arguments") {}
     };
 
-}   // namespace HttpException
+}
 
 
 // ---------- LAYER 3.2 | JSON ----------
@@ -77,7 +77,6 @@ namespace JsonException {
 
 // ---------- LAYER 2 | API ----------
 
-// TODO: Изменить классы дочерние от APIException
 
 namespace APIException {
     using HttpException = HttpException::HttpException;
@@ -89,7 +88,7 @@ namespace APIException {
         using std::runtime_error::runtime_error;
 
         APIException()
-            : std::runtime_error("API Exception"),
+            : std::runtime_error("API Exception\n"),
               http_exception("\0"),
               json_exception("\0") {}
 
@@ -99,30 +98,24 @@ namespace APIException {
                   json_exception("\0") {}
 
         explicit APIException(const std::string& msg)
-                : std::runtime_error(msg),
+                : std::runtime_error(std::string("API Exception: ") + msg),
                   http_exception("\0"),
                   json_exception("\0") {}
 
         APIException(const char *msg, const HttpException &http_exception, const JsonException& json_exception)
-                : std::runtime_error(msg),
+                : std::runtime_error(std::string("API Exception: ") + std::string(msg)),
                   http_exception(http_exception.what()),
                   json_exception(json_exception.what()) {}
 
         APIException(const std::string& msg, const HttpException &http_exception, const JsonException& json_exception)
-                : std::runtime_error(msg),
+                : std::runtime_error(std::string("API Exception: ") + msg),
                   http_exception(http_exception.what()),
                   json_exception(json_exception.what()) {}
 
         APIException(APIException& api_exception)
-            : std::runtime_error(api_exception.what()),
+            : std::runtime_error(std::string(api_exception.what()) + std::string("another APIException\n")),
               http_exception("\0"),
               json_exception("\0") {}
-
-        [[nodiscard]] const char *what() const noexcept {
-            http_exception.what();
-            json_exception.what();
-            return "API Exception\n";
-        }
 
     protected:
         HttpException http_exception;
@@ -131,49 +124,29 @@ namespace APIException {
 
     class AuthException : public APIException{
     public:
+        AuthException() : APIException("API Exception: auth exception\n") {}
         using APIException::APIException;
-
-        const char *what() const noexcept {
-            http_exception.what();
-            json_exception.what();
-            return "API Exception: auth exception\n";
-        }
     };
 
     class PageException : public APIException{
     public:
+        PageException() : APIException("API Exception: page exception\n") {}
         using APIException::APIException;
-
-        const char *what() const noexcept {
-            http_exception.what();
-            json_exception.what();
-            return "API Exception: page exception\n";
-        }
     };
 
     class UserException : public APIException{
     public:
+        UserException() : APIException("API Exception: user exception\n") {}
         using APIException::APIException;
-
-        const char *what() const noexcept {
-            http_exception.what();
-            json_exception.what();
-            return "API Exception: user exception\n";
-        }
     };
 
     class TestsException : public APIException{
     public:
+        TestsException() : APIException("API Exception: tests exception\n") {}
         using APIException::APIException;
-
-        [[nodiscard]] const char *what() const noexcept override {
-            http_exception.what();
-            json_exception.what();
-            return "API Exception: tests exception\n";
-        }
     };
 
-}   // namespace APIException
+}
 
 
 // ---------- LAYER 1 | SERVER ----------
@@ -257,7 +230,7 @@ namespace ServerException {
     };
 
 
-}   // namespace ServerException
+}
 
 
 #endif //SERVER_V0_1_ERRORS_H

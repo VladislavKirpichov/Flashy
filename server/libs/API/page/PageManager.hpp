@@ -28,6 +28,15 @@ using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 using error_code = boost::system::error_code;
 
 
+// --------------- SAMPLE DATA ---------------
+std::vector<std::vector<std::string>> data {
+        {"headline", "Test Page"},
+        {"page_id", "1"},
+        {"tests_id", "1", "2", "3", "4"}
+};
+// --------------------------------------------
+
+
 template<typename Body, typename Allocator, typename Send>
 class IPageManager : public IManager<Body, Allocator, Send> {
 public:
@@ -56,7 +65,7 @@ template<typename Body, typename Allocator, typename Send>
 class GetPageManager : public IPageManager<Body, Allocator, Send> {
 public:
     using IPageManager<Body, Allocator, Send>::IPageManager;
-    void handle_request() final;
+    virtual void handle_request() final;
 
 protected:
     void set_flags(http::response<http::string_body> &response) noexcept override;
@@ -72,11 +81,6 @@ void GetPageManager<Body, Allocator, Send>::set_flags(http::response<http::strin
 
 template<typename Body, typename Allocator, typename Send>
 void GetPageManager<Body, Allocator, Send>::handle_request() {
-    std::vector<std::vector<std::string>> data {
-            {"headline", "Test Page"},
-            {"page_id", "1"},
-            {"tests_id", "1", "2", "3", "4"}
-    };
     http::response<http::string_body> response{http::status::ok, this->get_request_version()};
 
     // TODO: брать данные из БД
@@ -128,18 +132,13 @@ public:
 
 template<typename Body, typename Allocator, typename Send>
 void PutPageManager<Body, Allocator, Send>::handle_request() {
-    std::vector<std::vector<std::string>> data {
-            {"headline", "Test Page"},
-            {"page_id", "1"},
-            {"tests_id", "1", "2", "3", "4"}
-    };
-
     http::file_body::value_type body;
 
-    // TODO:  отправка данных в БД
+    // TODO: отправка данных в БД
 
     return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
 }
+
 
 // POST
 
@@ -153,22 +152,11 @@ public:
 
 template<typename Body, typename Allocator, typename Send>
 void PostPageManager<Body, Allocator, Send>::handle_request() {
-    std::vector<std::vector<std::string>> data {
-            {"headline", "Test Page"},
-            {"page_id", "1"},
-            {"tests_id", "1", "2", "3", "4"}
-    };
-
     http::file_body::value_type body;
 
-    http::response<http::string_body> res{http::status::ok, this->get_request_version()};
-    res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-    res.set(http::field::content_type, "text/json");
-    res.body() = JsonSerializer::serialize(data);
-    res.content_length(res.body().size());
-    res.keep_alive(this->get_request_keep_alive());
+    // TODO: отправка данных в БД
 
-    return this->get_send()(std::move(res));
+    return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
 }
 
 
@@ -184,22 +172,11 @@ public:
 
 template<typename Body, typename Allocator, typename Send>
 void DeletePageManager<Body, Allocator, Send>::handle_request() {
-    std::vector<std::vector<std::string>> data {
-            {"headline", "Test Page"},
-            {"page_id", "1"},
-            {"tests_id", "1", "2", "3", "4"}
-    };
-
     http::file_body::value_type body;
 
-    http::response<http::string_body> res{http::status::ok, this->get_request_version()};
-    res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-    res.set(http::field::content_type, "text/json");
-    res.body() = JsonSerializer::serialize(data);
-    res.content_length(res.body().size());
-    res.keep_alive(this->get_request_keep_alive());
+    // TODO: отправка данных в БД
 
-    return this->get_send()(std::move(res));
+    return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
 }
 
 #endif //SERVER_V0_1_PAGEMANAGER_HPP
