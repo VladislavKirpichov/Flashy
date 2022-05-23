@@ -100,9 +100,9 @@ private:
     Send send{*this};
 };
 
-API_Gateway::API_Gateway(boost::asio::io_context &&ioc, tcp::socket &&socket):
-        _resolver(ioc),
-        _stream(std::move(socket)) {}
+API_Gateway::API_Gateway(boost::asio::io_context &&ioc, tcp::socket &&socket)
+    : _resolver(ioc),
+      _stream(std::move(socket)) {}
 
 void API_Gateway::read_request() {
     Logger::Info(__LINE__, __FILE__, "handle_request");
@@ -147,7 +147,6 @@ void API_Gateway::handle_request() {
         Logger::Error(__LINE__, __FILE__, ec.what());
         throw ServerException::APIGatewayException(ec);
     }
-
 }
 
 void API_Gateway::close_connection() {

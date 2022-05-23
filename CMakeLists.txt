@@ -6,3 +6,9 @@ set(CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR};${CMAKE_MODULE_PATH}")
 
 set(CMAKE_EXE_LINKER_FLAGS "-pthread")
 add_subdirectory(server)
+
+enable_testing()
+
+find_package(GTest REQUIRED)
+
+add_subdirectory(tests)
