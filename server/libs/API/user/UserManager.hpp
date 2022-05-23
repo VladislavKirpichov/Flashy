@@ -21,6 +21,7 @@
 #include "HttpParser.h"
 #include "HttpSuccessCreator.hpp"
 #include "HttpClientErrorCreator.hpp"
+#include "HttpServerErrorCreator.hpp"
 #include "Exceptions.h"
 #include "DB.h"
 
@@ -134,18 +135,19 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
 
     // I - поставится вместо ?, 3 - кол-во столбцов
     // 3306
-    DB *db = new DB("LAPTOP-9KQ1QFS1.local", "3306", "vladislav", ".", "Flashy");
-
-    std::vector<std::vector<std::string>> MyData{};
-    MyData = db->Get("SELECT FROM users WHERE id=?", {"I:4"}, 5);
-
-    db->Close();
-
-    for (int a = 0; a < MyData.size(); a++) {
-        for (int c = 0; c < MyData[a].size(); c++) {
-            std::cout << MyData[a][c] + " - ";
-        } std::cout << " " << std::endl;
-    }
+    // TODO: исправить работу БД
+    // на данный момень сервер падает здесь
+//    try {
+//        DB *db = new DB("LAPTOP-9KQ1QFS1.local", "3306", "vladislav", "9192435969v", "Flashy");
+//        std::vector<std::vector<std::string>> MyData{};
+//        MyData = db->Get("SELECT FROM users WHERE id=?", {"I:4"}, 5);
+//        db->Close();
+//    }
+//    catch (...) {
+//        Logger::Critical(__LINE__, __FILE__, "DB error");
+//        HttpServerErrorCreator<Send>::create_internal_server_error_500(std::move(this->get_send()), this->get_request_version())->send_response();
+//        throw std::exception();
+//    }
 
     // Find user by id
     // TODO: взять информацию о пользователе из БД

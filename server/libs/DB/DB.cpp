@@ -88,6 +88,7 @@ DB::Get(std::string query, std::vector<std::string> params, int RowSize) {
 	std::vector <std::string> tmp;
 	std::vector <std::vector<std::string>> tmp2;
 	try {
+        // SEGFAULT на данной строчке
 		prep_stmt = con->prepareStatement(query);
 		int b = 1;
 		for (int a = 0; a < params.size(); a++) {

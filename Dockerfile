@@ -30,7 +30,7 @@ RUN cd cmake-build-debug && \
 
 # ---------------
 
-# ERROR: CMake Error at src/CMakeLists.txt:5 (find_package):
+# ERROR: CMake Error at server/CMakeLists.txt:5 (find_package):
 # By not providing "Findnlohmann_json.cmake" in CMAKE_MODULE_PATH this
 #  project has asked CMake to find a package configuration file provided by
 #  "nlohmann_json", but CMake did not find one.
@@ -45,7 +45,7 @@ RUN cd cmake-build-debug && \
 
 # build server
 RUN cmake . && \
-    cd cmake-build-debug/src
+    cd cmake-build-debug/server
 
 EXPOSE 8080
 
