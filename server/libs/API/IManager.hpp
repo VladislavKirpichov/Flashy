@@ -16,7 +16,7 @@ public:
           _request(std::move(request)) {}
 
 protected:
-    virtual unsigned int get_request_version();
+    virtual unsigned get_request_version();
     virtual std::string get_request_target();
     virtual std::string get_request_body_data();
     virtual bool get_request_keep_alive();
@@ -29,8 +29,8 @@ private:
 };
 
 template<typename Body, typename Allocator, typename Send>
-unsigned int IManager<Body, Allocator, Send>::get_request_version() {
-    this->_request.version();
+unsigned IManager<Body, Allocator, Send>::get_request_version() {
+    return this->_request.version();
 }
 
 template<typename Body, typename Allocator, typename Send>
@@ -45,7 +45,7 @@ std::string IManager<Body, Allocator, Send>::get_request_body_data() {
 
 template<typename Body, typename Allocator, typename Send>
 bool IManager<Body, Allocator, Send>::get_request_keep_alive() {
-    return this->_request.version();
+    return this->_request.keep_alive();
 }
 
 template<typename Body, typename Allocator, typename Send>

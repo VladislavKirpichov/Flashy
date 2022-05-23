@@ -7,7 +7,6 @@ file(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/data)
 
 # add libs
 add_subdirectory(libs/DB)
-add_subdirectory(libs/nlohmann)
 add_subdirectory(libs/exceptions)
 add_subdirectory(libs/json)
 add_subdirectory(libs/http_parser)
@@ -28,4 +27,4 @@ target_link_libraries(${PROJECT_NAME} PUBLIC server)
 
 # Packages
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann)
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)

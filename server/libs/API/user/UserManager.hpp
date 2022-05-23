@@ -23,7 +23,7 @@
 #include "HttpClientErrorCreator.hpp"
 #include "HttpServerErrorCreator.hpp"
 #include "Exceptions.h"
-#include "DB.h"
+
 
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
@@ -82,6 +82,7 @@ void IUserManager<Body, Allocator, Send>::set_flags(http::response<http::string_
     response.set(http::field::server, BOOST_BEAST_VERSION_STRING);
     response.set(http::field::content_type, "text/text");
     response.keep_alive(this->get_request_keep_alive());
+    response.content_length(response.body().size());
 }
 
 
@@ -107,6 +108,7 @@ void GetUserManager<Body, Allocator, Send>::set_flags(http::response<http::strin
     response.set(http::field::server, BOOST_BEAST_VERSION_STRING);
     response.set(http::field::content_type, "text/json");
     response.keep_alive(this->get_request_keep_alive());
+    response.content_length(response.body().size());
 }
 
 template<typename Body, typename Allocator, typename Send>
@@ -119,19 +121,18 @@ std::vector<std::tuple<std::string, std::string>> GetUserManager<Body, Allocator
 template<typename Body, typename Allocator, typename Send>
 void GetUserManager<Body, Allocator, Send>::handle_request() {
     http::response<http::string_body> response{ http::status::ok, this->get_request_version()};
-    std::vector<std::tuple<std::string, std::string>> args{};
+    std::unordered_map<std::string, std::string> args{};
 
     // Try to get args from url
     try {
-        args = this->get_args_url();
+        args = HttpParser::define_args_map(this->get_request_target());
+        // args = this->get_args_url();
     }
     catch (HttpException::InvalidArguments& ec) {
         Logger::Error(__LINE__, __FILE__, ec.what());
         HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->get_send()), this->get_request_version())->send_response();
         return;
     }
-
-    this->set_flags(response);
 
     // I - поставится вместо ?, 3 - кол-во столбцов
     // 3306
@@ -154,31 +155,39 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
     // this->find_user_in_db();
 
     try {
-        if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "1")
+        if (args.at("id") == "1")
             response.body() = JsonSerializer::serialize(USER_1);
 
-        else if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "2")
+        else if (args.at("id") == "2")
             response.body() = JsonSerializer::serialize(USER_2);
 
-        else if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "3")
+        else if (args.at("id") == "3")
             response.body() = JsonSerializer::serialize(USER_3);
 
-        else if (std::get<0>(args[0]) == "id" && std::get<1>(args[0]) == "4")
+        else if (args.at("id") == "4")
             response.body() = JsonSerializer::serialize(USER_4);
 
         else
             throw APIException::UserException("user not found");
     }
     catch (JsonException::JsonException& ec) {
-        // TODO: написать обработчик
+        HttpServerErrorCreator<Send>
+                ::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
+    // if in request we have no "id"
+    catch (std::out_of_range& ec) {
+        HttpClientErrorCreator<Send>
+                ::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
         return;
     }
     catch (APIException::UserException& ec) {
-        // TODO: написат обработчик
+        HttpClientErrorCreator<Send>
+                ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
         return;
     }
 
-    response.content_length(response.body().size());
+    this->set_flags(response);
 
     return this->get_send()(std::move(response));
 }
@@ -204,7 +213,13 @@ protected:
 
 template<typename Body, typename Allocator, typename Send>
 void PutUserManager<Body, Allocator, Send>::handle_request() {
-    std::vector<std::vector<std::string>> request_data = this->get_request_data_in_vector();
+    try {
+        std::vector<std::vector<std::string>> request_data = this->get_request_data_in_vector();
+    }
+    catch (JsonException::JsonException& ec) {
+        HttpServerErrorCreator<Send>::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
 
     // TODO: Положить данные в базу
     //  Ссылка с описанием методов: https://www.boost.org/doc/libs/1_67_0/boost/beast/http/verb.hpp

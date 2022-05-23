@@ -7,6 +7,8 @@
 
 #include <stdexcept>
 #include <boost/system/error_code.hpp>
+#include "nlohmann/json.hpp"
+#include "nlohmann/detail/exceptions.hpp"
 
 
 // ---------- LAYER 4 | DB ----------
@@ -62,10 +64,15 @@ namespace JsonException {
     class JsonException : public std::runtime_error {
     public:
         JsonException() : std::runtime_error("Json Exception") {}
-        explicit JsonException(std::string& msg) : std::runtime_error(msg) {}
+
+        explicit JsonException(nlohmann::json::exception &ec) : std::runtime_error(
+                std::string("nlohmann json error: ") + ec.what()) {}
+
+        explicit JsonException(std::string &msg) : std::runtime_error(msg) {}
+
         using std::runtime_error::runtime_error;
     };
-}   // namespace JsonException
+}
 
 
 // ---------- LAYER 2 | API ----------

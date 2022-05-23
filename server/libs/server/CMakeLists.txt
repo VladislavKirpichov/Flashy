@@ -28,4 +28,4 @@ target_link_libraries(${PROJECT_NAME} PUBLIC HTTP_ERRORS_RESPONSE)
 
 # Packages
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann)
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)

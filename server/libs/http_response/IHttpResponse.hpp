@@ -40,7 +40,7 @@ void IHttpResponse<Body, Send>::set_response_filds(http::response<http::string_b
 
 template<typename Body, typename Send>
 unsigned int IHttpResponse<Body, Send>::get_response_version() {
-    this->_response_version;
+    return this->_response_version;
 }
 
 #endif //SERVER_V0_1_IHTTPRESPONSE_HPP

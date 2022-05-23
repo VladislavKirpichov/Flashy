@@ -5,16 +5,14 @@ WORKDIR /server
 RUN apt update -y && \
     apt install -y cppcheck clang-tidy libc6-dbg cmake
 
-RUN apt-get update -y && \
-    apt-get -y install python3-pip && \
+RUN apt-get -y install python3-pip && \
     pip install cpplint
 
 # instsall conan
 RUN pip install conan
 
 # install boost
-RUN apt-get update -y && \
-    apt-get -y install libboost-all-dev
+RUN apt-get -y install libboost-all-dev
 
 # copy files from project
 COPY . .

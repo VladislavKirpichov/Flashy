@@ -13,4 +13,4 @@ target_link_libraries(${PROJECT_NAME} INTERFACE DB_LIB)
 
 # Packages
 target_link_libraries(${PROJECT_NAME} INTERFACE ${Boost_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} INTERFACE nlohmann)
+target_link_libraries(${PROJECT_NAME} INTERFACE nlohmann_json::nlohmann_json)

@@ -13,6 +13,7 @@ class HttpParser {
 public:
     static std::string_view define_page_type(const std::string& url_path);
     static std::vector<std::tuple<std::string , std::string>> define_args(const std::string& url_path);
+    static std::unordered_map<std::string, std::string> define_args_map(const std::string& url_path);
 };
 
 

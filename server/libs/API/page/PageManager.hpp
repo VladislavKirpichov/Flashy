@@ -16,6 +16,9 @@
 #include <string>
 
 #include "IManager.hpp"
+#include "Exceptions.h"
+#include "HttpSuccessCreator.hpp"
+#include "HttpServerErrorCreator.hpp"
 #include "JsonSerializer.h"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
@@ -30,10 +33,23 @@ class IPageManager : public IManager<Body, Allocator, Send> {
 public:
     using IManager<Body, Allocator, Send>::IManager;
     virtual void handle_request() = 0;
+
+protected:
+    virtual void set_flags(http::response<http::string_body>& response);
 };
 
+template<typename Body, typename Allocator, typename Send>
+void IPageManager<Body, Allocator, Send>::set_flags(http::response<http::string_body>& response) {
+    response.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+    response.set(http::field::content_type, "text/text");
+    response.keep_alive(this->get_request_keep_alive());
+}
 
-// GET
+
+/*
+ * The GET method requests a representation of the specified resource.
+ * Requests using GET should only retrieve data and should have no other effect.
+*/
 
 
 template<typename Body, typename Allocator, typename Send>
@@ -41,7 +57,18 @@ class GetPageManager : public IPageManager<Body, Allocator, Send> {
 public:
     using IPageManager<Body, Allocator, Send>::IPageManager;
     void handle_request() final;
+
+protected:
+    void set_flags(http::response<http::string_body> &response) noexcept override;
 };
+
+template<typename Body, typename Allocator, typename Send>
+void GetPageManager<Body, Allocator, Send>::set_flags(http::response<http::string_body> &response) noexcept {
+    response.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+    response.set(http::field::content_type, "text/json");
+    response.keep_alive(this->get_request_keep_alive());
+    response.content_length(response.body().size());
+}
 
 template<typename Body, typename Allocator, typename Send>
 void GetPageManager<Body, Allocator, Send>::handle_request() {
@@ -50,17 +77,42 @@ void GetPageManager<Body, Allocator, Send>::handle_request() {
             {"page_id", "1"},
             {"tests_id", "1", "2", "3", "4"}
     };
+    http::response<http::string_body> response{http::status::ok, this->get_request_version()};
 
-    http::file_body::value_type body;
+    // TODO: брать данные из БД
 
-    http::response<http::string_body> res{http::status::ok, this->get_request_version()};
-    res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-    res.set(http::field::content_type, "text/json");
-    res.body() = JsonSerializer::serialize(data);
-    res.content_length(res.body().size());
-    res.keep_alive(this->get_request_keep_alive());
+    std::unordered_map<std::string, std::string> args{};
+    try {
+        args = HttpParser::define_args_map(this->get_request_target());
+        // args = this->get_args_url();
+    }
+    catch (HttpException::InvalidArguments& ec) {
+        Logger::Error(__LINE__, __FILE__, ec.what());
+        HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
 
-    return this->get_send()(std::move(res));
+    try {
+        if (args.at("page_id") == "1")
+            response.body() = JsonSerializer::serialize(data);
+        else
+            throw APIException::PageException("page not found");
+    }
+    catch (JsonException::JsonException& ec) {
+        return HttpServerErrorCreator<Send>
+                ::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
+    }
+    catch (std::out_of_range& ec) {
+        return HttpClientErrorCreator<Send>
+                ::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
+    }
+    catch (APIException::PageException& ec) {
+        return HttpClientErrorCreator<Send>
+                ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
+    }
+
+    this->set_flags(response);
+    return this->get_send()(std::move(response));
 }
 
 
@@ -84,14 +136,9 @@ void PutPageManager<Body, Allocator, Send>::handle_request() {
 
     http::file_body::value_type body;
 
-    http::response<http::string_body> res{http::status::ok, this->get_request_version()};
-    res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-    res.set(http::field::content_type, "text/json");
-    res.body() = JsonSerializer::serialize(data);
-    res.content_length(res.body().size());
-    res.keep_alive(this->get_request_keep_alive());
+    // TODO:  отправка данных в БД
 
-    return this->get_send()(std::move(res));
+    return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
 }
 
 // POST
