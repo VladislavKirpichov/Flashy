@@ -8,12 +8,15 @@ file(COPY entities DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/data)
 # add libs
 # add_subdirectory(DB)
 add_subdirectory(entities)
+
+#libs
 add_subdirectory(libs/Logger)
 add_subdirectory(libs/Exceptions)
 add_subdirectory(libs/Json)
 add_subdirectory(libs/http_parser)
 add_subdirectory(libs/API)
 add_subdirectory(libs/http_response)
+
 add_subdirectory(src)
 
 add_executable(${PROJECT_NAME} main.cpp)
@@ -31,3 +34,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC src)
 # Packages
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+
+# --- TESTS ---
+add_subdirectory(tests)

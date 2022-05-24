@@ -34,37 +34,6 @@ using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 using error_code = boost::system::error_code;
 
 
-// --------------- SAMPLE DATA ---------------
-std::vector<std::vector<std::string>> USER_1 {
-        {"username", "vladislav"},
-        {"email", "vladislav@gmail.com"},
-        {"password", "12345"},
-        {"status", "student"}
-};
-
-std::vector<std::vector<std::string>> USER_2 {
-        {"username", "zahar"},
-        {"email", "zahar@gmail.com"},
-        {"password", "12345"},
-        {"status", "student"}
-};
-
-std::vector<std::vector<std::string>> USER_3 {
-        {"username", "akim"},
-        {"email", "akim@gmail.com"},
-        {"password", "12345"},
-        {"status", "student"}
-};
-
-std::vector<std::vector<std::string>> USER_4 {
-        {"username", "vova"},
-        {"email", "vladimir@gmail.com"},
-        {"password", "12345"},
-        {"status", "student"}
-};
-// --------------------------------------------
-
-
 // TODO: Добавить классы POST, PUT, DELETE
 
 template<typename Body, typename Allocator, typename Send>
@@ -126,8 +95,6 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
         HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->get_send()), this->get_request_version())->send_response();
         return;
     }
-
-
 
     // Find user by id
     // TODO: взять информацию о пользователе из БД

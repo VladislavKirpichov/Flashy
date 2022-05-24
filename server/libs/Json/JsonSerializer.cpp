@@ -148,4 +148,40 @@ std::string JsonSerializer::serialize_question(const Question &user) {
 Question JsonSerializer::deserialize_question(const std::string &input_data) {
     return {};
 }
+/*
+template<typename... Args>
+std::string JsonSerializer::serialize_any(std::vector<std::tuple<std::string, Args...>> args) {
+    try {
+        nlohmann::json json_data{};
+        std::vector<std::string> temp{};
 
+        for (auto &field : args) {
+            temp = std::apply(add_data_to_json, field[1]);
+            if (temp.size() == 1)
+                json_data[field[0]] = temp[0];
+            else {
+                for (auto& i : temp)
+                    json_data[field[0]] += i;
+            }
+        }
+
+        return to_string(json_data);
+    }
+    catch (nlohmann::json::exception& ec) {
+        throw JsonException::JsonException(ec);
+    }
+    catch (...) {
+        throw JsonException::JsonException("Some Json error");
+    }
+}
+
+template<typename... Args>
+std::vector<std::string> JsonSerializer::add_data_to_json(Args const&... args) {
+    std::vector<std::string> temp;
+
+    (temp.push_back(std::to_string(args)), ...);
+
+    return temp;
+}
+
+*/

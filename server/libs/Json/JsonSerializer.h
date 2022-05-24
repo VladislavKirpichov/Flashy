@@ -28,10 +28,18 @@ public:
     static std::string serialize(const std::vector<std::tuple<std::string , std::string>>& input_data);
     static std::vector<std::vector<std::string>> deserialize(const std::string& json_str);
 
+    // for test
+//    template<typename ...Args>
+//    static std::string serialize_any(std::vector<std::tuple<std::string, Args...>> args);
+
     JsonSerializer() = delete;
     ~JsonSerializer() = delete;
     JsonSerializer(JsonSerializer& json_serializer) = delete;
     JsonSerializer& operator=(JsonSerializer& json_serializer) = delete;
+
+private:
+//    template <typename... Args>
+//    static std::vector<std::string> add_data_to_json(Args const&... args);
 };
 
 
