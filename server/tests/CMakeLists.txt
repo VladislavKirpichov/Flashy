@@ -5,18 +5,17 @@ find_package(GTest REQUIRED)
 include(GoogleTest)
 
 add_executable(${PROJECT_NAME} Test.cpp)
+add_executable(http_test http_parser.cpp)
 
 # link the target to the gtest_main library
 target_link_libraries(${PROJECT_NAME} PUBLIC GTest::gtest)
+target_link_libraries(http_test PUBLIC GTest::gtest)
 
 # libs for tests
-target_link_libraries(${PROJECT_NAME} PUBLIC Logger)
-target_link_libraries(${PROJECT_NAME} PUBLIC Exceptions)
 target_link_libraries(${PROJECT_NAME} PUBLIC Json)
-target_link_libraries(${PROJECT_NAME} PUBLIC http_parser)
-target_link_libraries(${PROJECT_NAME} PUBLIC API)
-target_link_libraries(${PROJECT_NAME} PUBLIC http_response)
-target_link_libraries(${PROJECT_NAME} PUBLIC src)
+target_link_libraries(${PROJECT_NAME} PUBLIC entities)
 
-# add test
-gtest_discover_tests(${PROJECT_NAME})
+target_link_libraries(http_test PUBLIC http_parser)
+
+# add tests
+gtest_discover_tests(${PROJECT_NAME} http_test)
