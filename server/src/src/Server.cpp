@@ -18,7 +18,7 @@ using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 ServerManager::ServerManager() {
     _opts.ip = "127.0.0.1";
     _opts.port = 8080;
-    _opts.owner = "server";
+    _opts.owner = "src";
     _opts.machine_name = "LAPTOP-9KQ1QFS1.local";
 }
 

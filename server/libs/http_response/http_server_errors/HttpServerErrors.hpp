@@ -12,7 +12,7 @@ class InternalServerError500 : public IHttpResponse<http::string_body, Send> {
 public:
     using IHttpResponse<http::string_body, Send>::IHttpResponse;
     void send_response() noexcept final {
-        std::string_view error {"Internal Server Error 500\n"};
+        std::string_view error {"Internal src Error 500\n"};
         http::response<http::string_body> res{http::status::internal_server_error, this->get_response_version()};
 
         res.body() = error;

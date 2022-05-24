@@ -1,4 +1,4 @@
-project(HTTP_ERRORS_RESPONSE)
+project(http_response)
 
 set(SUCCESS http_success/HttpSuccess.hpp http_success/HttpSuccessCreator.hpp)
 set(CLIENT_ERRORS http_client_errors/HttpClientErrors.hpp http_client_errors/HttpClientErrorCreator.hpp)

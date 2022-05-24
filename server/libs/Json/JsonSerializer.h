@@ -9,6 +9,14 @@
 #include <string>
 #include <tuple>
 
+template <typename T>
+class EntitiesJsonSerializer {
+public:
+    static std::string serialize (const T& input_data);
+    static T deserialize (const std::string& input_data);
+};
+
+
 struct JsonSerializer {
     static std::string serialize(const std::vector<std::vector<std::string>>& input_data);
     static std::string serialize(const std::vector<std::tuple<std::string , std::string>>& input_data);

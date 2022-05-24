@@ -41,15 +41,13 @@ using error_code = boost::system::error_code;
  *
  *  The inherited classes process the request, access different APIs that generate a http response
 */
-
-
 class API_Gateway : public std::enable_shared_from_this<API_Gateway> {
 public:
     API_Gateway(boost::asio::io_context&& ioc, boost::asio::ip::tcp::socket&& socket);
     void read_request();
 
 private:
-    // functor for sending data
+    // functor for sending entities
     class Send {
     public:
         API_Gateway& _self;

@@ -88,7 +88,7 @@ void IUserManager<Body, Allocator, Send>::set_flags(http::response<http::string_
 
 /*
  * The GET method requests a representation of the specified resource.
- * Requests using GET should only retrieve data and should have no other effect.
+ * Requests using GET should only retrieve entities and should have no other effect.
 */
 
 
@@ -105,7 +105,7 @@ protected:
 template<typename Body, typename Allocator, typename Send>
 void GetUserManager<Body, Allocator, Send>::set_flags(http::response<http::string_body>& response) {
     response.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-    response.set(http::field::content_type, "text/json");
+    response.set(http::field::content_type, "text/Json");
     response.keep_alive(this->get_request_keep_alive());
     response.content_length(response.body().size());
 }
@@ -190,7 +190,7 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
 /*
  * The PUT method requests that the enclosed entity be stored under the supplied URI.
  * If the URI refers to an already existing resource, it is modified;
- * if the URI does not point to an existing resource, then the server
+ * if the URI does not point to an existing resource, then the src
  * can create the resource with that URI.
 */
 
@@ -235,13 +235,13 @@ std::vector<std::vector<std::string>> PutUserManager<Body, Allocator, Send>::get
 
 
 /*
- * The POST method requests that the server accept the entity enclosed
+ * The POST method requests that the src accept the entity enclosed
  * in the request as a new subordinate of the web resource identified by the URI.
  *
- * The data POSTed might be, for example, an annotation for existing
+ * The entities POSTed might be, for example, an annotation for existing
  * resources; a message for a bulletin board, newsgroup, mailing list,
- * or comment thread; a block of data that is the result of submitting
- * a web form to a data-handling process; or an item to add to a database
+ * or comment thread; a block of entities that is the result of submitting
+ * a web form to a entities-handling process; or an item to add to a database
 */
 
 

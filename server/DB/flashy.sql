@@ -4,7 +4,7 @@
 --
 -- Host: localhost:3306
 -- Generation Time: May 22, 2022 at 06:54 PM
--- Server version: 5.7.24
+-- src version: 5.7.24
 -- PHP Version: 7.4.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -41,7 +41,7 @@ CREATE TABLE `page` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `page`
+-- Dumping entities for table `page`
 --
 
 INSERT INTO `page` (`id`, `userID`, `title`, `createdTime`, `updatedTime`, `lastVisited`, `file`, `mime`, `url`) VALUES
@@ -70,7 +70,7 @@ CREATE TABLE `questions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `questions`
+-- Dumping entities for table `questions`
 --
 
 INSERT INTO `questions` (`id`, `pageID`, `file`, `url`, `answer`, `rightAnswers`, `wrongAnswers`, `rightAnswersRate`) VALUES
@@ -92,7 +92,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `users`
+-- Dumping entities for table `users`
 --
 
 INSERT INTO `users` (`id`, `nick`, `pass`, `email`, `status`) VALUES

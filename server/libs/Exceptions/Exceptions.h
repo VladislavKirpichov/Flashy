@@ -16,7 +16,7 @@
 
 // TODO: сделать исключения для БД
 //namespace DbExceptions {
-//    // Interface for all HTTP exceptions
+//    // Interface for all HTTP Exceptions
 //    class HttpException : public std::runtime_error {
 //    public:
 //        HttpException() : std::runtime_error("Http Parser Exception") {}
@@ -31,7 +31,7 @@
 
 
 namespace HttpException {
-    // Interface for all HTTP exceptions
+    // Interface for all HTTP Exceptions
     class HttpException : public std::runtime_error {
     public:
         HttpException() : std::runtime_error("Http Parser Exception") {}
@@ -60,13 +60,13 @@ namespace HttpException {
 // TODO: Добавить исключения к JsonException
 
 namespace JsonException {
-    // Interface for all JSON exceptions
+    // Interface for all JSON Exceptions
     class JsonException : public std::runtime_error {
     public:
         JsonException() : std::runtime_error("Json Exception") {}
 
         explicit JsonException(nlohmann::json::exception &ec) : std::runtime_error(
-                std::string("nlohmann json error: ") + ec.what()) {}
+                std::string("nlohmann Json error: ") + ec.what()) {}
 
         explicit JsonException(std::string &msg) : std::runtime_error(msg) {}
 
@@ -82,7 +82,7 @@ namespace APIException {
     using HttpException = HttpException::HttpException;
     using JsonException = JsonException::JsonException;
 
-    // Interface for all API exceptions
+    // Interface for all API Exceptions
     class APIException : public std::runtime_error {
     public:
         using std::runtime_error::runtime_error;
@@ -157,16 +157,16 @@ namespace ServerException {
     using JsonException = JsonException::JsonException;
     using APIException = APIException::APIException;
 
-    // Interface for all Server exceptions
+    // Interface for all src Exceptions
     class ServerException : public std::runtime_error {
     public:
         using std::runtime_error::runtime_error;
 
         ServerException()
-            : std::runtime_error("Server Exception") {}
+            : std::runtime_error("src Exception") {}
 
         explicit ServerException(APIException& api_exception)
-            : std::runtime_error("Server Exception"),
+            : std::runtime_error("src Exception"),
               api_exception(api_exception) {}
 
         explicit ServerException(const char *msg)
@@ -176,7 +176,7 @@ namespace ServerException {
                 : std::runtime_error(msg) {}
 
         ServerException(const ServerException& ec)
-                : std::runtime_error(std::string(ec.what()) + std::string("Server Exception\n")) {}
+                : std::runtime_error(std::string(ec.what()) + std::string("src Exception\n")) {}
 
     private:
         APIException api_exception{};

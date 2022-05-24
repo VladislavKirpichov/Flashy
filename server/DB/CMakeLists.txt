@@ -1,9 +1,9 @@
-project(DB_LIB)
+project(DB)
 
 #set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-fprofile-arcs -ftest-coverage -fPIC -O0")
 
 set(CMAKE_CXX_FLAGS "-fPIC")
-set(SOURCES DB_tables_page.cpp DB_tables_users.cpp DB_tables_question.cpp DB.cpp )
+set(SOURCES ../entities/src/Page.cpp ../entities/src/User.cpp ../entities/src/Question.cpp DB.cpp )
 
 set(HEADERS DB.h)
 

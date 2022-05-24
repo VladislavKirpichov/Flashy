@@ -1,4 +1,4 @@
-project(server)
+project(src)
 
 set(SRC src/Listener.cpp
         src/Server.cpp)
@@ -8,11 +8,11 @@ set(INCLUDE include/API_Gateway.hpp
             include/Listener.h
         )
 
-add_library(server SHARED ${SRC} ${INCLUDE})
+add_library(src SHARED ${SRC} ${INCLUDE})
 target_include_directories(${PROJECT_NAME}
     PRIVATE
         # where the library itself will look for its internal headers
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        include
     PUBLIC
         # where top-level project will look for the library's public headers
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -21,7 +21,7 @@ target_include_directories(${PROJECT_NAME}
 )
 
 # libs
-target_link_libraries(${PROJECT_NAME} PUBLIC API HTTP HTTP_ERRORS_RESPONSE LOGGER)
+target_link_libraries(${PROJECT_NAME} PUBLIC API http_parser http_response Logger)
 
 # Packages
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})

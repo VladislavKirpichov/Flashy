@@ -57,7 +57,7 @@ void IPageManager<Body, Allocator, Send>::set_flags(http::response<http::string_
 
 /*
  * The GET method requests a representation of the specified resource.
- * Requests using GET should only retrieve data and should have no other effect.
+ * Requests using GET should only retrieve entities and should have no other effect.
 */
 
 
@@ -74,7 +74,7 @@ protected:
 template<typename Body, typename Allocator, typename Send>
 void GetPageManager<Body, Allocator, Send>::set_flags(http::response<http::string_body> &response) noexcept {
     response.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-    response.set(http::field::content_type, "text/json");
+    response.set(http::field::content_type, "text/Json");
     response.keep_alive(this->get_request_keep_alive());
     response.content_length(response.body().size());
 }
