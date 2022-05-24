@@ -74,9 +74,6 @@ private:
 
                 // We're done with the response so delete it
                 me->_response = nullptr;
-
-                // Read another request
-                me->read_request();
             });
         }
     };
