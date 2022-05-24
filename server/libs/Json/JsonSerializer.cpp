@@ -8,7 +8,6 @@
 #include <iostream>
 
 
-
 std::string JsonSerializer::serialize(const std::vector<std::vector<std::string>>& input_data) {
     try {
         nlohmann::json json_data{};
@@ -73,3 +72,80 @@ std::vector<std::vector<std::string>> JsonSerializer::deserialize(const std::str
         throw JsonException::JsonException("Some Json error");
     }
 }
+
+std::string JsonSerializer::serialize_user(const User &user) {
+    try {
+        nlohmann::json json_data{};
+        json_data["id"] = user.get_id();
+        json_data["login"] = user.get_login();
+        json_data["password"] = user.get_password();
+        json_data["email"] = user.get_email();
+        json_data["status"] = user.get_status();
+
+        return to_string(json_data);
+    }
+    catch (nlohmann::json::exception& ec) {
+        throw JsonException::JsonException(ec);
+    }
+    catch (...) {
+        throw JsonException::JsonException("Some Json error");
+    }
+}
+
+User JsonSerializer::deserialize_user(const std::string &input_data) {
+    return {};
+}
+
+std::string JsonSerializer::serialize_page(const Page &user) {
+    try {
+        nlohmann::json json_data{};
+        json_data["id"] = user.get_id();
+        json_data["login"] = user.get_login();
+        json_data["title"] = user.get_title();
+        json_data["created_time"] = user.get_created_time();
+        json_data["updated_time"] = user.get_updated_time();
+        json_data["last_visited_time"] = user.get_last_visited_time();
+        json_data["file"] = user.get_file();
+        json_data["mime"] = user.get_mime();
+        json_data["url"] = user.get_url();
+
+        return to_string(json_data);
+    }
+    catch (nlohmann::json::exception& ec) {
+        throw JsonException::JsonException(ec);
+    }
+    catch (...) {
+        throw JsonException::JsonException("Some Json error");
+    }
+}
+
+Page JsonSerializer::deserialize_page(const std::string &input_data) {
+    return {};
+}
+
+std::string JsonSerializer::serialize_question(const Question &user) {
+    try {
+        nlohmann::json json_data{};
+        json_data["id"] = user.get_id();
+        json_data["page_id"] = user.get_page_id();
+        json_data["file"] = user.get_file();
+        json_data["url"] = user.get_url();
+        json_data["answer"] = user.get_answer();
+        json_data["right_answers"] = user.get_right_answers();
+        json_data["wrong_answers"] = user.get_wrong_answers();
+        json_data["right_answers_rate"] = user.get_right_answers_rate();
+
+        return to_string(json_data);
+    }
+    catch (nlohmann::json::exception& ec) {
+        throw JsonException::JsonException(ec);
+    }
+    catch (...) {
+        throw JsonException::JsonException("Some Json error");
+    }
+}
+
+Question JsonSerializer::deserialize_question(const std::string &input_data) {
+    return {};
+}
+

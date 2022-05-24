@@ -1,4 +1,11 @@
+
+// TODO: ПОДКЛЮЧИТЬ БД!
+
+/*
 #include "DB.h"
+
+#include <string>
+#include <vector>
 
 void DB::add_page(size_t user_ID, std::string title, std::string file, std::string mime, std::string url){
     std::string ID = std::to_string(user_ID);
@@ -93,3 +100,5 @@ void DB::delete_page(size_t page_ID){
     std::string ID = std::to_string(page_ID);
     Delete("DELETE FROM page WHERE id=?", { "I:" + ID});
 }
+
+ */

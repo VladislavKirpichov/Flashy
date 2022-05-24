@@ -15,7 +15,7 @@
 #include <memory>
 #include <string>
 
-#include "../../Logger/Logger.hpp"
+#include "Logger.hpp"
 #include "IManager.hpp"
 #include "JsonSerializer.h"
 #include "HttpParser.h"
@@ -23,6 +23,7 @@
 #include "HttpClientErrorCreator.hpp"
 #include "HttpServerErrorCreator.hpp"
 #include "Exceptions.h"
+#include "User.h"
 
 
 
@@ -126,41 +127,17 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
         return;
     }
 
-    /*
-     I - поставится вместо ?, 3 - кол-во столбцов
-     3306
-     TODO: исправить работу БД
-     на данный момень сервер падает здесь
-    try {
-        DB *db = new DB("LAPTOP-9KQ1QFS1.local", "3306", "vladislav", "9192435969v", "Flashy");
-        std::vector<std::vector<std::string>> MyData{};
-        MyData = db->Get("SELECT FROM users WHERE id=?", {"I:4"}, 5);
-        db->Close();
-    }
-    catch (...) {
-        Logger::Critical(__LINE__, __FILE__, "DB error");
-        HttpServerErrorCreator<Send>::create_internal_server_error_500(std::move(this->get_send()), this->get_request_version())->send_response();
-        throw std::exception();
-    }
-    */
+
 
     // Find user by id
     // TODO: взять информацию о пользователе из БД
     // this->find_user_in_db();
 
+    User new_user{};
+
     try {
-        if (args.at("id") == "1")
-            response.body() = JsonSerializer::serialize(USER_1);
-
-        else if (args.at("id") == "2")
-            response.body() = JsonSerializer::serialize(USER_2);
-
-        else if (args.at("id") == "3")
-            response.body() = JsonSerializer::serialize(USER_3);
-
-        else if (args.at("id") == "4")
-            response.body() = JsonSerializer::serialize(USER_4);
-
+        if (args.at("login") == new_user.get_login())
+            response.body() = JsonSerializer::serialize_user(new_user);
         else
             throw APIException::UserException("user not found");
     }
@@ -169,7 +146,7 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
                 ::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
         return;
     }
-    // if in request we have no "id"
+    // if in request we have no "login"
     catch (std::out_of_range& ec) {
         HttpClientErrorCreator<Send>
                 ::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();

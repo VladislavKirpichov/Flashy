@@ -49,6 +49,15 @@ public:
 
     std::vector<std::vector<std::string>> get_right_answers_rate(size_t question_ID);
 
+    size_t get_id() const { return id; }
+    size_t get_page_id() const { return page_id; }
+    std::string get_file() const { return file; }
+    std::string get_url() const { return url; }
+    std::string get_answer() const { return answer; }
+    size_t get_right_answers() const { return right_answers; }
+    size_t get_wrong_answers() const { return wrong_answers; }
+    double get_right_answers_rate() const { return right_answers_rate; }
+
 private:
     size_t id;
     size_t page_id;
@@ -57,7 +66,7 @@ private:
     std::string answer;
     size_t right_answers;
     size_t wrong_answers;
-    double right_aswers_rate;
+    double right_answers_rate;
     // DB *database;
 
 };

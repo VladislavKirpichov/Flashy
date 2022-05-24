@@ -1,3 +1,8 @@
+
+// TODO: ПОДКЛЮЧИТЬ БД!
+
+/*
+
 #include "DB.h"
 
 void DB::add_user (std::string nick, std::string pass, std::string email, std::string status) {
@@ -56,3 +61,5 @@ void DB::update_status(size_t id, std::string new_status){
     std::string ID = std::to_string(id);
     Update("UPDATE users SET status=? WHERE id=?", { "S:" + new_status, "I:" + ID});
 }
+
+ */

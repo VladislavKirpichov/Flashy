@@ -52,6 +52,16 @@ public:
 
     void delete_page(size_t page_ID);
 
+    size_t get_id() const { return id; }
+    size_t get_login() const { return login; }
+    std::string get_title() const { return title; }
+    time_t get_created_time() const { return created_time; }
+    time_t get_updated_time() const { return updated_time; }
+    time_t get_last_visited_time() const { return last_visited_time; }
+    std::string get_file() const { return file; }
+    std::string get_mime() const { return mime; }
+    std::string get_url() const { return url; }
+
 private:
     size_t id;
     size_t login;

@@ -68,32 +68,33 @@ private:
 
             switch (message_priority) {
                 case (MESSAGE_PRIORITY::CriticalPriority):
-                    printf("[CRITICAL!!!]\t");
+                    std::cout << "[CRITICAL!!!]\t";
                     break;
                 case (MESSAGE_PRIORITY::ErrorPriority):
-                    printf("[ERROR]\t");
+                    std::cout << "[ERROR]\t";
                     break;
                 case (MESSAGE_PRIORITY::WarnPriority):
-                    printf("[WARN]\t");
+                    std::cout << "[WARN]\t";
                     break;
                 case (MESSAGE_PRIORITY::InfoPriority):
-                    printf("[INFO]\t");
+                    std::cout << "[INFO]\t";
                     break;
                 case (MESSAGE_PRIORITY::DebugPriority):
-                    printf("[DEBUG]\t");
+                    std::cout << "[DEBUG]\t";
                     break;
                 case (MESSAGE_PRIORITY::TracePriority):
-                    printf("[TRACE]\t");
+                    std::cout << "[TRACE]\t";
                     break;
             }
 
             char buffer[BUFFER_SIZE];
             std::strftime(buffer, BUFFER_SIZE, "%c", std::localtime(&time));
 
-            printf("time: %s\t", buffer);
-            printf("file: %s:%d\t", source_file, line_number);
-            printf(message, args...);
-            printf("\n");
+            std::cout << "time:\t" << buffer;
+            std::cout << "file:\t" << source_file << ':' << line_number;
+            std::cout << message;
+            ((std::cout << args), ...);
+            std::cout << '\n';
         }
     }
 
