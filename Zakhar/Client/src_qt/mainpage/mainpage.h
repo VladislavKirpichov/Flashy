@@ -2,6 +2,7 @@
 #define MAINPAGE_H
 
 #include <QWidget>
+#include "notebutton.h"
 namespace Ui {
 class MainPage;
 }
@@ -24,6 +25,7 @@ private slots:
 private:
     Ui::MainPage *ui;
     int page_num;
+    QList<NoteButton*> note_buttons;
 signals:
     void open_page_signal(int);
 };

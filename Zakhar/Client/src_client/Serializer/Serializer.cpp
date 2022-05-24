@@ -5,9 +5,9 @@ User Serializer::user_deserialize(std::string json) {
     std::stringstream jsonEncoded(json);
     boost::property_tree::ptree root;
     boost::property_tree::read_json(jsonEncoded, root);
-    temp.set_user_id(root.get<unsigned int>("user_id"));
     temp.set_name(root.get<std::string>("name"));
     temp.set_login(root.get<std::string>("login"));
+    temp.set_email(root.get<std::string>("email"));
     temp.set_password(root.get<std::string>("password"));
     temp.set_status(root.get<std::string>("status"));
 
@@ -29,9 +29,9 @@ User Serializer::user_deserialize(std::string json) {
 
 std::string Serializer::user_serialize(User &user) {
     std::string jsonka = "{\n"
-                         "  \"user_id\": \"137\",\n"
                          "  \"name\": \"Boris\",\n"
                          "  \"login\": \"Boris17\",\n"
+                         "  \"email\": \"137\",\n"
                          "  \"password\": \"Demon123\",\n"
                          "  \"status\": \"Student\",\n"
                          "  \"notes_id\": [ \"12\", \"17\"],\n"
@@ -39,16 +39,16 @@ std::string Serializer::user_serialize(User &user) {
                          "}";
     std::string res = "{\n";
 
-    res += " \"user_id\": \"";
-    res += std::to_string(user.get_user_id());
-    res += "\",\n";
-
     res += "  \"name\": \"";
     res += user.get_name();
     res += "\",\n";
 
     res += "  \"login\": \"";
     res += user.get_login();
+    res += "\",\n";
+
+    res += " \"email\": \"";
+    res += user.get_email();
     res += "\",\n";
 
     res += "  \"password\": \"";

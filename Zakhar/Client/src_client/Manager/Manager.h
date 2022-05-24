@@ -20,7 +20,7 @@ using tcp = boost::asio::ip::tcp;
 class Manager{
 public:
     static Manager* get_instance() {
-        net::io_context _ioc;
+        static net::io_context _ioc;
         static Manager _instance(_ioc);
         return &_instance;
     }

@@ -1,15 +1,12 @@
 #include "User.h"
 
-User::User() : user_id(0) {}
+User::User() {}
 
 User::User(std::string _name, std::vector<std::string> _notes_name) {
     name = _name;
     notes_name = _notes_name;
 }
 
-void User::set_user_id(const unsigned int &new_user_id){
-    user_id = new_user_id;
-}
 
 void User::set_name(const std::string &new_name){
     name = new_name;
@@ -17,6 +14,9 @@ void User::set_name(const std::string &new_name){
 
 void User::set_login(const std::string &new_login){
     login = new_login;
+}
+void User::set_email(const std::string &new_email){
+    email = new_email;
 }
 
 void User::set_password(const std::string &new_password){
@@ -35,9 +35,6 @@ void User::set_notes_name(const std::vector<std::string> &new_notes_name){
     notes_name = new_notes_name;
 }
 
-unsigned int User::get_user_id() {
-    return user_id;
-}
 
 
 std::string User::get_name() {
@@ -46,6 +43,10 @@ std::string User::get_name() {
 
 std::string User::get_login() {
     return login;
+}
+
+std::string User::get_email() {
+    return email;
 }
 
 std::string User::get_password() {

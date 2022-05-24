@@ -15,31 +15,23 @@ namespace net = boost::asio;            // from <boost/asio.hpp>
 using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 
 int main(int argc, char *argv[]) {
+    std::string host = "127.0.0.1";
     unsigned short port = 8080;
-    auto const text = "Hello, VLAD!";
-
     std::string user_json_example = "{\n"
-                                    "  \"user_id\": \"137\",\n"
                                     "  \"name\": \"Boris\",\n"
                                     "  \"login\": \"Boris17\",\n"
+                                    "  \"email\": \"137\",\n"
                                     "  \"password\": \"Demon123\",\n"
                                     "  \"status\": \"Student\",\n"
                                     "  \"notes_id\": [ \"12\", \"17\"],\n"
                                     "  \"notes_name\": [\"Example 1\", \"Example 2\"]\n"
                                     "}";
-    std::string host = "127.0.0.1";
-    User example;
-    Serializer ser;
-    net::io_context ioc;
-    std::string json_from_vlad =  Manager::get_instance_initial(ioc)->get_json(host,port);
-    example = ser.user_deserialize(json_from_vlad);
-//    example = ser.user_deserialize(user_json_example);
-    Manager::get_instance()->change_user(example);
-//    Manager::get_instance()->get_user_from_server(host,port);
+    std::string json_from_vlad =  Manager::get_instance()->get_json(host,port);
+    Manager::get_instance()->get_user_from_server(host,port);
     QApplication a(argc, argv);
     StartPage w;
     w.show();
-    std::cout << example.get_name();
+
     return a.exec();
 //    return 0;
 }

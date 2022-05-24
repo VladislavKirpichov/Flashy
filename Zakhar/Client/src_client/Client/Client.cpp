@@ -8,7 +8,7 @@ std::string HTTPClient::get_response(const std::string& host, const unsigned sho
     auto const results = resolver.resolve(host, std::to_string(port));
     stream.connect(results);
 
-    http::request<http::string_body> req(http::verb::get, "/user?id=1", 11);
+    http::request<http::string_body> req(http::verb::get, "/user?id=3", 11);
 
     req.set(http::field::host, host);
     req.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
