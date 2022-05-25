@@ -8,7 +8,6 @@
 class User {
 private:
     int id;
-    std::string name;
     std::string nickname;
     std::string password;
     std::string email;
@@ -19,7 +18,7 @@ public:
 
     User();
 
-    User(std::string nick, std::string name, std::string pass, std::string email, std::string status);
+    User(std::string nick, std::string pass, std::string email, std::string status);
 
     User(std::string nick);
 
@@ -31,7 +30,7 @@ public:
 
     //void add_user(std::string nick, std::string pass, std::string email, std::string status);
 
-    int get_user_ID() const ;
+    int get_user_ID();
 
     //std::vector<std::vector<std::string>> get_user_ID(std::string nick);
 
@@ -41,35 +40,29 @@ public:
 
     void delete_user();
 
-    std::string get_nick() const ;
+    std::string get_nick();
 
     void update_nick(std::string new_nick);
 
-    std::string get_name() const ;
-
-    void update_name(std::string new_name);
-
-    std::string get_pass() const ;
+    std::string get_pass();
 
     //std::vector<std::vector<std::string>> get_pass(size_t user_ID);
 
     void update_pass(std::string new_pass);
 
-    std::string get_email() const ;
+    std::string get_email();
 
     void update_email(std::string new_email);
 
-    std::string get_status() const;
+    std::string get_status();
 
     void update_status(std::string new_status);
 
-    std::vector<std::vector<std::string>> get_pages_id() const ;
+    std::vector<std::vector<std::string>> get_pages_id();
 
-    std::vector<std::vector<std::string>> get_pages_file() const ;
+    std::vector<std::vector<std::string>> get_pages_title();
 
-    std::vector<std::vector<std::string>> get_pages_title() const ;
-
-    static bool find_user_nick(std::string nick, std::string pass);
+    static bool find_user_nick(std::string nick);
 };
 
 #endif  // DB_TABLES_USERS_H_
