@@ -23,6 +23,7 @@
 #include "HttpClientErrorCreator.hpp"
 #include "HttpServerErrorCreator.hpp"
 #include "Exceptions.h"
+#include <cppconn/exception.h>
 #include "User.h"
 
 
@@ -100,13 +101,12 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
     // TODO: взять информацию о пользователе из БД
     // this->find_user_in_db();
 
-    User new_user{};
-
     try {
-        if (args.at("login") == new_user.get_login())
-            response.body() = JsonSerializer::serialize_user(new_user);
+        User new_user{args.at("login")};
+        if (new_user.get_pass() == args.at("password"))
+            HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
         else
-            throw APIException::UserException("user not found");
+            throw APIException::UserException();
     }
     catch (JsonException::JsonException& ec) {
         HttpServerErrorCreator<Send>
@@ -122,6 +122,11 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
     catch (APIException::UserException& ec) {
         HttpClientErrorCreator<Send>
                 ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
+    catch (sql::SQLException& ec) {
+        HttpClientErrorCreator<Send>
+        ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
         return;
     }
 

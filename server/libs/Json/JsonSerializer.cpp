@@ -76,11 +76,11 @@ std::vector<std::vector<std::string>> JsonSerializer::deserialize(const std::str
 std::string JsonSerializer::serialize_user(const User &user) {
     try {
         nlohmann::json json_data{};
-        json_data["id"] = user.get_id();
-        json_data["login"] = user.get_login();
-        json_data["password"] = user.get_password();
-        json_data["email"] = user.get_email();
-        json_data["status"] = user.get_status();
+        json_data["id"] = "test";
+        json_data["login"] = "test";
+        json_data["password"] = "test";
+        json_data["email"] = "test";
+        json_data["status"] = "test";
 
         return to_string(json_data);
     }

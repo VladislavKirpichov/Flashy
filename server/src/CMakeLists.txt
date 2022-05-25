@@ -2,11 +2,11 @@ project(src)
 
 set(SRC src/Listener.cpp
         src/Server.cpp)
+
 set(INCLUDE include/API_Gateway.hpp
             include/RequestHandler.hpp
             include/Server.h
-            include/Listener.h
-        )
+            include/Listener.h)
 
 add_library(src SHARED ${SRC} ${INCLUDE})
 target_include_directories(${PROJECT_NAME}

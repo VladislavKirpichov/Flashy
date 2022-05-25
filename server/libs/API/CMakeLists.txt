@@ -10,5 +10,4 @@ target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
 target_link_libraries(${PROJECT_NAME} INTERFACE Json http_parser entities Logger DB)
 
 # Packages
-target_link_libraries(${PROJECT_NAME} INTERFACE ${Boost_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} INTERFACE nlohmann_json::nlohmann_json)
+target_link_libraries(${PROJECT_NAME} INTERFACE ${Boost_LIBRARIES} nlohmann_json::nlohmann_json mysqlcppconn)
