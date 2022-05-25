@@ -1,0 +1,5 @@
+if(EXISTS "/mnt/c/Users/egoro/Documents/GitHub/UML/build/server/tests/test[1]_tests.cmake")
+  include("/mnt/c/Users/egoro/Documents/GitHub/UML/build/server/tests/test[1]_tests.cmake")
+else()
+  add_test(test_NOT_BUILT test_NOT_BUILT)
+endif()

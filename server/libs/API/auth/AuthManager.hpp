@@ -48,7 +48,7 @@ void AuthManager<Body, Allocator, Send>::auth_user() {
 
     // TODO: взять данные о пользователе из БД и сверить пароль с тем, что пришел
     try {
-        if (args.at("login") == "test_user" && args.at("password") == "123")
+        if (User::find_user_nick(args.at("login")) && args.at("password") == "123")
             HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
         else
             HttpClientErrorCreator<Send>::create_unauthorized_401(std::move(this->get_send()), this->get_request_version())->send_response();
