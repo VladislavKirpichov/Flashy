@@ -116,6 +116,31 @@ void User::update_status(std::string new_status){
     status = new_status;
 }
 
-static bool find_user_nick() {
-    
+std::vector<std::vector<std::string>> User::get_pages_id() {
+    std::string userID = std::to_string(id);
+    return database->Get("SELECT id FROM page WHERE userID=?", { "I:" + userID }, 1);
 }
+
+std::vector<std::vector<std::string>> User::get_pages_title() {
+    std::string userID = std::to_string(id);
+    return database->Get("SELECT title FROM page WHERE userID=?", { "I:" + userID }, 1);
+}
+
+bool User::find_user_nick(std::string nick) {
+    DB *base = new DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
+    std::vector<std::vector<std::string>> MyData;
+    MyData = base->Get("SELECT * FROM users WHERE nick=?", { "S:" + nick}, 6);
+    base->Close();
+    if(MyData.empty()) {
+        return false;
+    } else {
+        return true;
+    }
+        
+
+
+
+
+}
+
+

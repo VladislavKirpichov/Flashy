@@ -25,7 +25,7 @@ Question::Question(std::string file)
     right_answers = std::stoi(MyData[0][5]);
     wrong_answers = std::stoi(MyData[0][6]);
     //MyData = database->Get("SELECT `rightAnswers`, `wrongAnswers`, (`rightAnswers` / (`rightAnswers` + `wrongAnswers`)) FROM questions WHERE id=?", { "I:" + ID}, 1);
-    right_answers_rate = std::stod(MyData[0][7]);
+    //right_answers_rate = std::stod(MyData[0][7]);
     
 }
 
@@ -133,7 +133,8 @@ int Question::get_wrong_answers(){
 double Question::get_right_answers_rate(){
     //std::string ID = std::to_string(id);
     //return database->Get("SELECT `rightAnswers`, `wrongAnswers`, (`rightAnswers` / (`rightAnswers` + `wrongAnswers`)) FROM questions WHERE id=?", { "I:" + ID}, 1);
-    return (double)(right_answers / (right_answers + wrong_answers));
+    double res =((double)right_answers / (right_answers + wrong_answers));
+    return res;
     //return right_answers_rate;
     //SELECT `rightAnswers`, `wrongAnswers`, (`rightAnswers` / (`rightAnswers` + `wrongAnswers`)) AS Rate FROM questions
 }

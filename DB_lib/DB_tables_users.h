@@ -62,7 +62,7 @@ class User {
 
         std::vector<std::vector<std::string>> get_pages_title();
 
-        static bool find_user_nick();
+        static bool find_user_nick(std::string nick);
 
 
 

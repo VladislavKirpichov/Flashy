@@ -7,60 +7,29 @@
 
 int main() {
 
-    Question question("aaaa");
+    Page page("sss");
+
+    //int id = page.get_page_ID();
+    //page.set_updated_time();
+
+    std::string res = page.get_last_visited_time();
+
+    page.page_close_connect();
+
+    std::cout << res << std::endl;
 
 
-    std::vector<std::vector<std::string>> MyData;
-
-    //MyData = question.get_right_answers_rate();
-
-    double rate = question.get_right_answers_rate();
-
-    /*
-    int id = user.get_user_ID_by_nick();
-
-    std::string pass = user.get_pass();
-
-    std::cout << id << std::endl;
-
-    std::cout << pass << std::endl;
-    */
-
-    question.question_close_connect();
-
-    std::cout << rate << std::endl;
 
 
     /*
-    std::vector<std::vector<std::string>> MyData;
-    User user("Fred");
-    user.user_connect_DB();
-    //user.user_close_connect();
+    std::string nickname = "'Akim'"; 
 
-    //user.add_user();
-    int test = user.get_user_ID_by_nick();
-    user.user_close_connect();
-
-    //std::string test = MyData[0][0];
-    std::cout << test << std::endl;
-    
     DB *database = new DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
-
-    std::string nick = "Alex";
-    std::string pass = "Alex123";
-    std::string email = "alex@mail.ru";
-    std::string status = "student";
-    //size_t id = 3;
-
-    //database->delete_user(11);
-    
-    database->add_user(nick, pass, email, status);
-
-    MyData = database->get_all_user_info(12);
-
+    std::vector<std::vector<std::string>> MyData = database->Execute("SELECT id FROM users WHERE nick = " + nickname, 1);
     database->Close();
-
+    */
     
+    /*
     for (int a = 0; a < MyData.size(); a++) {
         for (int c = 0; c < MyData[a].size(); c++) {
             std::cout << MyData[a][c] + " - ";
