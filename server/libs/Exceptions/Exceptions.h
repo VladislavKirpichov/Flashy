@@ -9,22 +9,23 @@
 #include <boost/system/error_code.hpp>
 #include "nlohmann/json.hpp"
 #include "nlohmann/detail/exceptions.hpp"
+#include <cppconn/exception.h>
 
 
 // ---------- LAYER 4 | DB ----------
 
 
 // TODO: сделать исключения для БД
-//namespace DbExceptions {
-//    // Interface for all HTTP Exceptions
-//    class HttpException : public std::runtime_error {
-//    public:
-//        HttpException() : std::runtime_error("Http Parser Exception") {}
-//        explicit HttpException(const char* msg) : std::runtime_error("Http Parser Exception: " + std::string(msg)) {}
-//        explicit HttpException(std::string const& msg) : std::runtime_error("Http Parser Exception: " + msg) {}
-//        using std::runtime_error::runtime_error;
-//    };
-//}
+namespace DbExceptions {
+    // Interface for all HTTP Exceptions
+    class DbException : public std::runtime_error {
+    public:
+        DbException() : std::runtime_error("DB exception") {}
+        explicit DbException(const char* msg) : std::runtime_error("DB exception: " + std::string(msg)) {}
+        explicit DbException(std::string const& msg) : std::runtime_error("DB exception: " + msg) {}
+        using std::runtime_error::runtime_error;
+    };
+}
 
 
 // ---------- LAYER 3.1 | HTTP ----------

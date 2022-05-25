@@ -11,9 +11,6 @@ RUN apt-get -y install python3-pip && \
 # instsall conan
 RUN pip install conan
 
-# install boost
-RUN apt-get -y install libboost-all-dev
-
 # copy files from project
 COPY . .
 COPY CMakeLists.txt .
@@ -24,7 +21,7 @@ RUN cmake -B cmake-build-debug -DCMAKE_BUILD_TYPE=Debug; exit 0
 
 # install all nedeed libs (boost, gtest, nlohhman)
 RUN cd cmake-build-debug && \
-    conan install ..
+    conan install .. --build -s compiler.libcxx=libstdc++11
 
 # ---------------
 

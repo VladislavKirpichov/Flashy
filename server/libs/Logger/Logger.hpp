@@ -93,7 +93,7 @@ private:
             std::cout << "time:\t" << buffer;
             std::cout << "file:\t" << source_file << ':' << line_number;
             std::cout << message;
-            ((std::cout << args), ...);
+            ((std::cout << args << ' '), ...);
             std::cout << '\n';
         }
     }

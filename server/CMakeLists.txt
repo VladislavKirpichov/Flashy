@@ -6,7 +6,7 @@ find_package(nlohmann_json REQUIRED)
 file(COPY entities DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/data)
 
 # add libs
-# add_subdirectory(DB)
+add_subdirectory(DB)
 add_subdirectory(entities)
 
 #libs
@@ -22,7 +22,7 @@ add_subdirectory(src)
 add_executable(${PROJECT_NAME} main.cpp)
 
 # link libs
-# target_link_libraries(${PROJECT_NAME} PUBLIC DB_lib)
+target_link_libraries(${PROJECT_NAME} PUBLIC DB)
 target_link_libraries(${PROJECT_NAME} PUBLIC Logger)
 target_link_libraries(${PROJECT_NAME} PUBLIC Exceptions)
 target_link_libraries(${PROJECT_NAME} PUBLIC Json)

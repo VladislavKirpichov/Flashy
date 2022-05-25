@@ -1,7 +1,6 @@
 
 // TODO: ПОДКЛЮЧИТЬ БД!
 
-/*
 
 #include "DB.h"
 
@@ -12,6 +11,7 @@ void DB::add_user (std::string nick, std::string pass, std::string email, std::s
 std::vector<std::vector<std::string>> DB::get_user_ID(std::string nick){
     return Get("SELECT id FROM users WHERE nick=?", { "S:" + nick}, 1);
 }
+
 std::vector<std::vector<std::string>> DB::get_all_user_info(size_t id){
     std::string ID = std::to_string(id);
     return Get("SELECT * FROM users WHERE id=?", {"I:"+ ID}, 5);
@@ -62,4 +62,3 @@ void DB::update_status(size_t id, std::string new_status){
     Update("UPDATE users SET status=? WHERE id=?", { "S:" + new_status, "I:" + ID});
 }
 
- */
