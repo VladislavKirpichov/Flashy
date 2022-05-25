@@ -115,3 +115,7 @@ void User::update_status(std::string new_status){
     database->Update("UPDATE users SET status=? WHERE id=?", { "S:" + new_status, "I:" + ID});
     status = new_status;
 }
+
+static bool find_user_nick() {
+    
+}

@@ -107,6 +107,7 @@ std::string Question::get_question_answer(){
 void Question::set_right_answer(){
     std::string ID = std::to_string(id);
     database->Execute("UPDATE questions SET rightAnswers=(rightAnswers + 1) WHERE id=" + ID);
+
     right_answers++;
 
 }
@@ -129,10 +130,11 @@ int Question::get_wrong_answers(){
     return wrong_answers;
 }
 
- double Question::get_right_answers_rate(){
+double Question::get_right_answers_rate(){
     //std::string ID = std::to_string(id);
     //return database->Get("SELECT `rightAnswers`, `wrongAnswers`, (`rightAnswers` / (`rightAnswers` + `wrongAnswers`)) FROM questions WHERE id=?", { "I:" + ID}, 1);
-    return right_answers_rate;
+    return (double)(right_answers / (right_answers + wrong_answers));
+    //return right_answers_rate;
     //SELECT `rightAnswers`, `wrongAnswers`, (`rightAnswers` / (`rightAnswers` + `wrongAnswers`)) AS Rate FROM questions
 }
 

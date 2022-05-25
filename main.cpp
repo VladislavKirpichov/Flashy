@@ -10,7 +10,7 @@ int main() {
     Question question("aaaa");
 
 
-    //std::vector<std::vector<std::string>> MyData;
+    std::vector<std::vector<std::string>> MyData;
 
     //MyData = question.get_right_answers_rate();
 
