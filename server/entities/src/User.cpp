@@ -15,11 +15,13 @@ User::User(std::string nick)
 {
     user_connect_DB();
 
+
     std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM users WHERE nick=?", { "S:" + nickname}, 1);
     id = std::stoi(MyData[0][0]);
 
     std::string ID = std::to_string(id);
     MyData = database->Get("SELECT * FROM users WHERE id=?", {"I:"+ ID}, 5);
+
 
     password = MyData[0][2];
     email = MyData[0][3];
@@ -35,7 +37,6 @@ void User::user_close_connect() {
 }
 
 void User::add_user() {
-
     database->Insert("INSERT INTO users(nick,pass,email,status) VALUES (?, ?, ?, ?)", { "S:" + nickname , "S:" + password , "S:" + email, "S:" + status });
     std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM users WHERE nick=?", { "S:" + nickname}, 1);
     id = std::stoi(MyData[0][0]);
@@ -113,3 +114,31 @@ void User::update_status(std::string new_status){
     database->Update("UPDATE users SET status=? WHERE id=?", { "S:" + new_status, "I:" + ID});
     status = new_status;
 }
+
+std::vector<std::vector<std::string>> User::get_pages_id() {
+    std::string userID = std::to_string(id);
+    return database->Get("SELECT id FROM page WHERE userID=?", { "I:" + userID }, 1);
+}
+
+std::vector<std::vector<std::string>> User::get_pages_title() {
+    std::string userID = std::to_string(id);
+    return database->Get("SELECT title FROM page WHERE userID=?", { "I:" + userID }, 1);
+}
+
+bool User::find_user_nick(std::string nick) {
+    DB *base = new DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
+    std::vector<std::vector<std::string>> MyData;
+    MyData = base->Get("SELECT * FROM users WHERE nick=?", { "S:" + nick}, 6);
+    base->Close();
+    if(MyData.empty()) {
+        return false;
+    } else {
+        return true;
+    }
+
+
+
+
+
+}
+
