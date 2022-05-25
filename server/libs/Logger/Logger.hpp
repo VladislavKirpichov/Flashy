@@ -90,9 +90,9 @@ private:
             char buffer[BUFFER_SIZE];
             std::strftime(buffer, BUFFER_SIZE, "%c", std::localtime(&time));
 
-            std::cout << "time:\t" << buffer;
-            std::cout << "file:\t" << source_file << ':' << line_number;
-            std::cout << message;
+            std::cout << "time: " << buffer << '\t';
+            std::cout << "file: " << source_file << ':' << line_number << '\t';
+            std::cout << message << ' ';
             ((std::cout << args << ' '), ...);
             std::cout << '\n';
         }

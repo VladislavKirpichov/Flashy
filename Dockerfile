@@ -17,11 +17,11 @@ COPY CMakeLists.txt .
 COPY conanfile.py .
 
 # create cmake-build-debug folder
-RUN cmake -B cmake-build-debug -DCMAKE_BUILD_TYPE=Debug; exit 0
+RUN cmake -B cmake-build-debug -S . -DCMAKE_BUILD_TYPE=Debug; exit 0
 
 # install all nedeed libs (boost, gtest, nlohhman)
 RUN cd cmake-build-debug && \
-    conan install .. --build -s compiler.libcxx=libstdc++11
+    conan install .. -s compiler.libcxx=libstdc++11
 
 # ---------------
 

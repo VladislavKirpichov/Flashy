@@ -16,5 +16,4 @@ public:
     static std::unordered_map<std::string, std::string> define_args_map(const std::string& url_path);
 };
 
-
 #endif //SERVER_V0_1_HTTPPARSER_H

@@ -58,6 +58,11 @@ public:
 
     void update_status(std::string new_status);
 
+    std::vector<std::vector<std::string>> get_pages_id();
+
+    std::vector<std::vector<std::string>> get_pages_title();
+
+    static bool find_user_nick(std::string nick);
 };
 
 #endif  // DB_TABLES_USERS_H_
