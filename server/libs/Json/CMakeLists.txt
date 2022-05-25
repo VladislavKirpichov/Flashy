@@ -5,4 +5,4 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE entities)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Exceptions nlohmann_json::nlohmann_json)
+target_link_libraries(${PROJECT_NAME} PRIVATE Exceptions nlohmann)

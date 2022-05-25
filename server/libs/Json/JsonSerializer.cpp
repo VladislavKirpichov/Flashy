@@ -3,7 +3,7 @@
 //
 
 #include "JsonSerializer.h"
-#include "nlohmann/json.hpp"
+#include "json.hpp"
 #include "Exceptions.h"
 #include <iostream>
 
@@ -58,9 +58,8 @@ std::vector<std::vector<std::string>> JsonSerializer::deserialize(const std::str
         nlohmann::json json_data = nlohmann::json::parse(json_str);
         std::vector<std::vector<std::string>> data{};
 
-        for (auto &[key, value]: json_data.items()) {
+        for (auto &[key, value]: json_data.items())
             data.push_back(std::vector<std::string>{key, value});
-        }
 
         return data;
     }

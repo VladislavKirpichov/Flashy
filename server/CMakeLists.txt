@@ -10,6 +10,7 @@ add_subdirectory(DB)
 add_subdirectory(entities)
 
 #libs
+add_subdirectory(libs/nlohmann)
 add_subdirectory(libs/Logger)
 add_subdirectory(libs/Exceptions)
 add_subdirectory(libs/Json)
@@ -23,6 +24,7 @@ add_executable(${PROJECT_NAME} main.cpp)
 
 # link libs
 target_link_libraries(${PROJECT_NAME} PUBLIC DB)
+target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann)
 target_link_libraries(${PROJECT_NAME} PUBLIC Logger)
 target_link_libraries(${PROJECT_NAME} PUBLIC Exceptions)
 target_link_libraries(${PROJECT_NAME} PUBLIC Json)

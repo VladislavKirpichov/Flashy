@@ -98,6 +98,7 @@ DB::Get(std::string query, std::vector<std::string> params, int RowSize) {
 				prep_stmt->setInt(b, atoi(params[a].substr(2, params[a].length()).c_str()));
 			b++;
 		}
+
 		try {
 			this->res = prep_stmt->executeQuery();
 			while (res->next()) {

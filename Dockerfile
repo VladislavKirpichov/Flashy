@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM gcc:latest
 WORKDIR /server
 
 # Install all libs
