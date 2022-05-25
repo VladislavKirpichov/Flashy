@@ -30,31 +30,33 @@ class User {
 
         //void add_user(std::string nick, std::string pass, std::string email, std::string status);
 
-        int get_user_ID_by_nick();
+        int get_user_ID();
 
         //std::vector<std::vector<std::string>> get_user_ID(std::string nick);
 
         //std::vector<std::vector<std::string>> get_all_user_info(int user_ID);
 
-        std::vector<std::vector<std::string>> get_all_user_info();
+        //std::vector<std::vector<std::string>> get_all_user_info();
 
-        void delete_user(int user_ID);
+        void delete_user();
 
-        std::vector<std::vector<std::string>> get_nick(size_t user_ID);
+        std::string get_nick();
 
-        void update_nick(size_t user_ID, std::string new_nick);
+        void update_nick(std::string new_nick);
 
-        std::vector<std::vector<std::string>> get_pass(size_t user_ID);
+        std::string get_pass();
 
-        void update_pass(size_t user_ID, std::string new_pass);
+        //std::vector<std::vector<std::string>> get_pass(size_t user_ID);
 
-        std::vector<std::vector<std::string>> get_email(size_t user_ID);
+        void update_pass(std::string new_pass);
 
-        void update_email(size_t user_ID, std::string new_email);
+        std::string get_email();
 
-        std::vector<std::vector<std::string>> get_status(size_t user_ID);
+        void update_email(std::string new_email);
 
-        void update_status(size_t user_ID, std::string new_status);
+        std::string get_status();
+
+        void update_status(std::string new_status);
 
 };
 

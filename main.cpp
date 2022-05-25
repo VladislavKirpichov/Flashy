@@ -7,19 +7,29 @@
 
 int main() {
 
-    std::vector<std::vector<std::string>> MyData;
+    Question question("aaaa");
 
-    DB *database = new DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
 
-    MyData = database->Get("SELECT * FROM page WHERE id=?", {"I:4"}, 5);
+    //std::vector<std::vector<std::string>> MyData;
 
-    database->Close();
+    //MyData = question.get_right_answers_rate();
 
-    for (int a = 0; a < MyData.size(); a++) {
-        for (int c = 0; c < MyData[a].size(); c++) {
-            std::cout << MyData[a][c] + " - ";
-        } std::cout << " " << std::endl;
-    }
+    double rate = question.get_right_answers_rate();
+
+    /*
+    int id = user.get_user_ID_by_nick();
+
+    std::string pass = user.get_pass();
+
+    std::cout << id << std::endl;
+
+    std::cout << pass << std::endl;
+    */
+
+    question.question_close_connect();
+
+    std::cout << rate << std::endl;
+
 
     /*
     std::vector<std::vector<std::string>> MyData;
@@ -49,7 +59,7 @@ int main() {
     MyData = database->get_all_user_info(12);
 
     database->Close();
-    
+
     
     for (int a = 0; a < MyData.size(); a++) {
         for (int c = 0; c < MyData[a].size(); c++) {
@@ -57,6 +67,9 @@ int main() {
         } std::cout << " " << std::endl;
     }
     */
+
+    
+
 
    
 }

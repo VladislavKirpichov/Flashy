@@ -6,55 +6,59 @@
 
 class Question {
     private:
-        size_t id;
-        size_t page_id;
+        int id;
+        int page_id;
         std::string file;
         std::string url;
         std::string answer;
-        size_t right_answers;
-        size_t wrong_answers;
-        double right_aswers_rate;
+        int right_answers;
+        int wrong_answers;
+        double right_answers_rate;
 		DB *database;
 
     public:
+		
+		Question(int page_ID, std::string file, std::string url, std::string answer);
 
-		void page_connect_DB();
+		Question(std::string file);
 
-        void page_close_connect();
+		void question_connect_DB();
 
-        void add_question(size_t page_ID, std::string file, std::string url, std::string answer);
+        void question_close_connect();
 
-		std::vector<std::vector<std::string>> get_question_ID(std::string file);
+        void add_question();
 
-		void delete_question(size_t question_ID);
+		int get_question_ID();
+
+		void delete_question();
 
 		std::vector<std::vector<std::string>> get_all_question_info(size_t question_ID);
 
-		std::vector<std::vector<std::string>> get_all_page_questions(size_t page_ID);
+		std::vector<std::vector<std::string>> get_all_page_questions_id();
 
-		std::vector<std::vector<std::string>> get_page_ID(size_t question_ID);
+		int get_page_ID();
 
-		void update_question_file(size_t question_ID, std::string file);
+		void update_question_file(std::string new_file);
 
-		std::vector<std::vector<std::string>> get_question_file(size_t question_ID);
+		std::string get_question_file();
 
-		void update_question_url(size_t question_ID);
+		void update_question_url(std::string new_url);
 
-		std::vector<std::vector<std::string>> get_question_url(size_t question_ID);
+		std::string get_question_url();
 
-		void update_question_answer(size_t question_ID, std::string new_answer);
+		void update_question_answer(std::string new_answer);
 
-		std::vector<std::vector<std::string>> get_question_answer(size_t question_ID);
+		std::string get_question_answer();
 
-		void set_right_answer(size_t question_ID);
+		void set_right_answer();
 
-		std::vector<std::vector<std::string>> get_right_answers(size_t question_ID);
+		int get_right_answers_count();
 
-		void set_wrong_answer(size_t question_ID);
+		void set_wrong_answer();
 
-		std::vector<std::vector<std::string>> get_wrong_answers(size_t question_ID);
+		int get_wrong_answers();
 
-		std::vector<std::vector<std::string>> get_right_answers_rate(size_t question_ID);
+		double get_right_answers_rate();
 
 };
 
