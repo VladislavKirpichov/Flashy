@@ -16,8 +16,6 @@
 #include <string>
 
 #include "IManager.hpp"
-#include "HttpSuccessCreator.hpp"
-#include "HttpClientErrorCreator.hpp"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
@@ -48,8 +46,9 @@ void AuthManager<Body, Allocator, Send>::auth_user() {
         return;
     }
 
+    // TODO: взять данные о пользователе из БД и сверить пароль с тем, что пришел
     try {
-        if (User::find_user_nick(args.at("login"), args.at("password")))
+        if (User::find_user_nick(args.at("login")) && args.at("password") == "123")
             HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
         else
             HttpClientErrorCreator<Send>::create_unauthorized_401(std::move(this->get_send()), this->get_request_version())->send_response();

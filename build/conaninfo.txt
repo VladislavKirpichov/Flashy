@@ -1,0 +1,152 @@
+[settings]
+
+
+[requires]
+    boost/1.Y.Z
+    gtest/cci.20210126
+    mysql-connector-c/6.Y.Z
+    nlohmann_json/3.Y.Z
+    zlib/1.Y.Z
+
+[options]
+
+
+[full_settings]
+
+
+[full_requires]
+    boost/1.78.0:adf48b8e4446dcb68f440fe42ff08878d5c7feed
+    bzip2/1.0.8:da606cf731e334010b0bf6e85a2a6f891b9f36b0
+    gtest/cci.20210126:71c983c52942eb4756e4bd60e4cbec9fd7557e5d
+    libbacktrace/cci.20210118:6af9cc7cb931c5ad942174fd7838eb655717c709
+    mysql-connector-c/6.1.11:528ce1d9ba9477d180bd8c8e3edcdd651d051132
+    nlohmann_json/3.10.5:5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9
+    openssl/1.0.2u:f99afdbf2a1cc98ba2029817b35103455b6a9b77
+    zlib/1.2.12:6af9cc7cb931c5ad942174fd7838eb655717c709
+
+[full_options]
+    boost:addr2line_location=/usr/bin/addr2line
+    boost:asio_no_deprecated=False
+    boost:buildid=None
+    boost:bzip2=True
+    boost:debug_level=0
+    boost:diagnostic_definitions=False
+    boost:error_code_header_only=False
+    boost:extra_b2_flags=None
+    boost:fPIC=True
+    boost:filesystem_no_deprecated=False
+    boost:header_only=False
+    boost:i18n_backend=deprecated
+    boost:i18n_backend_iconv=libc
+    boost:i18n_backend_icu=False
+    boost:layout=system
+    boost:lzma=False
+    boost:magic_autolink=False
+    boost:multithreading=True
+    boost:namespace=boost
+    boost:namespace_alias=False
+    boost:numa=True
+    boost:pch=True
+    boost:python_executable=None
+    boost:python_version=None
+    boost:segmented_stacks=False
+    boost:shared=False
+    boost:system_no_deprecated=False
+    boost:system_use_utf8=False
+    boost:visibility=hidden
+    boost:with_stacktrace_backtrace=True
+    boost:without_atomic=False
+    boost:without_chrono=False
+    boost:without_container=False
+    boost:without_context=False
+    boost:without_contract=False
+    boost:without_coroutine=False
+    boost:without_date_time=False
+    boost:without_exception=False
+    boost:without_fiber=False
+    boost:without_filesystem=False
+    boost:without_graph=False
+    boost:without_graph_parallel=True
+    boost:without_iostreams=False
+    boost:without_json=False
+    boost:without_locale=False
+    boost:without_log=False
+    boost:without_math=False
+    boost:without_mpi=True
+    boost:without_nowide=False
+    boost:without_program_options=False
+    boost:without_python=True
+    boost:without_random=False
+    boost:without_regex=False
+    boost:without_serialization=False
+    boost:without_stacktrace=False
+    boost:without_system=False
+    boost:without_test=False
+    boost:without_thread=False
+    boost:without_timer=False
+    boost:without_type_erasure=False
+    boost:without_wave=False
+    boost:zlib=True
+    boost:zstd=False
+    bzip2:build_executable=True
+    bzip2:fPIC=True
+    bzip2:shared=False
+    gtest:build_gmock=True
+    gtest:fPIC=True
+    gtest:hide_symbols=False
+    gtest:no_main=False
+    gtest:shared=False
+    libbacktrace:fPIC=True
+    libbacktrace:shared=False
+    mysql-connector-c:shared=False
+    mysql-connector-c:with_ssl=True
+    mysql-connector-c:with_zlib=True
+    openssl:386=False
+    openssl:enable_weak_ssl_ciphers=False
+    openssl:fPIC=True
+    openssl:no_asm=False
+    openssl:no_async=False
+    openssl:no_bf=False
+    openssl:no_blake2=False
+    openssl:no_chacha=False
+    openssl:no_ct=False
+    openssl:no_deprecated=False
+    openssl:no_des=False
+    openssl:no_dh=False
+    openssl:no_dsa=False
+    openssl:no_dso=False
+    openssl:no_ec=False
+    openssl:no_ecdh=False
+    openssl:no_ecdsa=False
+    openssl:no_filenames=False
+    openssl:no_gost=False
+    openssl:no_hmac=False
+    openssl:no_md2=False
+    openssl:no_md5=False
+    openssl:no_mdc2=False
+    openssl:no_rc2=False
+    openssl:no_rc4=False
+    openssl:no_rc5=False
+    openssl:no_rfc3779=False
+    openssl:no_rmd160=False
+    openssl:no_rsa=False
+    openssl:no_sha=False
+    openssl:no_srtp=False
+    openssl:no_sse2=False
+    openssl:no_ssl=False
+    openssl:no_ssl3=False
+    openssl:no_stdio=False
+    openssl:no_tests=False
+    openssl:no_threads=False
+    openssl:no_tls1=False
+    openssl:no_zlib=False
+    openssl:openssldir=None
+    openssl:shared=False
+    zlib:fPIC=True
+    zlib:shared=False
+
+[recipe_hash]
+
+
+[env]
+
