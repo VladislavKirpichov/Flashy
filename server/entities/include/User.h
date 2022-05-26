@@ -8,6 +8,7 @@
 class User {
 private:
     int id;
+    std::string name;
     std::string nickname;
     std::string password;
     std::string email;
@@ -18,7 +19,7 @@ public:
 
     User();
 
-    User(std::string nick, std::string pass, std::string email, std::string status);
+    User(std::string nick, std::string name, std::string pass, std::string email, std::string status);
 
     User(std::string nick);
 
@@ -43,6 +44,10 @@ public:
     std::string get_nick();
 
     void update_nick(std::string new_nick);
+
+    std::string get_name();
+
+    void update_name(std::string new_name);
 
     std::string get_pass();
 
