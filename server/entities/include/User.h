@@ -62,7 +62,7 @@ public:
 
     std::vector<std::vector<std::string>> get_pages_title();
 
-    static bool find_user_nick(std::string nick);
+    static bool find_user_nick(std::string nick, std::string pass);
 };
 
 #endif  // DB_TABLES_USERS_H_
