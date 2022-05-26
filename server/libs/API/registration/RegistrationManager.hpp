@@ -1,9 +1,9 @@
 //
-// Created by vladislav on 14.05.22.
+// Created by vladislav on 26.05.22.
 //
 
-#ifndef SERVER_V0_1_AUTHMANAGER_HPP
-#define SERVER_V0_1_AUTHMANAGER_HPP
+#ifndef SERVER_V0_1_REGISTRATIONMANAGER_HPP
+#define SERVER_V0_1_REGISTRATIONMANAGER_HPP
 
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
@@ -18,6 +18,11 @@
 #include "IManager.hpp"
 #include "HttpSuccessCreator.hpp"
 #include "HttpClientErrorCreator.hpp"
+#include "HttpParser.h"
+#include "Logger.hpp"
+#include "Exceptions.h"
+#include "JsonSerializer.h"
+#include "User.h"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
@@ -26,15 +31,15 @@ using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 using error_code = boost::system::error_code;
 
 template<typename Body, typename Allocator, typename Send>
-class AuthManager : public IManager<Body, Allocator, Send> {
+class RegistrationManager : public IManager<Body, Allocator, Send> {
 public:
     using IManager<Body, Allocator, Send>::IManager;
 
-    void auth_user();
+    void register_user();
 };
 
 template<typename Body, typename Allocator, typename Send>
-void AuthManager<Body, Allocator, Send>::auth_user() {
+void RegistrationManager<Body, Allocator, Send>::register_user() {
     std::string url_path = this->get_request_target();
     std::unordered_map<std::string, std::string> args{};
 
@@ -50,14 +55,17 @@ void AuthManager<Body, Allocator, Send>::auth_user() {
 
     // TODO: взять данные о пользователе из БД и сверить пароль с тем, что пришел
     try {
-        if (User::find_user_nick(args.at("login")) && args.at("password") == "123")
-            HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
+        if (!User::find_user_nick(args.at("login"))) {
+            User user = JsonSerializer::deserialize_user(this->get_request_body_data());
+        }
         else
-            HttpClientErrorCreator<Send>::create_unauthorized_401(std::move(this->get_send()), this->get_request_version())->send_response();
+            HttpClientErrorCreator<Send>::create_forbidden_403(std::move(this->get_send()), this->get_request_version())->send_response();
     }
     catch (std::out_of_range& ec) {
         HttpClientErrorCreator<Send>::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
     }
+
+    return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
 }
 
-#endif //SERVER_V0_1_AUTHMANAGER_HPP
+#endif //SERVER_V0_1_REGISTRATIONMANAGER_HPP

@@ -26,6 +26,7 @@
 #include "PageManagerCreator.hpp"
 #include "UserManagerCreator.hpp"
 #include "AuthManagerCreator.hpp"
+#include "RegistrationManagerCreator.hpp"
 
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
@@ -89,15 +90,18 @@ void GetHandler<Body, Allocator, Send>::process_request() {
 
     // Send a request to the desired manager
     try {
+        if (this->_url_path == "registration")
+            RegistrationManagerCreator<Body, Allocator, Send>
+            ::create_RegistrationManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
+        else if (this->_url_path == "auth")
+            AuthManagerCreator<Body, Allocator, Send>
+            ::create_AuthManager(std::move(this->_request), std::forward<Send>(this->_send))->auth_user();
         if (this->_url_path == "page")
             PageManagerCreator<Body, Allocator, Send>
             ::create_GetPageManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
         else if (this->_url_path == "user")
             UserManagerCreator<Body, Allocator, Send>
             ::create_GetUserManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
-        else if (this->_url_path == "auth")
-            AuthManagerCreator<Body, Allocator, Send>
-            ::create_AuthManager(std::move(this->_request), std::forward<Send>(this->_send))->auth_user();
     }
     catch (APIException::APIException& ec) {
         HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->_send), this->_request.version())->send_response();
