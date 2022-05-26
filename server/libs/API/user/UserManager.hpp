@@ -173,7 +173,10 @@ void PutUserManager<Body, Allocator, Send>::handle_request() {
 template<typename Body, typename Allocator, typename Send>
 std::vector<std::vector<std::string>> PutUserManager<Body, Allocator, Send>::get_request_data_in_vector() {
     std::string data = this->get_request_body_data();
-    std::vector<std::vector<std::string>> vector_data = JsonSerializer::deserialize(data);
+    // std::vector<std::vector<std::string>> vector_data = JsonSerializer::deserialize(data);
+    std::vector<std::vector<std::string>> vector_data {{
+                                                               {"hello"}
+    }};
     return vector_data;
 }
 

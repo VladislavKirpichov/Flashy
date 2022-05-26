@@ -97,6 +97,7 @@ void GetPageManager<Body, Allocator, Send>::handle_request() {
     }
 
     try {
+        // TODO: написать запрос в БД
         if (args.at("page_id") == "1")
             response.body() = JsonSerializer::serialize(data);
         else
@@ -132,10 +133,49 @@ public:
 
 template<typename Body, typename Allocator, typename Send>
 void PutPageManager<Body, Allocator, Send>::handle_request() {
-    http::file_body::value_type body;
+    http::response<http::string_body> response{http::status::ok, this->get_request_version()};
 
-    // TODO: отправка данных в БД
+    // get args from url
+    std::unordered_map<std::string, std::string> args{};
+    try {
+        args = HttpParser::define_args_map(this->get_request_target());
+        // args = this->get_args_url();
+    }
+    catch (HttpException::InvalidArguments& ec) {
+        Logger::Error(__LINE__, __FILE__, ec.what());
+        HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
 
+    // test: curl -X PUT "localhost:8080/page/?page_id=1" -H "Content-Type: application/json" -d '{"page_id":"1", "login":"vlad", "title":"hello_page", "created_time":"26.05.2022", "updated_time":"26.05.2022"}'
+    std::unordered_map<std::string, std::string> json = JsonSerializer::deserialize(this->get_request_body_data());
+
+    // put data in DB
+    try {
+        // TODO: отправить данные в БД
+        if (args.at("page_id") == "1") {
+            response.body() = JsonSerializer::serialize(json);
+        }
+        else
+            throw APIException::PageException("page not found");
+    }
+    catch (JsonException::JsonException& ec) {
+        return HttpServerErrorCreator<Send>
+        ::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
+    }
+    catch (std::out_of_range& ec) {
+        return HttpClientErrorCreator<Send>
+        ::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
+    }
+    catch (APIException::PageException& ec) {
+        return HttpClientErrorCreator<Send>
+        ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
+    }
+
+    this->set_flags(response);
+    return this->get_send()(std::move(response));
+
+    // Должен просто возвращать 200 ok
     return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
 }
 
@@ -154,7 +194,7 @@ template<typename Body, typename Allocator, typename Send>
 void PostPageManager<Body, Allocator, Send>::handle_request() {
     http::file_body::value_type body;
 
-    // TODO: отправка данных в БД
+    // TODO: по аналогии с PUT
 
     return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
 }
@@ -172,9 +212,27 @@ public:
 
 template<typename Body, typename Allocator, typename Send>
 void DeletePageManager<Body, Allocator, Send>::handle_request() {
-    http::file_body::value_type body;
+    // get args from url
+    std::unordered_map<std::string, std::string> args{};
+    try {
+        args = HttpParser::define_args_map(this->get_request_target());
+        // args = this->get_args_url();
+    }
+    catch (HttpException::InvalidArguments& ec) {
+        Logger::Error(__LINE__, __FILE__, ec.what());
+        HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
 
-    // TODO: отправка данных в БД
+    try {
+        // Page page{};
+        // page.delete_page(args.at("page_id));
+        // TODO: удалить данные из БД
+    }
+    catch (std::out_of_range& ec) {
+        return HttpClientErrorCreator<Send>
+        ::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
+    }
 
     return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
 }

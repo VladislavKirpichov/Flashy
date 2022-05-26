@@ -24,7 +24,6 @@ std::string JsonSerializer::serialize(const std::vector<std::vector<std::string>
 
         return to_string(json_data);
     }
-    // TODO: написать обработчики ошибок
     // https://json.nlohmann.me/home/exceptions/
     catch (nlohmann::json::exception& ec) {
         throw JsonException::JsonException(ec);
@@ -44,7 +43,6 @@ std::string JsonSerializer::serialize(const std::vector<std::tuple<std::string, 
 
         return to_string(json_data);
     }
-    // TODO: написать обработчики ошибок
     catch (nlohmann::json::exception& ec) {
         throw JsonException::JsonException(ec);
     }
@@ -53,13 +51,30 @@ std::string JsonSerializer::serialize(const std::vector<std::tuple<std::string, 
     }
 }
 
-std::vector<std::vector<std::string>> JsonSerializer::deserialize(const std::string& json_str) {
+std::string JsonSerializer::serialize(const std::unordered_map<std::string, std::string> &input_data) {
+    try {
+        nlohmann::json json_data{};
+
+        for (auto [key, value]: input_data)
+            json_data[key] = value;
+
+        return to_string(json_data);
+    }
+    catch (nlohmann::json::exception &ec) {
+        throw JsonException::JsonException(ec);
+    }
+    catch (...) {
+        throw JsonException::JsonException("Some Json error");
+    }
+}
+
+std::unordered_map<std::string, std::string> JsonSerializer::deserialize(const std::string& json_str) {
     try {
         nlohmann::json json_data = nlohmann::json::parse(json_str);
-        std::vector<std::vector<std::string>> data{};
+        std::unordered_map<std::string, std::string> data{};
 
         for (auto &[key, value]: json_data.items())
-            data.push_back(std::vector<std::string>{key, value});
+            data[key] = value;
 
         return data;
     }
@@ -119,7 +134,31 @@ std::string JsonSerializer::serialize_page(const Page &user) {
 }
 
 Page JsonSerializer::deserialize_page(const std::string &input_data) {
-    return {};
+    try {
+        nlohmann::json json_data = nlohmann::json::parse(input_data);
+
+        size_t id = json_data["id"];
+        size_t login = json_data["login"];
+        std::string title = json_data["title"];
+        time_t created_time = json_data["created_time"];
+        time_t updated_time = json_data["updated_time"];
+        time_t last_visited_time = json_data["last_visited_time"];
+        std::string file = json_data["file"];
+        std::string mime = json_data["mime"];
+        std::string url = json_data["url"];
+
+        Page page{};
+        page.add_page(std::move(id), std::move(title), std::move(file), std::move(mime), std::move(url));
+
+        return page;
+    }
+        // TODO: написать обработчики ошибок
+    catch (nlohmann::json::exception& ec) {
+        throw JsonException::JsonException(ec);
+    }
+    catch (...) {
+        throw JsonException::JsonException("Some Json error");
+    }
 }
 
 std::string JsonSerializer::serialize_question(const Question &user) {
@@ -147,6 +186,7 @@ std::string JsonSerializer::serialize_question(const Question &user) {
 Question JsonSerializer::deserialize_question(const std::string &input_data) {
     return {};
 }
+
 /*
 template<typename... Args>
 std::string JsonSerializer::serialize_any(std::vector<std::tuple<std::string, Args...>> args) {
