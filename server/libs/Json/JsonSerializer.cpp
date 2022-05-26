@@ -107,7 +107,26 @@ std::string JsonSerializer::serialize_user(const User &user) {
 }
 
 User JsonSerializer::deserialize_user(const std::string &input_data) {
-    return {};
+    try {
+        nlohmann::json json_data = nlohmann::json::parse(input_data);
+
+        int id = json_data["id"];
+        std::string login = json_data["login"];
+        std::string password = json_data["password"];
+        std::string email = json_data["email"];
+        std::string status = json_data["status"];
+
+        User user{std::move(login), std::move(password), std::move(email), std::move(status)};
+
+        return user;
+    }
+        // TODO: написать обработчики ошибок
+    catch (nlohmann::json::exception& ec) {
+        throw JsonException::JsonException(ec);
+    }
+    catch (...) {
+        throw JsonException::JsonException("Some Json error");
+    }
 }
 
 std::string JsonSerializer::serialize_page(const Page &user) {

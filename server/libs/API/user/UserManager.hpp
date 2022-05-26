@@ -76,7 +76,7 @@ protected:
 template<typename Body, typename Allocator, typename Send>
 void GetUserManager<Body, Allocator, Send>::set_flags(http::response<http::string_body>& response) {
     response.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-    response.set(http::field::content_type, "text/Json");
+    response.set(http::field::content_type, "text/json");
     response.keep_alive(this->get_request_keep_alive());
     response.content_length(response.body().size());
 }
@@ -149,52 +149,38 @@ class PutUserManager : public IUserManager<Body, Allocator, Send> {
 public:
     using IUserManager<Body, Allocator, Send>::IUserManager;
     void handle_request() final;
-
-protected:
-    std::vector<std::vector<std::string>> get_request_data_in_vector();
 };
 
 template<typename Body, typename Allocator, typename Send>
 void PutUserManager<Body, Allocator, Send>::handle_request() {
+    std::unordered_map<std::string, std::string> args{};
+    // Try to get args from url
     try {
-        std::vector<std::vector<std::string>> request_data = this->get_request_data_in_vector();
+        args = HttpParser::define_args_map(this->get_request_target());
+        // args = this->get_args_url();
     }
+    catch (HttpException::InvalidArguments& ec) {
+        Logger::Error(__LINE__, __FILE__, ec.what());
+        HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
+
+    try {
+        if (User::find_user_nick(args.at("login"))) {
+            User user = JsonSerializer::deserialize_user(this->get_request_body_data());
+            // TODO: поговорить с Акимом как обновить данные по пользователю в бд
+        }
+   }
     catch (JsonException::JsonException& ec) {
         HttpServerErrorCreator<Send>::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
         return;
     }
 
-    // TODO: Положить данные в базу
-    //  Ссылка с описанием методов: https://www.boost.org/doc/libs/1_67_0/boost/beast/http/verb.hpp
-
     HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
 }
 
-template<typename Body, typename Allocator, typename Send>
-std::vector<std::vector<std::string>> PutUserManager<Body, Allocator, Send>::get_request_data_in_vector() {
-    std::string data = this->get_request_body_data();
-    // std::vector<std::vector<std::string>> vector_data = JsonSerializer::deserialize(data);
-    std::vector<std::vector<std::string>> vector_data {{
-                                                               {"hello"}
-    }};
-    return vector_data;
-}
 
-//template<typename Body, typename Allocator, typename Send>
-//void PutUserManager<Body, Allocator, Send>::send_failure() {
-//    http::response<http::string_body>
-//}
-
-
-/*
- * The POST method requests that the src accept the entity enclosed
- * in the request as a new subordinate of the web resource identified by the URI.
- *
- * The entities POSTed might be, for example, an annotation for existing
- * resources; a message for a bulletin board, newsgroup, mailing list,
- * or comment thread; a block of entities that is the result of submitting
- * a web form to a entities-handling process; or an item to add to a database
-*/
+// POST
 
 
 template<typename Body, typename Allocator, typename Send>
@@ -206,12 +192,68 @@ public:
 
 template<typename Body, typename Allocator, typename Send>
 void PostUserManager<Body, Allocator, Send>::handle_request() {
-    std::string request_data = this->get_request_body_data();
+    std::unordered_map<std::string, std::string> args{};
+    // Try to get args from url
+    try {
+        args = HttpParser::define_args_map(this->get_request_target());
+        // args = this->get_args_url();
+    }
+    catch (HttpException::InvalidArguments& ec) {
+        Logger::Error(__LINE__, __FILE__, ec.what());
+        HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
 
-    // TODO: Положить данные в базу
-    //  Ссылка с описанием методов: https://www.boost.org/doc/libs/1_67_0/boost/beast/http/verb.hpp
+    try {
+        if (User::find_user_nick(args.at("login"))) {
+            User user = JsonSerializer::deserialize_user(this->get_request_body_data());
+            // TODO: поговорить с Акимом как обновить данные по пользователю в бд
+        }
+    }
+    catch (JsonException::JsonException& ec) {
+        HttpServerErrorCreator<Send>::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
 
     HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
+}
+
+
+// DELETE
+
+
+template<typename Body, typename Allocator, typename Send>
+class DeleteUserManager : public IUserManager<Body, Allocator, Send> {
+public:
+    using IUserManager<Body, Allocator, Send>::IUserManager;
+    void handle_request() final;
+};
+
+template<typename Body, typename Allocator, typename Send>
+void DeleteUserManager<Body, Allocator, Send>::handle_request() {
+    // get args from url
+    std::unordered_map<std::string, std::string> args{};
+    try {
+        args = HttpParser::define_args_map(this->get_request_target());
+        // args = this->get_args_url();
+    }
+    catch (HttpException::InvalidArguments& ec) {
+        Logger::Error(__LINE__, __FILE__, ec.what());
+        HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
+
+    try {
+        // User user{};
+        // user.delete_user();
+        // TODO: удалить данные из БД
+    }
+    catch (std::out_of_range& ec) {
+        return HttpClientErrorCreator<Send>
+        ::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
+    }
+
+    return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
 }
 
 #endif //SERVER_V0_1_USERMANAGER_HPP
