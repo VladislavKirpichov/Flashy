@@ -102,9 +102,9 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
     // this->find_user_in_db();
 
     try {
-        User new_user{args.at("login")};
-        if (new_user.get_pass() == args.at("password"))
-            HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
+        User temp_user{args.at("login")};
+        if (temp_user.get_pass() == args.at("password"))
+            response.body() = JsonSerializer::serialize_user(temp_user);
         else
             throw APIException::UserException();
     }
@@ -136,50 +136,6 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
 }
 
 
-/*
- * The PUT method requests that the enclosed entity be stored under the supplied URI.
- * If the URI refers to an already existing resource, it is modified;
- * if the URI does not point to an existing resource, then the src
- * can create the resource with that URI.
-*/
-
-
-template<typename Body, typename Allocator, typename Send>
-class PutUserManager : public IUserManager<Body, Allocator, Send> {
-public:
-    using IUserManager<Body, Allocator, Send>::IUserManager;
-    void handle_request() final;
-};
-
-template<typename Body, typename Allocator, typename Send>
-void PutUserManager<Body, Allocator, Send>::handle_request() {
-    std::unordered_map<std::string, std::string> args{};
-    // Try to get args from url
-    try {
-        args = HttpParser::define_args_map(this->get_request_target());
-        // args = this->get_args_url();
-    }
-    catch (HttpException::InvalidArguments& ec) {
-        Logger::Error(__LINE__, __FILE__, ec.what());
-        HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->get_send()), this->get_request_version())->send_response();
-        return;
-    }
-
-    try {
-        if (User::find_user_nick(args.at("login"))) {
-            User user = JsonSerializer::deserialize_user(this->get_request_body_data());
-            // TODO: поговорить с Акимом как обновить данные по пользователю в бд
-        }
-   }
-    catch (JsonException::JsonException& ec) {
-        HttpServerErrorCreator<Send>::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
-        return;
-    }
-
-    HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
-}
-
-
 // POST
 
 
@@ -188,7 +144,24 @@ class PostUserManager : public IUserManager<Body, Allocator, Send> {
 public:
     using IUserManager<Body, Allocator, Send>::IUserManager;
     void handle_request() final;
+
+private:
+    void set_user_fields(const std::string& login, const std::unordered_map<std::string, std::string>& json);
 };
+
+template<typename Body, typename Allocator, typename Send>
+void PostUserManager<Body, Allocator, Send>::set_user_fields(const std::string& login, const std::unordered_map<std::string, std::string>& json) {
+    User user{login};
+
+    if (json.find("login") != json.end())
+        user.update_nick(json.at("login"));
+    if (json.find("email") != json.end())
+        user.update_email(json.at("email"));
+    if (json.find("password") != json.end())
+        user.update_pass(json.at("password"));
+    if (json.find("status") != json.end())
+        user.update_status(json.at("status"));
+}
 
 template<typename Body, typename Allocator, typename Send>
 void PostUserManager<Body, Allocator, Send>::handle_request() {
@@ -205,17 +178,17 @@ void PostUserManager<Body, Allocator, Send>::handle_request() {
     }
 
     try {
-        if (User::find_user_nick(args.at("login"))) {
-            User user = JsonSerializer::deserialize_user(this->get_request_body_data());
-            // TODO: поговорить с Акимом как обновить данные по пользователю в бд
+        if (User::find_user_nick(args.at("login"), args.at("password"))) {
+            std::unordered_map<std::string, std::string> json = JsonSerializer::deserialize(this->get_request_body_data());
+            set_user_fields(args.at("login"), json);
+            return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
         }
+        else
+            return HttpClientErrorCreator<Send>::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
     }
     catch (JsonException::JsonException& ec) {
-        HttpServerErrorCreator<Send>::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
-        return;
+        return HttpServerErrorCreator<Send>::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
     }
-
-    HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
 }
 
 

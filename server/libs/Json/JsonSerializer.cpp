@@ -110,13 +110,14 @@ User JsonSerializer::deserialize_user(const std::string &input_data) {
     try {
         nlohmann::json json_data = nlohmann::json::parse(input_data);
 
-        int id = json_data["id"];
+        std::string name = json_data["name"];
         std::string login = json_data["login"];
         std::string password = json_data["password"];
         std::string email = json_data["email"];
         std::string status = json_data["status"];
 
-        User user{std::move(login), std::move(password), std::move(email), std::move(status)};
+        User user{std::move(login)};
+        user.update_nick(login);
 
         return user;
     }

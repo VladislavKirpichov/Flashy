@@ -8,6 +8,7 @@
 class User {
 private:
     int id;
+    std::string name;
     std::string nickname;
     std::string password;
     std::string email;
@@ -18,7 +19,7 @@ public:
 
     User();
 
-    User(std::string nick, std::string pass, std::string email, std::string status);
+    User(std::string nick, std::string name, std::string pass, std::string email, std::string status);
 
     User(std::string nick);
 
@@ -44,6 +45,10 @@ public:
 
     void update_nick(std::string new_nick);
 
+    std::string get_name();
+
+    void update_name(std::string new_name);
+
     std::string get_pass();
 
     //std::vector<std::vector<std::string>> get_pass(size_t user_ID);
@@ -62,7 +67,7 @@ public:
 
     std::vector<std::vector<std::string>> get_pages_title();
 
-    static bool find_user_nick(std::string nick);
+    static bool find_user_nick(std::string nick, std::string pass);
 };
 
 #endif  // DB_TABLES_USERS_H_

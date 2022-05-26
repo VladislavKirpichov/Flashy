@@ -132,9 +132,6 @@ void PutHandler<Body, Allocator, Send>::process_request() {
         if (this->_url_path == "page")
             PageManagerCreator<Body, Allocator, Send>
             ::create_PutPageManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
-        else if (this->_url_path == "user")
-            UserManagerCreator<Body, Allocator, Send>
-            ::create_PutUserManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
     }
     catch (APIException::APIException& ec) {
         HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->_send), this->_request.version())->send_response();

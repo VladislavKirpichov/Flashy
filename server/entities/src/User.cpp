@@ -4,8 +4,8 @@
 User::User()
 {}
 
-User::User(std::string nick, std::string pass, std::string email, std::string status)
-        : nickname(nick), password(pass), email(email), status(status)
+User::User(std::string nick, std::string name, std::string pass, std::string email, std::string status)
+        : nickname(nick), name(name), password(pass), email(email), status(status)
 {
     user_connect_DB();
 }
@@ -20,16 +20,16 @@ User::User(std::string nick)
     id = std::stoi(MyData[0][0]);
 
     std::string ID = std::to_string(id);
-    MyData = database->Get("SELECT * FROM users WHERE id=?", {"I:"+ ID}, 5);
+    MyData = database->Get("SELECT * FROM users WHERE id=?", {"I:"+ ID}, 6);
 
-
-    password = MyData[0][2];
-    email = MyData[0][3];
-    status = MyData[0][4];
+    name = MyData[0][2];
+    password = MyData[0][3];
+    email = MyData[0][4];
+    status = MyData[0][5];
 }
 
 void User::user_connect_DB() {
-    database = new DB("LAPTOP-9KQ1QFS1.local", "3306", "vlad", "12345vV!", "Flashy");
+    database = new DB("localhost", "3306", "vlad", "12345vV!", "Flashy");
 }
 
 void User::user_close_connect() {
@@ -44,6 +44,15 @@ void User::add_user() {
 
 int User::get_user_ID() {
     return id;
+}
+std::string User::get_name() {
+    return name;
+}
+
+void User::update_name(std::string new_name) {
+    std::string ID = std::to_string(id);
+    database->Update("UPDATE users SET name=? WHERE id=?", { "S:" + new_name, "I:" + ID});
+    name = new_name;
 }
 
 /*
@@ -125,19 +134,14 @@ std::vector<std::vector<std::string>> User::get_pages_title() {
     return database->Get("SELECT title FROM page WHERE userID=?", { "I:" + userID }, 1);
 }
 
-bool User::find_user_nick(std::string nick) {
-    DB *base = new DB("LAPTOP-9KQ1QFS1.local", "3306", "vlad", "12345vV!", "Flashy");
+bool User::find_user_nick(std::string nick, std::string pass) {
+    DB *base = new DB("localhost", "3306", "vlad", "12345vV!", "Flashy");
     std::vector<std::vector<std::string>> MyData;
-    MyData = base->Get("SELECT * FROM users WHERE nick=?", { "S:" + nick}, 6);
+    MyData = base->Get("SELECT * FROM users WHERE nick=? AND pass=?", { "S:" + nick, "S:" + pass}, 6);
     base->Close();
     if(MyData.empty()) {
         return false;
     } else {
         return true;
     }
-
-
-
-
-
 }

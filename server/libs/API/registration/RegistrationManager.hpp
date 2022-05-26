@@ -55,7 +55,7 @@ void RegistrationManager<Body, Allocator, Send>::register_user() {
 
     // TODO: взять данные о пользователе из БД и сверить пароль с тем, что пришел
     try {
-        if (!User::find_user_nick(args.at("login"))) {
+        if (!User::find_user_nick(args.at("login"), args.at("password"))) {
             User user = JsonSerializer::deserialize_user(this->get_request_body_data());
         }
         else

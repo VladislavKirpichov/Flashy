@@ -24,7 +24,6 @@ template<typename Body, typename Allocator, typename Send>
 class UserManagerCreator {
 public:
     static std::shared_ptr<GetUserManager<Body, Allocator, Send>> create_GetUserManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
-    static std::shared_ptr<PutUserManager<Body, Allocator, Send>> create_PutUserManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
     static std::shared_ptr<PostUserManager<Body, Allocator, Send>> create_PostUserManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
 
     /* --- ADD HERE NEW MANAGERS --- */
@@ -34,12 +33,6 @@ template<typename Body, typename Allocator, typename Send>
 std::shared_ptr<GetUserManager<Body, Allocator, Send>>
 UserManagerCreator<Body, Allocator, Send>::create_GetUserManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send) {
     return std::make_shared<GetUserManager<Body, Allocator, Send>>(std::move(req), std::forward<Send>(send));
-}
-
-template<typename Body, typename Allocator, typename Send>
-std::shared_ptr<PutUserManager<Body, Allocator, Send>>
-UserManagerCreator<Body, Allocator, Send>::create_PutUserManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send) {
-    return std::make_shared<PutUserManager<Body, Allocator, Send>>(std::move(req), std::forward<Send>(send));
 }
 
 template<typename Body, typename Allocator, typename Send>

@@ -34,6 +34,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC src)
 # Packages
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(${PROJECT_NAME} PRIVATE mysqlcppconn)
 
-# --- TESTS ---
+# TESTS
 add_subdirectory(tests)
