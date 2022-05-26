@@ -7,11 +7,10 @@
 
 int main() {
 
+    User user("Bob");
+    user.update_email("new_email");
+    user.user_close_connect();
 
-    bool res = User::find_user_nick("Akim");
-    
-
-    std::cout << res << std::endl;
 
 
 
