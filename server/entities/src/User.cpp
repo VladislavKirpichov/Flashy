@@ -4,8 +4,8 @@
 User::User()
 {}
 
-User::User(std::string nick, std::string pass, std::string email, std::string status)
-        : nickname(nick), password(pass), email(email), status(status)
+User::User(std::string nick, std::string name, std::string pass, std::string email, std::string status)
+        : nickname(nick), name(name), password(pass), email(email), status(status)
 {
     user_connect_DB();
 }
@@ -20,12 +20,12 @@ User::User(std::string nick)
     id = std::stoi(MyData[0][0]);
 
     std::string ID = std::to_string(id);
-    MyData = database->Get("SELECT * FROM users WHERE id=?", {"I:"+ ID}, 5);
+    MyData = database->Get("SELECT * FROM users WHERE id=?", {"I:"+ ID}, 6);
 
-
-    password = MyData[0][2];
-    email = MyData[0][3];
-    status = MyData[0][4];
+    name = MyData[0][2];
+    password = MyData[0][3];
+    email = MyData[0][4];
+    status = MyData[0][5];
 }
 
 void User::user_connect_DB() {
@@ -37,7 +37,7 @@ void User::user_close_connect() {
 }
 
 void User::add_user() {
-    database->Insert("INSERT INTO users(nick,pass,email,status) VALUES (?, ?, ?, ?)", { "S:" + nickname , "S:" + password , "S:" + email, "S:" + status });
+    database->Insert("INSERT INTO users(nick,name,pass,email,status) VALUES (?, ?, ?, ?, ?)", { "S:" + nickname , "S:" + name ,"S:" + password , "S:" + email, "S:" + status });
     std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM users WHERE nick=?", { "S:" + nickname}, 1);
     id = std::stoi(MyData[0][0]);
 }
@@ -73,6 +73,15 @@ void User::update_nick(std::string new_nick){
     std::string ID = std::to_string(id);
     database->Update("UPDATE users SET nick=? WHERE id=?", { "S:" + new_nick, "I:" + ID});
     nickname = new_nick;
+}
+std::string User::get_name() {
+    return name;
+}
+
+void User::update_name(std::string new_name) {
+    std::string ID = std::to_string(id);
+    database->Update("UPDATE users SET name=? WHERE id=?", { "S:" + new_name, "I:" + ID});
+    name = new_name;
 }
 
 std::string User::get_pass() {
