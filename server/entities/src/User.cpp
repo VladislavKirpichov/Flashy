@@ -1,5 +1,5 @@
 #include "DB.h"
-#include "../include/User.h"
+#include "User.h"
 
 User::User()
 {}
@@ -29,7 +29,7 @@ User::User(std::string nick)
 }
 
 void User::user_connect_DB() {
-    database = new DB("LAPTOP-9KQ1QFS1.local", "3306", "root@localhost", "9192435969v", "Flashy");
+    database = new DB("LAPTOP-9KQ1QFS1.local", "3306", "vlad", "12345vV!", "Flashy");
 }
 
 void User::user_close_connect() {
@@ -126,7 +126,7 @@ std::vector<std::vector<std::string>> User::get_pages_title() {
 }
 
 bool User::find_user_nick(std::string nick) {
-    DB *base = new DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
+    DB *base = new DB("LAPTOP-9KQ1QFS1.local", "3306", "vlad", "12345vV!", "Flashy");
     std::vector<std::vector<std::string>> MyData;
     MyData = base->Get("SELECT * FROM users WHERE nick=?", { "S:" + nick}, 6);
     base->Close();

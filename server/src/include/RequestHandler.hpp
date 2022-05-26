@@ -92,7 +92,7 @@ void GetHandler<Body, Allocator, Send>::process_request() {
     try {
         if (this->_url_path == "registration")
             RegistrationManagerCreator<Body, Allocator, Send>
-            ::create_RegistrationManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
+            ::create_RegistrationManager(std::move(this->_request), std::forward<Send>(this->_send))->register_user();
         else if (this->_url_path == "auth")
             AuthManagerCreator<Body, Allocator, Send>
             ::create_AuthManager(std::move(this->_request), std::forward<Send>(this->_send))->auth_user();
