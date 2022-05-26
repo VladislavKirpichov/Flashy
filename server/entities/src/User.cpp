@@ -125,10 +125,10 @@ std::vector<std::vector<std::string>> User::get_pages_title() {
     return database->Get("SELECT title FROM page WHERE userID=?", { "I:" + userID }, 1);
 }
 
-bool User::find_user_nick(std::string nick) {
+bool User::find_user_nick(std::string nick, std::string pass) {
     DB *base = new DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
     std::vector<std::vector<std::string>> MyData;
-    MyData = base->Get("SELECT * FROM users WHERE nick=?", { "S:" + nick}, 6);
+    MyData = base->Get("SELECT * FROM users WHERE nick=? AND pass=?", { "S:" + nick, "S:" + pass}, 6);
     base->Close();
     if(MyData.empty()) {
         return false;
