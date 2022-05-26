@@ -7,14 +7,9 @@
 
 int main() {
 
-    Page page("sss");
 
-    //int id = page.get_page_ID();
-    //page.set_updated_time();
-
-    std::string res = page.get_last_visited_time();
-
-    page.page_close_connect();
+    bool res = User::find_user_nick("Akim");
+    
 
     std::cout << res << std::endl;
 
