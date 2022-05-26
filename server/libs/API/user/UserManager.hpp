@@ -89,7 +89,6 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
     // Try to get args from url
     try {
         args = HttpParser::define_args_map(this->get_request_target());
-        // args = this->get_args_url();
     }
     catch (HttpException::InvalidArguments& ec) {
         Logger::Error(__LINE__, __FILE__, ec.what());
@@ -97,14 +96,11 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
         return;
     }
 
-    // Find user by id
-    // TODO: взять информацию о пользователе из БД
-    // this->find_user_in_db();
-
     try {
-        User temp_user{args.at("login")};
-        if (temp_user.get_pass() == args.at("password"))
+        if (User::find_user_nick(args.at("login"), args.at("password"))) {
+            User temp_user{args.at("login")};
             response.body() = JsonSerializer::serialize_user(temp_user);
+        }
         else
             throw APIException::UserException();
     }
@@ -161,15 +157,15 @@ void PostUserManager<Body, Allocator, Send>::set_user_fields(const std::string& 
         user.update_pass(json.at("password"));
     if (json.find("status") != json.end())
         user.update_status(json.at("status"));
+
+    user.user_close_connect();
 }
 
 template<typename Body, typename Allocator, typename Send>
 void PostUserManager<Body, Allocator, Send>::handle_request() {
     std::unordered_map<std::string, std::string> args{};
-    // Try to get args from url
     try {
         args = HttpParser::define_args_map(this->get_request_target());
-        // args = this->get_args_url();
     }
     catch (HttpException::InvalidArguments& ec) {
         Logger::Error(__LINE__, __FILE__, ec.what());
@@ -187,7 +183,24 @@ void PostUserManager<Body, Allocator, Send>::handle_request() {
             return HttpClientErrorCreator<Send>::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
     }
     catch (JsonException::JsonException& ec) {
-        return HttpServerErrorCreator<Send>::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
+        HttpServerErrorCreator<Send>
+        ::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
+    catch (std::out_of_range& ec) {
+        HttpClientErrorCreator<Send>
+        ::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
+    catch (APIException::UserException& ec) {
+        HttpClientErrorCreator<Send>
+        ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
+    catch (sql::SQLException& ec) {
+        HttpClientErrorCreator<Send>
+        ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
+        return;
     }
 }
 
@@ -204,11 +217,9 @@ public:
 
 template<typename Body, typename Allocator, typename Send>
 void DeleteUserManager<Body, Allocator, Send>::handle_request() {
-    // get args from url
     std::unordered_map<std::string, std::string> args{};
     try {
         args = HttpParser::define_args_map(this->get_request_target());
-        // args = this->get_args_url();
     }
     catch (HttpException::InvalidArguments& ec) {
         Logger::Error(__LINE__, __FILE__, ec.what());
@@ -217,13 +228,34 @@ void DeleteUserManager<Body, Allocator, Send>::handle_request() {
     }
 
     try {
-        // User user{};
-        // user.delete_user();
-        // TODO: удалить данные из БД
+        if (User::find_user_nick(args.at("login"), args.at("password"))) {
+            User user{args.at("login")};
+            user.delete_user();
+            user.user_close_connect();
+            return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
+        }
+        else
+            return HttpClientErrorCreator<Send>::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
+    }
+    catch (JsonException::JsonException& ec) {
+        HttpServerErrorCreator<Send>
+        ::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
+        return;
     }
     catch (std::out_of_range& ec) {
-        return HttpClientErrorCreator<Send>
+        HttpClientErrorCreator<Send>
         ::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
+    catch (APIException::UserException& ec) {
+        HttpClientErrorCreator<Send>
+        ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
+    catch (sql::SQLException& ec) {
+        HttpClientErrorCreator<Send>
+        ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
+        return;
     }
 
     return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
