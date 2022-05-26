@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/HW.dir/main.cpp.o  -o HW  DB_lib/libDB_lib.a -lmysqlcppconn 
