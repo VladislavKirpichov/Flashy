@@ -1,5 +1,6 @@
 #include "startpage.h"
 #include "ui_startpage.h"
+#include "Manager.h"
 #include <QMessageBox>
 #include <QHBoxLayout>
 StartPage::StartPage(QWidget *parent)
@@ -34,11 +35,11 @@ void StartPage::on_reg_button_clicked()
 
 void StartPage::on_sign_up_button_clicked()
 {
-    QString login = ui->login->text();
-    QString pass = ui->pass->text();
-    if(true){
+    std::string login = ui->login->text().toStdString();
+    std::string pass = ui->pass->text().toStdString();
+    if(Manager::get_instance()->auth(login, pass)){
         hide();
-
+        Manager::get_instance()->get_user_from_server(login);
         main_window->show();
     } else {
         QMessageBox::information(this, "Auth error", "Uncorrent Login or password");

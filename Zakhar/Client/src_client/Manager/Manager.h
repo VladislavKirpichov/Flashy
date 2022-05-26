@@ -10,38 +10,55 @@
 #include "Client.h"
 #include "Serializer.h"
 #include "User.h"
-#include "Note.h"
+#include "Page.h"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
 namespace websocket = beast::websocket; // from <boost/beast/websocket.hpp>
 namespace net = boost::asio;            // from <boost/asio.hpp>
 using tcp = boost::asio::ip::tcp;
-class Manager{
+
+class Manager {
 public:
-    static Manager* get_instance() {
+    static Manager *get_instance() {
         static net::io_context _ioc;
         static Manager _instance(_ioc);
         return &_instance;
     }
-    static Manager* get_instance_initial(net::io_context &ioc) {
+
+    static Manager *get_instance_initial(net::io_context &ioc) {
         static Manager _instance(ioc);
         return &_instance;
     }
-    void get_user_from_server(const std::string& host,const unsigned short& port);
-    void auth(std::string login, std::string password);
+
+    void get_user_from_server(const std::string &login);
+
+    bool auth(const std::string &login, const std::string &password);
+
     void reg(std::string login, std::string password);
+
     void get_page(std::string page_id);
+
     void update(std::string update_message);
-    std::string get_json(const std::string& host,const unsigned short& port);
+
+    std::string get(const std::string &target);
+
     User get_user();
-    void change_user(const User & new_user);
+
+    void change_user(const User &new_user);
+
+    void set_destination(const std::string &new_host,const unsigned short &new_port);
+
 private:
     explicit Manager(net::io_context &ioc);
+
     HTTPClient client;
     User current_user;
-    Note current_note;
+    Page current_note;
     Serializer serializer;
+    std::string host;
+    unsigned short port;
 
 };
+
 #endif //CLIENT_MANAGER_H

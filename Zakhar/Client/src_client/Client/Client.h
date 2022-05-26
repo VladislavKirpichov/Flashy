@@ -20,7 +20,7 @@ using tcp = boost::asio::ip::tcp;
 class HTTPClient{
 public:
     HTTPClient(net::io_context &ioc);
-    std::string get_response(const std::string& host,const unsigned short& port);
+    std::string get_response(const std::string& host,const unsigned short& port, const std::string& target);
 
 private:
     tcp::resolver resolver;

@@ -2,13 +2,12 @@
 #define NOTEBUTTON_H
 
 #include <QPushButton>
-#include "Manager.h"
 
 class NoteButton : public QPushButton
 {
     Q_OBJECT
 public:
-    explicit NoteButton(QWidget *parent = nullptr);
+    NoteButton(QWidget *parent = nullptr, const std::string & name_str = "");
     ~NoteButton();
     static int buttons_count;   // Статическая переменная, счетчик номеров кнопок
     int get_ID();        // Функция для возврата локального номера кнопки

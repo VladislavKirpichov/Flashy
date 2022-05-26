@@ -1,9 +1,9 @@
 
-#ifndef CLIENT_TEST_H
-#define CLIENT_TEST_H
+#ifndef CLIENT_QUESTION_H
+#define CLIENT_QUESTION_H
 #include<string>
 #include<vector>
-class Test{
+class Question{
 public:
 
 private:
@@ -11,4 +11,4 @@ private:
     std::vector<std::string> answer;
     unsigned int right_answer;
 };
-#endif //CLIENT_TEST_H
+#endif //CLIENT_QUESTION_H

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>550</width>
-    <height>540</height>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,57 +44,6 @@ color: #000000;
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;Your pages&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_7">
-   <property name="geometry">
-    <rect>
-     <x>218</x>
-     <y>130</y>
-     <width>111</width>
-     <height>181</height>
-    </rect>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Example2</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_8">
-   <property name="geometry">
-    <rect>
-     <x>350</x>
-     <y>130</y>
-     <width>111</width>
-     <height>181</height>
-    </rect>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Example3</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_5">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>0</y>
-     <width>550</width>
-     <height>540</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
    </property>
   </widget>
   <widget class="QPushButton" name="add_page_button">
@@ -141,12 +90,6 @@ border-radius: 8px;</string>
     <string>Example1</string>
    </property>
   </widget>
-  <zorder>label_5</zorder>
-  <zorder>label_2</zorder>
-  <zorder>pushButton_7</zorder>
-  <zorder>pushButton_8</zorder>
-  <zorder>add_page_button</zorder>
-  <zorder>custom_page_button</zorder>
  </widget>
  <resources/>
  <connections/>
