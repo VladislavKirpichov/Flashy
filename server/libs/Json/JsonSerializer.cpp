@@ -5,6 +5,8 @@
 #include "JsonSerializer.h"
 #include "nlohmann/json.hpp"
 #include "Exceptions.h"
+#include "User.h"
+#include "Page.h"
 #include <iostream>
 
 
@@ -87,14 +89,20 @@ std::unordered_map<std::string, std::string> JsonSerializer::deserialize(const s
     }
 }
 
-std::string JsonSerializer::serialize_user(const User &user) {
+std::string JsonSerializer::serialize_user(const User& user) {
     try {
         nlohmann::json json_data{};
-        json_data["id"] = "test";
-        json_data["login"] = "test";
-        json_data["password"] = "test";
-        json_data["email"] = "test";
-        json_data["status"] = "test";
+        json_data["id"] = user.get_user_ID();
+        json_data["login"] = user.get_nick();
+        json_data["password"] = user.get_pass();
+        json_data["email"] = user.get_email();
+        json_data["status"] = user.get_status();
+
+        for (auto& i : user.get_pages_file_paths())
+            json_data["pages_id"] += i[0];
+
+        for (auto& i : user.get_pages_title())
+            json_data["pages_titles"] += i[0];
 
         return to_string(json_data);
     }
@@ -106,73 +114,19 @@ std::string JsonSerializer::serialize_user(const User &user) {
     }
 }
 
-User JsonSerializer::deserialize_user(const std::string &input_data) {
-    try {
-        nlohmann::json json_data = nlohmann::json::parse(input_data);
-
-        std::string name = json_data["name"];
-        std::string login = json_data["login"];
-        std::string password = json_data["password"];
-        std::string email = json_data["email"];
-        std::string status = json_data["status"];
-
-        User user{std::move(login)};
-        user.update_nick(login);
-
-        return user;
-    }
-        // TODO: написать обработчики ошибок
-    catch (nlohmann::json::exception& ec) {
-        throw JsonException::JsonException(ec);
-    }
-    catch (...) {
-        throw JsonException::JsonException("Some Json error");
-    }
-}
-
-std::string JsonSerializer::serialize_page(const Page &user) {
+// TODO: сделать const Page
+std::string JsonSerializer::serialize_page(Page &page) {
     try {
         nlohmann::json json_data{};
-        json_data["id"] = user.get_id();
-        json_data["login"] = user.get_login();
-        json_data["title"] = user.get_title();
-        json_data["created_time"] = user.get_created_time();
-        json_data["updated_time"] = user.get_updated_time();
-        json_data["last_visited_time"] = user.get_last_visited_time();
-        json_data["file"] = user.get_file();
-        json_data["mime"] = user.get_mime();
-        json_data["url"] = user.get_url();
+        json_data["login"] = page.get_user_ID();
+        json_data["title"] = page.get_page_title();
+        json_data["created_time"] = page.get_created_time();
+        json_data["updated_time"] = page.get_updated_time();
+        json_data["last_visited_time"] = page.get_last_visited_time();
+        json_data["url"] = page.get_file_page();
 
         return to_string(json_data);
     }
-    catch (nlohmann::json::exception& ec) {
-        throw JsonException::JsonException(ec);
-    }
-    catch (...) {
-        throw JsonException::JsonException("Some Json error");
-    }
-}
-
-Page JsonSerializer::deserialize_page(const std::string &input_data) {
-    try {
-        nlohmann::json json_data = nlohmann::json::parse(input_data);
-
-        size_t id = json_data["id"];
-        size_t login = json_data["login"];
-        std::string title = json_data["title"];
-        time_t created_time = json_data["created_time"];
-        time_t updated_time = json_data["updated_time"];
-        time_t last_visited_time = json_data["last_visited_time"];
-        std::string file = json_data["file"];
-        std::string mime = json_data["mime"];
-        std::string url = json_data["url"];
-
-        Page page{};
-        // page.add_page(std::move(id), std::move(title), std::move(file), std::move(mime), std::move(url));
-
-        return page;
-    }
-        // TODO: написать обработчики ошибок
     catch (nlohmann::json::exception& ec) {
         throw JsonException::JsonException(ec);
     }
@@ -201,10 +155,6 @@ std::string JsonSerializer::serialize_question(const Question &user) {
     catch (...) {
         throw JsonException::JsonException("Some Json error");
     }
-}
-
-Question JsonSerializer::deserialize_question(const std::string &input_data) {
-    return {};
 }
 
 /*

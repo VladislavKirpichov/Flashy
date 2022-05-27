@@ -136,7 +136,7 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
 
 
 template<typename Body, typename Allocator, typename Send>
-class PostUserManager : public IUserManager<Body, Allocator, Send> {
+class PutUserManager : public IUserManager<Body, Allocator, Send> {
 public:
     using IUserManager<Body, Allocator, Send>::IUserManager;
     void handle_request() final;
@@ -146,7 +146,7 @@ private:
 };
 
 template<typename Body, typename Allocator, typename Send>
-void PostUserManager<Body, Allocator, Send>::set_user_fields(const std::string& login, const std::unordered_map<std::string, std::string>& json) {
+void PutUserManager<Body, Allocator, Send>::set_user_fields(const std::string& login, const std::unordered_map<std::string, std::string>& json) {
     User user{login};
 
     if (json.find("login") != json.end())
@@ -162,7 +162,7 @@ void PostUserManager<Body, Allocator, Send>::set_user_fields(const std::string& 
 }
 
 template<typename Body, typename Allocator, typename Send>
-void PostUserManager<Body, Allocator, Send>::handle_request() {
+void PutUserManager<Body, Allocator, Send>::handle_request() {
     std::unordered_map<std::string, std::string> args{};
     try {
         args = HttpParser::define_args_map(this->get_request_target());

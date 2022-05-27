@@ -38,7 +38,6 @@ void AuthManager<Body, Allocator, Send>::auth_user() {
     std::string url_path = this->get_request_target();
     std::unordered_map<std::string, std::string> args{};
 
-    // Try to get args from url
     try {
         args = HttpParser::define_args_map(url_path);
     }
@@ -48,15 +47,15 @@ void AuthManager<Body, Allocator, Send>::auth_user() {
         return;
     }
 
-    // TODO: взять данные о пользователе из БД и сверить пароль с тем, что пришел
     try {
         if (User::find_user_nick(args.at("login"), args.at("password")))
-            HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
+            return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
         else
-            HttpClientErrorCreator<Send>::create_unauthorized_401(std::move(this->get_send()), this->get_request_version())->send_response();
+            return HttpClientErrorCreator<Send>::create_unauthorized_401(std::move(this->get_send()), this->get_request_version())->send_response();
     }
     catch (std::out_of_range& ec) {
         HttpClientErrorCreator<Send>::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
+        return;
     }
 }
 

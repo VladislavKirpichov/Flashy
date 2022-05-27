@@ -18,7 +18,7 @@ public:
     static std::string serialize_user(const User& user);
     static User deserialize_user(const std::string& input_data);
 
-    static std::string serialize_page(const Page& user);
+    static std::string serialize_page(Page& page);
     static Page deserialize_page(const std::string& input_data);
 
     static std::string serialize_question(const Question& user);

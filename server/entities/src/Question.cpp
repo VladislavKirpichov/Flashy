@@ -1,8 +1,6 @@
 
 // TODO: ПОДКЛЮЧИТЬ БД!
 
-/*
-
 #include "DB.h"
 
 void DB::add_question(size_t page_ID, std::string file, std::string url, std::string answer){
@@ -78,5 +76,3 @@ std::vector<std::vector<std::string>> DB::get_right_answers_rate(size_t question
     std::string ID = std::to_string(question_ID);
     return Get("SELECT (rigtAnswers / (wrongAnswers + rightAnswers)) FROM questions WHERE id=?", { "I:" + ID}, 1);
 }
-
-*/

@@ -132,6 +132,9 @@ void PutHandler<Body, Allocator, Send>::process_request() {
         if (this->_url_path == "page")
             PageManagerCreator<Body, Allocator, Send>
             ::create_PutPageManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
+        else if (this->_url_path == "user")
+            UserManagerCreator<Body, Allocator, Send>
+            ::create_PutUserManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
     }
     catch (APIException::APIException& ec) {
         HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->_send), this->_request.version())->send_response();
@@ -162,9 +165,6 @@ void PostHandler<Body, Allocator, Send>::process_request() {
         if (this->_url_path == "page")
             PageManagerCreator<Body, Allocator, Send>
             ::create_PostPageManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
-        else if (this->_url_path == "user")
-            UserManagerCreator<Body, Allocator, Send>
-            ::create_PostUserManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
     }
     catch (APIException::APIException& ec) {
         HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->_send), this->_request.version())->send_response();
@@ -173,5 +173,7 @@ void PostHandler<Body, Allocator, Send>::process_request() {
         throw ServerException::RequestHandlerException("Not API exception in RequestHandler");
     }
 }
+
+// TODO: добавить обработчик удаления
 
 #endif //SERVER_V0_1_REQUESTHANDLER_H
