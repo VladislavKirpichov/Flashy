@@ -21,7 +21,7 @@ target_include_directories(${PROJECT_NAME}
 )
 
 # libs
-target_link_libraries(${PROJECT_NAME} PUBLIC recommend API http_parser http_response Logger)
+target_link_libraries(${PROJECT_NAME} PUBLIC API http_parser http_response Logger)
 
 # Packages
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})

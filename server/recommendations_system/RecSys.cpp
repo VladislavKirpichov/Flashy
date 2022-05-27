@@ -7,8 +7,8 @@ double RecSys<Net>::fit() {
     //k - tensor shape
 
     //Define matrix shape
-    size_t docs_count = dataset_->get_documents_count();
-    size_t cards_count = dataset_->get_flashcards_count();
+    int docs_count = dataset_->get_documents_count();
+    int cards_count = dataset_->get_flashcards_count();
 
     //fill random numbers in some range
     std::vector<int> k_grid = generate_k_grid(docs_count, cards_count);
@@ -17,20 +17,21 @@ double RecSys<Net>::fit() {
     std::vector<double> learning_rate_grid = generate_lr_grid(5);
 
     //Define best parameters
-    double best_loss;
-    size_t best_k;
-    double best_lr;
+    double best_loss = 100;
+    int best_k = cards_count;
+    double best_lr = 0.5;
 
     srand(time(nullptr));
     const std::chrono::time_point<std::chrono::steady_clock> start_fit =
             std::chrono::steady_clock::now();
 
-    for (const size_t k_iter: k_grid) {
+    for (const int k_iter: k_grid) {
         for (const double lr_iter: learning_rate_grid) {
 
             auto net = std::make_shared<Net>(docs_count, cards_count, k_iter);
             torch::Tensor output = net->train(dataset_->get_interaction_table(), 1e+3, lr_iter);
-            double loss = eval_loss(output, dataset_);
+            double loss = output.item().toDouble();
+            //eval_loss(output, dataset_);
 
             std::cout << "Model {lr = " << lr_iter << ", k = " << k_iter << "}"
                       << "\nLoss: " << loss << std::endl;
@@ -51,36 +52,39 @@ double RecSys<Net>::fit() {
               << "\nTIME: " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_fit - start_fit).count()
               << "nanoseconds" << std::endl;
 
+
+
     //Training best model
     net_ = std::make_shared<Net>(docs_count, cards_count, best_k);
     net_->train(dataset_->get_interaction_table(), 1e+3, best_lr);
-    net_->save_model();
+//  net_->save_model();
+    std::cout << net_->get_doc2card() << std::endl;
 
     //save embeddings
-    save_cards_embeddings(net_->get_documents_embeddings(), dataset_);
-    save_docs_embeddings(net_->get_flashcards_embeddings(), dataset_);
+    save_cards_embeddings(net_->get_flashcards_embeddings(), dataset_);
+    save_docs_embeddings(net_->get_documents_embeddings(), dataset_);
 
     return best_loss;
 }
 
 template<class Net>
-const std::vector<int> RecSys<Net>::generate_k_grid(size_t M, size_t N) {
+const std::vector<int> RecSys<Net>::generate_k_grid(int M, int N) {
     std::vector<int> grid;
 
-    for (size_t i = std::min(M,N), j = 0; i < std::max(M,N); ++i, ++j) {
-        grid[j] = i;
+    for (int i = 1; i < std::max(M,N); ++i) {
+        grid.push_back(i);
     }
 
     return grid;
 }
 
 template<class Net>
-const std::vector<double> RecSys<Net>::generate_lr_grid(size_t count) {
+const std::vector<double> RecSys<Net>::generate_lr_grid(int count) {
     std::vector<double> grid(count);
     srand(time(nullptr));
 
-    for (size_t i = 0; i < count; ++i) {
-        int a = rand() % 10;
+    for (int i = 0; i < count; ++i) {
+        int a = rand() % 10 + 1;
         grid[i] = a * std::pow(10, -i);
     }
 
@@ -122,8 +126,8 @@ void RecSys<Net>::save_docs_embeddings(const torch::Tensor &p_documents_matrix,
 template<class Net>
 RecSys<Net>::RecSys(const Dataset &p_dataset) {
     dataset_ = std::make_shared<Dataset>(p_dataset);
-    net_ = std::make_shared<Net>(dataset_->get_documents_count(),
-                                 dataset_->get_flashcards_count());
+//    net_ = std::make_shared<Net>(dataset_->get_documents_count(),
+//                                 dataset_->get_flashcards_count());
 //  try {
 //    load_model(net_);
 //    // TODO: load embeddings (from file or database)
@@ -150,13 +154,14 @@ double RecSys<Net>::cosine_similarity(torch::Tensor first, torch::Tensor second)
     int size = std::min(first.size(0), second.size(0));
 
     for (int i = 0; i < size; ++i) {
-        res += first.index({i}).item().toDouble() * second.index({i}).item().toDouble();
+        res += first.index({i}).item().toDouble()
+               * second.index({i}).item().toDouble();
     }
     return res;
 }
 
 template<class Net>
-std::vector<int> RecSys<Net>::i2i_predictions(int card_id, size_t count) {
+std::vector<int> RecSys<Net>::i2i_predictions(int card_id, int count) {
 
     std::vector<std::pair<int,double>> similarity_vec;
     torch::Tensor current_emb = flashcard_embeddings_[card_id];
@@ -175,47 +180,67 @@ std::vector<int> RecSys<Net>::i2i_predictions(int card_id, size_t count) {
                   return p1.second < p2.second;
               });
 
-    std::vector<int> result;
-    std::copy(similarity_vec.begin(), similarity_vec.begin() + count, result.begin());
-
+    std::vector<int> result(count + 1);
+//  std::copy(similarity_vec.begin(), similarity_vec.begin() + count, result.begin());
+    for (const auto &i: similarity_vec) {
+        result.push_back(i.first);
+    }
     return result;
 }
 
 template<class Net>
-std::vector<int> RecSys<Net>::u2i_predictions(int doc_id, size_t count) {
+std::vector<int> RecSys<Net>::u2i_predictions(int doc_id, int count) {
 
     std::vector<std::pair<int, double>> flashcards;
     torch::Tensor interactions = net_->get_doc2card();
-//    std::vector<int> cards_id = dataset_->get_flashcards();
-//    std::vector<int> docs_id = dataset_->get_documents();
+    std::vector<int> cards_id = dataset_->get_flashcards();
+    std::vector<int> docs_id = dataset_->get_documents();
 
 
-//    for (int i = 0; i < dataset_->get_flashcards_count(); ++i) {
-//        std::pair<int, double> temp;
-//        temp.first = cards_id[i];
-//        temp.second = interactions.index({docs_id[doc_id], cards_id[i]}).item().toDouble();
-//
-//        flashcards.push_back(temp);
-//    }
-//
-//    std::sort(flashcards.begin(), flashcards.end(),
-//              [flashcards](std::pair<int, double> p1, std::pair<int, double> p2)
-//              {
-//                  return p1.second < p2.second;
-//              });
-//
-//    std::vector<int> result;
-//    std::copy(flashcards.begin(), flashcards.begin() + count, result.begin());
-//
-//    return result;
-    return {};
+    for (int i = 0; i < dataset_->get_flashcards_count(); ++i) {
+        std::pair<int, double> temp;
+        temp.first = cards_id[i];
+        temp.second = interactions.index({docs_id[doc_id], cards_id[i]}).item().toDouble();
+
+        flashcards.push_back(temp);
+    }
+
+    std::sort(flashcards.begin(), flashcards.end(),
+              [flashcards](std::pair<int, double> p1, std::pair<int, double> p2)
+              {
+                  return p1.second < p2.second;
+              });
+
+    std::vector<int> result;
+    std::copy(flashcards.begin(), flashcards.begin() + count, result.begin());
+
+    return result;
 }
 
-
-
-void Start::start_rec_sys() {
-    torch::Tensor interactions = torch::rand({3, 3});
+void Creator::start_rec_sys() {
+    torch::Tensor interactions = torch::rand({3,3});
+    std::cout << interactions << std::endl;
     Dataset data(interactions);
     RecSys<Net> recommender(data);
     double loss = recommender.fit();
+    std::cout << loss << '\n';
+
+
+    for (auto i: recommender.i2i_predictions(0, 2)) {
+        std::cout << i << std::endl;
+    }
+}
+
+int main() {
+    torch::Tensor interactions = torch::rand({3,3});
+    std::cout << interactions << std::endl;
+    Dataset data(interactions);
+    RecSys<Net> recommender(data);
+    double loss = recommender.fit();
+    std::cout << loss << '\n';
+
+
+    for (auto i: recommender.i2i_predictions(0, 2)) {
+        std::cout << i << std::endl;
+    }
 }

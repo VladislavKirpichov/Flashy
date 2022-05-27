@@ -19,7 +19,7 @@ public:
     static User deserialize_user(const std::string& input_data);
 
     static std::string serialize_page(Page& page);
-    static Page deserialize_page(const std::string& input_data);
+    static std::unordered_map<std::string, std::vector<std::string>> deserialize_page(const std::string& json_str);
 
     static std::string serialize_question(const Question& user);
     static Question deserialize_question(const std::string& input_data);
@@ -27,6 +27,7 @@ public:
     static std::string serialize(const std::vector<std::vector<std::string>>& input_data);
     static std::string serialize(const std::vector<std::tuple<std::string , std::string>>& input_data);
     static std::string serialize(const std::unordered_map<std::string, std::string>& input_data);
+
     static std::unordered_map<std::string, std::string> deserialize(const std::string& json_str);
 
     // for test

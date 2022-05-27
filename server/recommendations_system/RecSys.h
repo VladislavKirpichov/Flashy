@@ -3,6 +3,8 @@
 
 #include "Net.h"
 #include "Dataset.h"
+#include <unordered_map>
+#include <algorithm>
 
 template<class Net>
 class RecSys {
@@ -11,9 +13,9 @@ class RecSys {
 
     std::shared_ptr<Dataset> dataset_;
 
-    std::unordered_map<size_t, torch::Tensor> flashcard_embeddings_;
+    std::unordered_map<int, torch::Tensor> flashcard_embeddings_;
 
-    std::unordered_map<size_t, torch::Tensor> document_embeddings_;
+    std::unordered_map<int, torch::Tensor> document_embeddings_;
 
     void save_cards_embeddings(const torch::Tensor &p_interactions,
                                std::shared_ptr<Dataset> p_dataset);
@@ -24,9 +26,9 @@ class RecSys {
     double eval_loss(const torch::Tensor &output,
                      std::shared_ptr<Dataset> p_dataset);
 
-    const std::vector<int> generate_k_grid(size_t M, size_t N);
+    const std::vector<int> generate_k_grid(int M, int N);
 
-    const std::vector<double> generate_lr_grid(size_t count);
+    const std::vector<double> generate_lr_grid(int count);
 
     double cosine_similarity(torch::Tensor first, torch::Tensor second);
 
@@ -46,13 +48,13 @@ public:
 
     double fit();
 
-    std::vector<int> i2i_predictions(int card_id, size_t count);
+    std::vector<int> i2i_predictions(int card_id, int count);
 
-    std::vector<int> u2i_predictions(int doc_id, size_t count);
+    std::vector<int> u2i_predictions(int doc_id, int count);
 
 };
 
-class Start {
+class Creator {
 public:
     static void start_rec_sys();
 };

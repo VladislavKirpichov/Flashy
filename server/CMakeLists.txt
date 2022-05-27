@@ -34,7 +34,6 @@ add_executable(${PROJECT_NAME} main.cpp)
 #target_link_libraries(${PROJECT_NAME} PUBLIC API)
 #target_link_libraries(${PROJECT_NAME} PUBLIC http_response)
 target_link_libraries(${PROJECT_NAME} PUBLIC src)
-target_link_libraries(${PROJECT_NAME} PUBLIC recommend)
 
 # Packages
 #target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})

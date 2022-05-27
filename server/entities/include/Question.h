@@ -9,16 +9,18 @@ private:
     int id;
     int page_id;
     std::string file;
+    std::string url;
     std::string answer;
     int right_answers;
     int wrong_answers;
+    int mark;
     DB *database;
 
 public:
 
-    Question(int page_ID, std::string file, std::string answer);
+    Question(int page_ID, std::string file, std::string url, std::string answer);
 
-    Question(int id);
+    Question(std::string file);
 
     void question_connect_DB();
 
@@ -40,6 +42,10 @@ public:
 
     std::string get_question_file() const;
 
+    void update_question_url(std::string new_url);
+
+    std::string get_question_url() const;
+
     void update_question_answer(std::string new_answer);
 
     std::string get_question_answer() const;
@@ -54,12 +60,11 @@ public:
 
     double get_right_answers_rate() const;
 
-    void set_rec_question_mark(std::string q_id, std::string mark);
+    void set_mark(int mark);
 
-    std::string get_rec_question_mark(std::string q_id);
+    int get_mark() const;
 
-    std::vector<std::vector<std::string>> get_all_rec_question_marks_and_id();
-
+    void set_right_answer() const;
 };
 
 #endif  //  DB_TABLES_QUESTIONS_H_

@@ -12,6 +12,9 @@ public:
     // N - flashcards count
     Net(int M, int N, int k = -1);
 
+    torch::Tensor forward();
+
+
     void save_model();
 
     void load_model();
@@ -27,7 +30,7 @@ public:
 
 private:
 
-    torch::Tensor forward();
+//  torch::Tensor forward();
 
     torch::Tensor doc2card;
     torch::Tensor documents_embeddings;
