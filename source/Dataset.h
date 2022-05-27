@@ -15,20 +15,6 @@ class Dataset {
     int mark;
   };
 
- private:
-
-  std::vector<size_t> documents_id_;
-
-  std::vector<size_t> flashcards_id_;
-
-  std::vector<Data_t> interactions_data_;
-
-  torch::Tensor interactions_table_;
-
-  void preprocessing(); // creates interactions table
-
- public:
-
   const torch::Tensor& get_interaction_table() const;
 
   const size_t get_documents_count() const;
@@ -41,9 +27,20 @@ class Dataset {
 
   const std::vector<size_t> get_flashcards();
 
-  Dataset();
+  Dataset()=default;
 
-  Dataset(torch::Tensor a); //test
+  explicit Dataset(torch::Tensor a)
+      : interactions_table_(a)
+      , documents_id_(a.size(0))
+      , flashcards_id_(a.size(1))
+  {
+    for (size_t i = 0; i < a.size(0); ++i) {
+      documents_id_[i] = i;
+    }
+    for (size_t i = 0; i < a.size(1); ++i) {
+      flashcards_id_[i] = i;
+    }
+  };
 
   Dataset(const Dataset &other);
 
@@ -53,7 +50,22 @@ class Dataset {
 
   Dataset& operator=(Dataset &&other)=delete;
 
-  ~Dataset();
+  ~Dataset()=default;
+
+ private:
+
+  std::vector<size_t> documents_id_;
+
+  std::vector<size_t> flashcards_id_;
+
+  std::vector<Data_t> interactions_data_;
+
+  torch::Tensor interactions_table_;
+
+  void preprocessing(); // creates interactions table
+
+  int get_mark(int p_doc_id, int p_card_id);
+
 };
 
 #endif //RECSYS_SOURCE_DATASET_H_

@@ -3,6 +3,7 @@
 
 #include "Net.h"
 #include "Dataset.h"
+#include <unordered_map>
 
 template<class Net>
 class RecSys {
