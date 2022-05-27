@@ -7,9 +7,13 @@
 
 int main() {
 
-    User user("Bob");
-    user.update_email("new_email");
-    user.user_close_connect();
+    //User user("Bob");
+    //user.update_email("new_email");
+    //user.user_close_connect();
+
+    Page page("sss");
+
+    page.page_close_connect();
 
 
 

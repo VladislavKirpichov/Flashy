@@ -45,7 +45,7 @@ void Question::add_question(){
     id = std::stoi(MyData[0][0]);
 }
 
-int Question::get_question_ID(){
+int Question::get_question_ID() const {
     //return database->Get("SELECT id FROM questions WHERE file=?", { "S:" + file}, 1);
     return id;
 }
@@ -55,23 +55,23 @@ void Question::delete_question(){
     database->Delete("DELETE FROM questions WHERE id=?", { "I:" + ID});
 }
 
-std::vector<std::vector<std::string>> Question::get_all_question_info(size_t question_ID){
+std::vector<std::vector<std::string>> Question::get_all_question_info(size_t question_ID) const{
     std::string ID = std::to_string(question_ID);
     return database->Get("SELECT * FROM questions WHERE id=?", { "I:" + ID}, 9);
 }
 
-std::vector<std::vector<std::string>> Question::get_all_page_questions_id(){
+std::vector<std::vector<std::string>> Question::get_all_page_questions_id() const {
     std::string page_ID = std::to_string(page_id);
     return database->Get("SELECT id FROM questions WHERE pageID=?", { "I:" + page_ID}, 1);
 }
 
-int Question::get_page_ID(){
+int Question::get_page_ID() const{
     //std::string ID = std::to_string(question_ID);
     //return database->Get("SELECT pageID FROM questions WHERE id=?", { "I:" + ID}, 1);
     return page_id;
 }
 
-std::string Question::get_question_file(){
+std::string Question::get_question_file() const{
     //std::string ID = std::to_string(question_ID);
     //return database->Get("SELECT file FROM questions WHERE id=?", { "I:" + ID}, 1);
     return file;
@@ -89,7 +89,7 @@ void Question::update_question_url(std::string new_url) {
     url = new_url;
 }
 
-std::string Question::get_question_url() {
+std::string Question::get_question_url() const{
     return url;
 }
 
@@ -99,7 +99,7 @@ void Question::update_question_answer(std::string new_answer){
     answer = new_answer;
 }
 
-std::string Question::get_question_answer(){
+std::string Question::get_question_answer() const{
     //std::string ID = std::to_string(question_ID);
     //return database->Get("SELECT answer FROM questions WHERE id=?", { "I:" + ID}, 1);
     return answer;
@@ -113,7 +113,7 @@ void Question::set_right_answer(){
 
 }
 
-int Question::get_right_answers_count(){
+int Question::get_right_answers_count()const{
     //std::string ID = std::to_string(question_ID);
     //return database->Get("SELECT rightAnswers FROM questions WHERE id=?", { "I:" + ID}, 1);
     return right_answers;
@@ -125,13 +125,13 @@ void Question::set_wrong_answer(){
     wrong_answers++;
 }
 
-int Question::get_wrong_answers(){
+int Question::get_wrong_answers() const{
     //std::string ID = std::to_string(question_ID);
     //return database->Get("SELECT wrongAnswers FROM questions WHERE id=?", { "I:" + ID}, 1);
     return wrong_answers;
 }
 
-double Question::get_right_answers_rate(){
+double Question::get_right_answers_rate() const{
     //std::string ID = std::to_string(id);
     //return database->Get("SELECT `rightAnswers`, `wrongAnswers`, (`rightAnswers` / (`rightAnswers` + `wrongAnswers`)) FROM questions WHERE id=?", { "I:" + ID}, 1);
     double res =((double)right_answers / (right_answers + wrong_answers));
@@ -147,7 +147,7 @@ void Question::set_mark(int new_mark) {
     mark = new_mark;
 }
 
-int Question::get_mark() {
+int Question::get_mark() const{
     return mark;
 }
 
