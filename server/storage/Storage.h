@@ -6,7 +6,6 @@
 #define SERVER_V0_1_STORAGE_H
 
 #include <string>
-#include <vector>
 #include <type_traits>
 
 //template <typename std::string>
@@ -14,18 +13,17 @@
 //
 //template <typename std::string>
 //requires is_writable<std::string>
-
 class Storage {
 public:
     // std::stringODO: сделать const Page& page
     std::string create_file(const std::string& login, std::string&& input_data);
-    std::string get_file(const std::string& file_url);
+    std::string get_file(const std::string& login, const std::string& file_url);
+    void update_file_header(const std::string& file_url);
     void update_file_body(const std::string& file_url, std::string&& input_data);
     void delete_file(const std::string& file_url);
 
-    static inline std::vector<std::string> all_files{};
-
 protected:
+    // void write_page_header_in_file(const std::string& file_url, Page& page);
     void write_input_data_in_file(const std::string& file_url, std::string&& input_data);
 
 private:
@@ -35,7 +33,7 @@ private:
                                             "ABCDEFGHIJKLMNOPQRSzUVWXYZ"
                                             "abcdefghijklmnopqrstuvwxyz"};
 
-    static inline std::string data_path = "/data/";
+    static inline std::string data_path = "data/";
 };
 
 

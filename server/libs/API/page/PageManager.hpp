@@ -14,7 +14,6 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#include <cppconn/exception.h>
 
 #include "IManager.hpp"
 #include "Exceptions.h"
@@ -62,6 +61,9 @@ public:
 
 protected:
     void set_flags(http::response<http::string_body> &response) noexcept override;
+
+    void send_page_json_data();
+    void send_page_txt_data();
 };
 
 template<typename Body, typename Allocator, typename Send>
@@ -75,6 +77,9 @@ template<typename Body, typename Allocator, typename Send>
 void GetPageManager<Body, Allocator, Send>::handle_request() {
     http::response<http::string_body> response{http::status::ok, this->get_request_version()};
 
+    // TODO: имя файла - уникальный идентефикатор
+    //  login_pageid.txt - генерируем файлы на основе логина
+
     std::unordered_map<std::string, std::string> args{};
     try {
         args = HttpParser::define_args_map(this->get_request_target());
@@ -86,29 +91,37 @@ void GetPageManager<Body, Allocator, Send>::handle_request() {
     }
 
     try {
+        // TODO: реализовать хранилище файлов .txt и отдачу их через БД
+
+        // Если есть метка content, то отдаем контент страницы
         if (args.find("content") != args.end()) {
             Storage storage{};
-            response.body() = storage.get_file(args.at("page_id"));
+            response.body() = storage.get_file(args.at("login"), args.at("file"));
             response.set(http::field::content_type, "text/text");
         }
         else {
-            Page page{args.at("page_id")};
+            Page page{args.at("file")};
             response.body() = JsonSerializer::serialize_page(page);
             response.set(http::field::content_type, "text/json");
         }
+//        Page page{};
+//        if (Page)
+//            response.body() = JsonSerializer::serialize(data);
+//        else
+//            throw APIException::PageException("page not found");
     }
     catch (JsonException::JsonException& ec) {
         return HttpServerErrorCreator<Send>
-        ::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
+                ::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
     }
     catch (std::out_of_range& ec) {
 
         return HttpClientErrorCreator<Send>
-        ::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
+                ::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
     }
     catch (APIException::PageException& ec) {
         return HttpClientErrorCreator<Send>
-        ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
+                ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
     }
 
     this->set_flags(response);
@@ -124,20 +137,7 @@ class PutPageManager : public IPageManager<Body, Allocator, Send> {
 public:
     using IPageManager<Body, Allocator, Send>::IPageManager;
     void handle_request() final;
-private:
-    void create_new_page(const std::string& page_id, const std::unordered_map<std::string, std::vector<std::string>>& json);
 };
-
-template<typename Body, typename Allocator, typename Send>
-void PutPageManager<Body, Allocator, Send>::create_new_page(const std::string& page_id, const std::unordered_map<std::string, std::vector<std::string>>& json) {
-    Page page{std::stoi(json.at("user_id")[0]), json.at("theme")[0], json.at("title")[0], page_id};
-    page.add_page();
-
-//    if (json.find("questions") != json.end())
-//        page.set_rec_questions_id(json.at("questions"));
-
-    page.page_close_connect();
-}
 
 template<typename Body, typename Allocator, typename Send>
 void PutPageManager<Body, Allocator, Send>::handle_request() {
@@ -155,14 +155,18 @@ void PutPageManager<Body, Allocator, Send>::handle_request() {
         return;
     }
 
+    // test: curl -X PUT "localhost:8080/page/?page_id=1" -H "Content-Type: application/json" -d '{"page_id":"1", "login":"vlad", "title":"hello_page", "created_time":"26.05.2022", "updated_time":"26.05.2022"}'
+    std::unordered_map<std::string, std::string> json = JsonSerializer::deserialize(this->get_request_body_data());
+
+    // put data in DB
     try {
-        // create new page in storage
-        Storage storage{};
-        std::string page_id = storage.create_file(args.at("login"), "");
-
-        create_new_page(page_id, JsonSerializer::deserialize_in_vector(this->get_request_body_data()));
+        // TODO: отправить данные в БД
+        if (args.at("page_id") == "1") {
+            response.body() = JsonSerializer::serialize(json);
+        }
+        else
+            throw APIException::PageException("page not found");
     }
-
     catch (JsonException::JsonException& ec) {
         return HttpServerErrorCreator<Send>
         ::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
@@ -176,6 +180,10 @@ void PutPageManager<Body, Allocator, Send>::handle_request() {
         ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
     }
 
+    this->set_flags(response);
+    return this->get_send()(std::move(response));
+
+    // Должен просто возвращать 200 ok
     return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
 }
 
@@ -188,34 +196,35 @@ class PostPageManager : public IPageManager<Body, Allocator, Send> {
 public:
     using IPageManager<Body, Allocator, Send>::IPageManager;
     void handle_request() final;
-private:
-    void set_page_fields(const std::string& page_id, const std::unordered_map<std::string, std::vector<std::string>>& json);
 };
 
 template<typename Body, typename Allocator, typename Send>
-void PostPageManager<Body, Allocator, Send>::set_page_fields(const std::string& page_id, const std::unordered_map<std::string, std::vector<std::string>>& json) {
-    Page page{page_id};
+void PostPageManager<Body, Allocator, Send>::handle_request() {
+    http::file_body::value_type body;
 
-    if (json.find("theme") != json.end())
-        page.update_theme(json.at("theme")[0]);
-    if (json.find("title") != json.end())
-        page.update_page_title(json.at("title")[0]);
+    // TODO: по аналогии с PUT
 
-    page.set_last_visited_time();
-    page.set_updated_time();
-
-    if (json.find("questions") != json.end())
-        for (auto& i : json.at("questions"))
-            page.add_one_rec_question_id(i);
-
-    page.page_close_connect();
+    return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
 }
 
+
+// DELETE
+
+
 template<typename Body, typename Allocator, typename Send>
-void PostPageManager<Body, Allocator, Send>::handle_request() {
+class DeletePageManager : public IPageManager<Body, Allocator, Send> {
+public:
+    using IPageManager<Body, Allocator, Send>::IPageManager;
+    void handle_request() final;
+};
+
+template<typename Body, typename Allocator, typename Send>
+void DeletePageManager<Body, Allocator, Send>::handle_request() {
+    // get args from url
     std::unordered_map<std::string, std::string> args{};
     try {
         args = HttpParser::define_args_map(this->get_request_target());
+        // args = this->get_args_url();
     }
     catch (HttpException::InvalidArguments& ec) {
         Logger::Error(__LINE__, __FILE__, ec.what());
@@ -223,31 +232,17 @@ void PostPageManager<Body, Allocator, Send>::handle_request() {
         return;
     }
 
-    http::response<http::string_body> response{http::status::ok, this->get_request_version()};
-
     try {
-        if (args.find("content") != args.end()) {
-            Storage storage{};
-            storage.update_file_body(args.at("page_id"), this->get_request_body_data());
-        }
-        else {
-            Page page{args.at("page_id")};
-            set_page_fields(args.at("page_id"), JsonSerializer::deserialize_in_vector(this->get_request_body_data()));
-        }
-    }
-    catch (JsonException::JsonException& ec) {
-        return HttpServerErrorCreator<Send>
-        ::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
+        // Page page{};
+        // page.delete_page(args.at("page_id));
+        // TODO: удалить данные из БД
     }
     catch (std::out_of_range& ec) {
         return HttpClientErrorCreator<Send>
         ::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
     }
-    catch (sql::SQLException& ec) {
-        return HttpClientErrorCreator<Send>
-        ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
-    }
 
     return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
 }
+
 #endif //SERVER_V0_1_PAGEMANAGER_HPP

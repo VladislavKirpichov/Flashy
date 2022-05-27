@@ -6,7 +6,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <filesystem>
 #include <cstdio>
 #include <random>
 #include <time.h>
@@ -16,24 +15,21 @@
 //template <typename T>
 //requires is_writable
 std::string Storage::create_file(const std::string& login, std::string&& input_data) {
-    std::string file_id = this->generate_random_name(login);
-    std::string file_url = login + '_' + file_id;
+    std::string file_url = login + '_' + this->generate_random_name(login);
     std::cout << "file_name = " << file_url << '\n';
 
     write_input_data_in_file(file_url, std::move(input_data));
 
-    all_files.push_back(file_url);
     return file_url;
 }
 
-std::string Storage::get_file(const std::string& file_url) {
-    std::ifstream i_file{std::filesystem::current_path().string() + data_path + file_url + FILE_EXTENSION};
-    std::cout << std::filesystem::current_path().string() + data_path + file_url + FILE_EXTENSION << '\n';
-    std::string data{};
+std::string Storage::get_file(const std::string& login, const std::string& file_url) {
+    std::ifstream i_file{"data/vlad_MfifXu9u.txt"};
+    std::string data;
 
-    while (!i_file.eof()) {
-        data += i_file.get();
-    }
+    char temp;
+    while (i_file.get(temp))
+        data += temp;
 
     i_file.close();
 
@@ -51,13 +47,13 @@ std::string Storage::generate_random_name(const std::string& login) {
 }
 
 void Storage::write_input_data_in_file(const std::string& file_url, std::string&& input_data) {
-    std::ofstream o_file{std::filesystem::current_path().string() + data_path +  file_url + FILE_EXTENSION};
+    std::ofstream o_file{data_path + file_url + FILE_EXTENSION};
     o_file << input_data << std::endl;
     o_file.close();
 }
 
 void Storage::update_file_body(const std::string &file_url, std::string&& input_data) {
-    std::ofstream o_file{std::filesystem::current_path().string() + data_path +  file_url + FILE_EXTENSION};
+    std::ofstream o_file{data_path + file_url + FILE_EXTENSION};
     o_file.clear();
     o_file << input_data << std::endl;
     o_file.close();
