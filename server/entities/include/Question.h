@@ -1,74 +1,70 @@
-//
-// Created by vladislav on 24.05.22.
-//
-
-#ifndef SERVER_V0_1_QUESTION_H
-#define SERVER_V0_1_QUESTION_H
-
+#ifndef DB_TABLES_QUESTIONS_H_
+#define DB_TABLES_QUESTIONS_H_
+#include "DB.h"
 #include <string>
 #include <vector>
 
 class Question {
-public:
-
-    void page_connect_DB();
-
-    void page_close_connect();
-
-    void add_question(size_t page_ID, std::string file, std::string url, std::string answer);
-
-    std::vector<std::vector<std::string>> get_question_ID(std::string file);
-
-    void delete_question(size_t question_ID);
-
-    std::vector<std::vector<std::string>> get_all_question_info(size_t question_ID);
-
-    std::vector<std::vector<std::string>> get_all_page_questions(size_t page_ID);
-
-    std::vector<std::vector<std::string>> get_page_ID(size_t question_ID);
-
-    void update_question_file(size_t question_ID, std::string file);
-
-    std::vector<std::vector<std::string>> get_question_file(size_t question_ID);
-
-    void update_question_url(size_t question_ID);
-
-    std::vector<std::vector<std::string>> get_question_url(size_t question_ID);
-
-    void update_question_answer(size_t question_ID, std::string new_answer);
-
-    std::vector<std::vector<std::string>> get_question_answer(size_t question_ID);
-
-    void set_right_answer(size_t question_ID);
-
-    std::vector<std::vector<std::string>> get_right_answers(size_t question_ID);
-
-    void set_wrong_answer(size_t question_ID);
-
-    std::vector<std::vector<std::string>> get_wrong_answers(size_t question_ID);
-
-    std::vector<std::vector<std::string>> get_right_answers_rate(size_t question_ID);
-
-    size_t get_id() const { return id; }
-    size_t get_page_id() const { return page_id; }
-    std::string get_file() const { return file; }
-    std::string get_url() const { return url; }
-    std::string get_answer() const { return answer; }
-    size_t get_right_answers() const { return right_answers; }
-    size_t get_wrong_answers() const { return wrong_answers; }
-    double get_right_answers_rate() const { return right_answers_rate; }
-
 private:
-    size_t id;
-    size_t page_id;
+    int id;
+    int page_id;
     std::string file;
     std::string url;
     std::string answer;
-    size_t right_answers;
-    size_t wrong_answers;
-    double right_answers_rate;
-    // DB *database;
+    int right_answers;
+    int wrong_answers;
+    int mark;
+    DB *database;
 
+public:
+
+    Question(int page_ID, std::string file, std::string url, std::string answer);
+
+    Question(std::string file);
+
+    void question_connect_DB();
+
+    void question_close_connect();
+
+    void add_question();
+
+    int get_question_ID() const;
+
+    void delete_question();
+
+    std::vector<std::vector<std::string>> get_all_question_info(size_t question_ID) const;
+
+    std::vector<std::vector<std::string>> get_all_page_questions_id() const;
+
+    int get_page_ID() const;
+
+    void update_question_file(std::string new_file);
+
+    std::string get_question_file() const;
+
+    void update_question_url(std::string new_url);
+
+    std::string get_question_url() const;
+
+    void update_question_answer(std::string new_answer);
+
+    std::string get_question_answer() const;
+
+    void set_right_answer();
+
+    int get_right_answers_count() const;
+
+    void set_wrong_answer();
+
+    int get_wrong_answers() const;
+
+    double get_right_answers_rate() const;
+
+    void set_mark(int mark);
+
+    int get_mark() const;
+
+    void set_right_answer() const;
 };
 
-#endif //SERVER_V0_1_QUESTION_H
+#endif  //  DB_TABLES_QUESTIONS_H_

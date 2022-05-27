@@ -17,7 +17,7 @@ class Storage {
 public:
     // std::stringODO: сделать const Page& page
     std::string create_file(const std::string& login, std::string&& input_data);
-    std::string get_file(const std::string& login, const std::string& file_url);
+    std::string get_file(const std::string& file_url);
     void update_file_header(const std::string& file_url);
     void update_file_body(const std::string& file_url, std::string&& input_data);
     void delete_file(const std::string& file_url);
@@ -33,7 +33,7 @@ private:
                                             "ABCDEFGHIJKLMNOPQRSzUVWXYZ"
                                             "abcdefghijklmnopqrstuvwxyz"};
 
-    static inline std::string data_path = "data/";
+    static inline std::string data_path = "/data/";
 };
 
 

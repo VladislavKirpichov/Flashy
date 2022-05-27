@@ -15,6 +15,7 @@ User::User(std::string nick)
 {
     user_connect_DB();
 
+
     std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM users WHERE nick=?", { "S:" + nickname}, 1);
     id = std::stoi(MyData[0][0]);
 
@@ -36,22 +37,14 @@ void User::user_close_connect() {
 }
 
 void User::add_user() {
-    database->Insert("INSERT INTO users(nick,pass,email,status) VALUES (?, ?, ?, ?)", { "S:" + nickname , "S:" + password , "S:" + email, "S:" + status });
+
+    database->Insert("INSERT INTO users(nick,name,pass,email,status) VALUES (?, ?, ?, ?, ?)", { "S:" + nickname , "S" + name, "S:" + password , "S:" + email, "S:" + status });
     std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM users WHERE nick=?", { "S:" + nickname}, 1);
     id = std::stoi(MyData[0][0]);
 }
 
 int User::get_user_ID() const  {
     return id;
-}
-std::string User::get_name() const  {
-    return name;
-}
-
-void User::update_name(std::string new_name) {
-    std::string ID = std::to_string(id);
-    database->Update("UPDATE users SET name=? WHERE id=?", { "S:" + new_name, "I:" + ID});
-    name = new_name;
 }
 
 /*
@@ -81,6 +74,16 @@ void User::update_nick(std::string new_nick){
     std::string ID = std::to_string(id);
     database->Update("UPDATE users SET nick=? WHERE id=?", { "S:" + new_nick, "I:" + ID});
     nickname = new_nick;
+}
+
+std::string User::get_name() const  {
+    return name;
+}
+
+void User::update_name(std::string new_name) {
+    std::string ID = std::to_string(id);
+    database->Update("UPDATE users SET name=? WHERE id=?", { "S:" + new_name, "I:" + ID});
+    name = new_name;
 }
 
 std::string User::get_pass() const  {
@@ -128,12 +131,12 @@ std::vector<std::vector<std::string>> User::get_pages_id() const  {
     return database->Get("SELECT id FROM page WHERE userID=?", { "I:" + userID }, 1);
 }
 
-std::vector<std::vector<std::string>> User::get_pages_file_paths() const  {
+std::vector<std::vector<std::string>> User::get_pages_file() const  {
     std::string userID = std::to_string(id);
     return database->Get("SELECT file FROM page WHERE userID=?", { "I:" + userID }, 1);
 }
 
-std::vector<std::vector<std::string>> User::get_pages_title() const {
+std::vector<std::vector<std::string>> User::get_pages_title() const  {
     std::string userID = std::to_string(id);
     return database->Get("SELECT title FROM page WHERE userID=?", { "I:" + userID }, 1);
 }
@@ -149,3 +152,4 @@ bool User::find_user_nick(std::string nick, std::string pass) {
         return true;
     }
 }
+

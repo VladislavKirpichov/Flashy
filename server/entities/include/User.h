@@ -31,7 +31,7 @@ public:
 
     //void add_user(std::string nick, std::string pass, std::string email, std::string status);
 
-    int get_user_ID() const;
+    int get_user_ID() const ;
 
     //std::vector<std::vector<std::string>> get_user_ID(std::string nick);
 
@@ -41,21 +41,21 @@ public:
 
     void delete_user();
 
-    std::string get_nick() const;
+    std::string get_nick() const ;
 
     void update_nick(std::string new_nick);
 
-    std::string get_name() const;
+    std::string get_name() const ;
 
     void update_name(std::string new_name);
 
-    std::string get_pass() const;
+    std::string get_pass() const ;
 
     //std::vector<std::vector<std::string>> get_pass(size_t user_ID);
 
     void update_pass(std::string new_pass);
 
-    std::string get_email() const;
+    std::string get_email() const ;
 
     void update_email(std::string new_email);
 
@@ -63,11 +63,11 @@ public:
 
     void update_status(std::string new_status);
 
-    std::vector<std::vector<std::string>> get_pages_id() const;
+    std::vector<std::vector<std::string>> get_pages_id() const ;
 
-    std::vector<std::vector<std::string>> get_pages_title() const;
+    std::vector<std::vector<std::string>> get_pages_file() const ;
 
-    std::vector<std::vector<std::string>> get_pages_file_paths() const;
+    std::vector<std::vector<std::string>> get_pages_title() const ;
 
     static bool find_user_nick(std::string nick, std::string pass);
 };

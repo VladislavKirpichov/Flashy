@@ -34,7 +34,7 @@ void ServerManager::run() {
     // Listener responsible for the life of the shared_ptr
     try {
         run_recommendations_system();
-        std::make_shared<Listener>(ioc, std::move(endpoint))->async_accept();
+        // std::make_shared<Listener>(ioc, std::move(endpoint))->async_accept();
     }
     catch (ServerException::ListenerException& ec) {
         // ...
@@ -52,6 +52,7 @@ void ServerManager::run() {
 }
 
 void ServerManager::run_recommendations_system() {
-    std::thread daemon{Start::start_rec_sys};
+    // Creator::start_rec_sys();
+    std::thread daemon{Creator::start_rec_sys};
     daemon.detach();
 }

@@ -127,7 +127,6 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
     }
 
     this->set_flags(response);
-
     return this->get_send()(std::move(response));
 }
 

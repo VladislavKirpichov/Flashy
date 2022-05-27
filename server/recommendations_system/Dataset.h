@@ -10,22 +10,22 @@ class Dataset {
 public:
 
     struct Data_t {
-        size_t doc_id;
-        size_t card_id;
+        int doc_id;
+        int card_id;
         int mark;
     };
 
     const torch::Tensor& get_interaction_table() const;
 
-    const size_t get_documents_count() const;
+    const int get_documents_count() const;
 
-    const size_t get_flashcards_count() const;
+    const int get_flashcards_count() const;
 
     const std::vector<Dataset::Data_t>& get_interactions_data() const;
 
-    const std::vector<size_t> get_documents();
+    const std::vector<int> get_documents() const;
 
-    const std::vector<size_t> get_flashcards();
+    const std::vector<int> get_flashcards() const;
 
     Dataset()=default;
 
@@ -34,10 +34,10 @@ public:
             , documents_id_(a.size(0))
             , flashcards_id_(a.size(1))
     {
-        for (size_t i = 0; i < a.size(0); ++i) {
+        for (int i = 0; i < a.size(0); ++i) {
             documents_id_[i] = i;
         }
-        for (size_t i = 0; i < a.size(1); ++i) {
+        for (int i = 0; i < a.size(1); ++i) {
             flashcards_id_[i] = i;
         }
     };
@@ -54,9 +54,9 @@ public:
 
 private:
 
-    std::vector<size_t> documents_id_;
+    std::vector<int> documents_id_;
 
-    std::vector<size_t> flashcards_id_;
+    std::vector<int> flashcards_id_;
 
     std::vector<Data_t> interactions_data_;
 

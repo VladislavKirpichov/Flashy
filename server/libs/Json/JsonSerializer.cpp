@@ -89,6 +89,28 @@ std::unordered_map<std::string, std::string> JsonSerializer::deserialize(const s
     }
 }
 
+std::unordered_map<std::string, std::vector<std::string>> JsonSerializer::deserialize_page(const std::string& json_str) {
+    try {
+        nlohmann::json json_data = nlohmann::json::parse(json_str);
+        std::unordered_map<std::string, std::vector<std::string>> data{};
+
+        // TODO передалть question id
+        for (auto &[key, value]: json_data.items())
+            for (auto&i : value)
+                data[key].push_back(i);
+
+        return data;
+    }
+    // TODO: написать обработчики ошибок
+    catch (nlohmann::json::exception& ec) {
+        throw JsonException::JsonException(ec);
+    }
+    catch (...) {
+        throw JsonException::JsonException("Some Json error");
+    }
+
+}
+
 std::string JsonSerializer::serialize_user(const User& user) {
     try {
         nlohmann::json json_data{};
@@ -98,7 +120,7 @@ std::string JsonSerializer::serialize_user(const User& user) {
         json_data["email"] = user.get_email();
         json_data["status"] = user.get_status();
 
-        for (auto& i : user.get_pages_file_paths())
+        for (auto& i : user.get_pages_file())
             json_data["pages_id"] += i[0];
 
         for (auto& i : user.get_pages_title())
@@ -135,19 +157,19 @@ std::string JsonSerializer::serialize_page(Page &page) {
     }
 }
 
-std::string JsonSerializer::serialize_question(const Question &user) {
+std::string JsonSerializer::serialize_question(const Question &question) {
     try {
-        nlohmann::json json_data{};
-        json_data["id"] = user.get_id();
-        json_data["page_id"] = user.get_page_id();
-        json_data["file"] = user.get_file();
-        json_data["url"] = user.get_url();
-        json_data["answer"] = user.get_answer();
-        json_data["right_answers"] = user.get_right_answers();
-        json_data["wrong_answers"] = user.get_wrong_answers();
-        json_data["right_answers_rate"] = user.get_right_answers_rate();
+//        nlohmann::json json_data{};
+//        json_data["id"] = user.get();
+//        json_data["page_id"] = user.get_page_id();
+//        json_data["file"] = user.get_file();
+//        json_data["url"] = user.get_url();
+//        json_data["answer"] = user.get_answer();
+//        json_data["right_answers"] = user.get_right_answers();
+//        json_data["wrong_answers"] = user.get_wrong_answers();
+//        json_data["right_answers_rate"] = user.get_right_answers_rate();
 
-        return to_string(json_data);
+        return {"dfdsf"};
     }
     catch (nlohmann::json::exception& ec) {
         throw JsonException::JsonException(ec);
