@@ -52,7 +52,7 @@ torch::Tensor Net::train(torch::Tensor input, size_t pEpoch,
     nn_optimizers.step();
   }
 
-  return doc2card;
+  return loss;
 }
 
 const torch::Tensor Net::get_doc2card() const {

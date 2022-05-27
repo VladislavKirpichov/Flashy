@@ -2,8 +2,8 @@
 
 void Dataset::preprocessing() {
 
- interactions_table_ = torch::zeros({static_cast<int>(get_documents_count()),
-                                     static_cast<int>(get_flashcards_count())});
+ interactions_table_ = torch::zeros({get_documents_count(),
+                                     get_flashcards_count()});
 
 // int curr_doc_iter, curr_card_iter;
 // curr_doc_iter = 0;
@@ -38,11 +38,11 @@ const torch::Tensor &Dataset::get_interaction_table() const {
   return interactions_table_;
 }
 
-const size_t Dataset::get_documents_count() const {
+const int Dataset::get_documents_count() const {
   return documents_id_.size();
 }
 
-const size_t Dataset::get_flashcards_count() const {
+const int Dataset::get_flashcards_count() const {
   return flashcards_id_.size();
 }
 
@@ -61,11 +61,11 @@ const std::vector<Dataset::Data_t> &Dataset::get_interactions_data() const {
 //  }
 //}
 
-const std::vector<size_t> Dataset::get_documents() {
+const std::vector<int> Dataset::get_documents() const {
   return documents_id_;
 }
 
-const std::vector<size_t> Dataset::get_flashcards() {
+const std::vector<int> Dataset::get_flashcards() const {
   return flashcards_id_;
 }
 
