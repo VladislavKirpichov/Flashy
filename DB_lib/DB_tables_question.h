@@ -9,16 +9,14 @@ class Question {
         int id;
         int page_id;
         std::string file;
-        std::string url;
         std::string answer;
         int right_answers;
         int wrong_answers;
-		int mark;
 		DB *database;
 
     public:
 		
-		Question(int page_ID, std::string file, std::string url, std::string answer);
+		Question(int page_ID, std::string file, std::string answer);
 
 		Question(std::string file);
 

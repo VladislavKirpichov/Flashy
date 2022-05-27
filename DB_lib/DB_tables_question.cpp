@@ -1,8 +1,8 @@
 #include "DB.h"
 #include "DB_tables_question.h"
 
-Question::Question(int page_ID, std::string file, std::string url, std::string answer)
-    : page_id(page_ID), file(file), url(url), answer(answer)
+Question::Question(int page_ID, std::string file, std::string answer)
+    : page_id(page_ID), file(file), answer(answer)
 {
     question_connect_DB();
 }
@@ -16,15 +16,13 @@ Question::Question(std::string file)
     id = std::stoi(MyData[0][0]);
     
     std::string ID = std::to_string(id);
-    MyData = database->Get("SELECT * FROM questions WHERE id=?", {"I:"+ ID}, 8);
+    MyData = database->Get("SELECT * FROM questions WHERE id=?", {"I:"+ ID}, 7);
 
     page_id = std::stoi(MyData[0][1]);
     //this->file = MyData[0][2];
-    url = MyData[0][3];
-    answer = MyData[0][4];
-    right_answers = std::stoi(MyData[0][5]);
-    wrong_answers = std::stoi(MyData[0][6]);
-    mark = std::stoi(MyData[0][7]);
+    answer = MyData[0][3];
+    right_answers = std::stoi(MyData[0][4]);
+    wrong_answers = std::stoi(MyData[0][5]);
     //MyData = database->Get("SELECT `rightAnswers`, `wrongAnswers`, (`rightAnswers` / (`rightAnswers` + `wrongAnswers`)) FROM questions WHERE id=?", { "I:" + ID}, 1);
     //right_answers_rate = std::stod(MyData[0][7]);
     
@@ -40,7 +38,7 @@ void Question::question_close_connect() {
 
 void Question::add_question(){
     std::string Page_ID = std::to_string(page_id);
-    database->Insert("INSERT INTO questions(pageID,file,url,answer) VALUES (?, ?, ?, ?)", { "I:" + Page_ID , "S:" + file , "S:" + url, "S:" + answer });
+    database->Insert("INSERT INTO questions(pageID,file,answer) VALUES (?, ?, ?)", { "I:" + Page_ID , "S:" + file, "S:" + answer });
     std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM questions WHERE file=?", { "S:" + file}, 1);
     id = std::stoi(MyData[0][0]);
 }
@@ -81,16 +79,6 @@ void Question::update_question_file(std::string new_file ){
     std::string ID = std::to_string(id);
     database->Update("UPDATE questions SET file=? WHERE id=?", { "S:" + new_file, "I:" + ID});
     file = new_file;
-}
-
-void Question::update_question_url(std::string new_url) {
-    std::string ID = std::to_string(id);
-    database->Update("UPDATE questions SET url=? WHERE id=?", { "S:" + new_url, "I:" + ID});
-    url = new_url;
-}
-
-std::string Question::get_question_url() const{
-    return url;
 }
 
 void Question::update_question_answer(std::string new_answer){
@@ -138,16 +126,5 @@ double Question::get_right_answers_rate() const{
     return res;
     //return right_answers_rate;
     //SELECT `rightAnswers`, `wrongAnswers`, (`rightAnswers` / (`rightAnswers` + `wrongAnswers`)) AS Rate FROM questions
-}
-
-void Question::set_mark(int new_mark) {
-    std::string ID = std::to_string(id);
-    std::string Mark = std::to_string(new_mark);
-    database->Update("UPDATE questions SET mark=? WHERE id=?", { "I:" + Mark, "I:" + ID});
-    mark = new_mark;
-}
-
-int Question::get_mark() const{
-    return mark;
 }
 

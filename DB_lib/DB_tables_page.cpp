@@ -25,7 +25,7 @@ Page::Page(std::string file)
     updated_time = MyData[0][5];
     last_visited_time = MyData[0][6];
 
-    recommend_questions_id = database->Get("SELECT rec_question_1_id, rec_question_2_id, rec_question_3_id, rec_question_4_id, rec_question_5_id, rec_question_6_id, rec_question_7_id, rec_question_8_id, rec_question_9_id, rec_question_10_id FROM recommend_questions WHERE page_ID=?", { "I:"+ ID }, 10);
+    recommend_questions_id = database->Get("SELECT rec_question_id FROM recommend_questions WHERE page_ID=?", { "I:" + ID}, 1);
 
 }
 
@@ -43,7 +43,7 @@ void Page::add_page(){
     std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM page WHERE file=?", { "S:" + file}, 1);
     id = std::stoi(MyData[0][0]);
     std::string ID = std::to_string(id);
-    database->Insert("INSERT INTO recommend_questions(page_ID) VALUES (?)", { "I:" + ID });
+    //database->Insert("INSERT INTO recommend_questions(page_ID) VALUES (?)", { "I:" + ID });
 }
 
 int Page::get_page_ID() const {
@@ -135,7 +135,7 @@ std::vector<std::vector<std::string>> Page::get_rec_questions_id() const  {
     return recommend_questions_id;
 }
 
-void Page::add_rec_question_id(std::string q_id) {
+void Page::add_one_rec_question_id(std::string q_id) {
     std::string ID = std::to_string(id);
 
     database->Insert("INSERT INTO recommend_questions(page_ID,rec_question_id) VALUES (?, ?)", { "I:" + ID , "I:" + q_id });
@@ -144,6 +144,38 @@ void Page::add_rec_question_id(std::string q_id) {
 
     //recommend_questions_id = database->Get("SELECT rec_question_1_id, rec_question_2_id, rec_question_3_id, rec_question_4_id, rec_question_5_id, rec_question_6_id, rec_question_7_id, rec_question_8_id, rec_question_9_id, rec_question_10_id FROM recommend_questions WHERE page_ID=?", { "I:"+ ID }, 10);
 }
+
+void Page::add_five_rec_questions_id(std::vector<std::string> q_id) {
+    std::string ID = std::to_string(id);
+    database->Insert("INSERT INTO recommend_questions(page_ID,rec_question_id) VALUES (?, ?), (?, ?), (?, ?), (?, ?), (?, ?)", { "I:" + ID , "I:" + q_id[0], "I:" + ID, "I:" + q_id[1], "I:" + ID, "I:" + q_id[2], "I:" + ID, "I:" + q_id[3], "I:" + ID, "I:" + q_id[4] });
+    recommend_questions_id = database->Get("SELECT rec_question_id FROM recommend_questions WHERE page_ID=?", { "I:" + ID}, 1);
+}
+
+
+void Page::add_five_rec_questions_id(std::vector<std::vector<std::string>> q_id) {
+    std::string ID = std::to_string(id);
+    database->Insert("INSERT INTO recommend_questions(page_ID,rec_question_id) VALUES (?, ?), (?, ?), (?, ?), (?, ?), (?, ?)", { "I:" + ID , "I:" + q_id[1][0], "I:" + ID, "I:" + q_id[1][0], "I:" + ID, "I:" + q_id[2][0], "I:" + ID, "I:" + q_id[3][0], "I:" + ID, "I:" + q_id[4][0] });
+    recommend_questions_id = database->Get("SELECT rec_question_id FROM recommend_questions WHERE page_ID=?", { "I:" + ID}, 1);
+}
+
+void Page::set_rec_question_mark(std::string q_id, std::string mark) {
+    std::string ID = std::to_string(id);
+    database->Update("UPDATE recommend_questions SET mark=? WHERE page_ID=? AND rec_question_id=?", { "I:" + mark, "I:" + ID, "I" + q_id});
+}
+
+std::string Page::get_rec_question_mark(std::string q_id) {
+    std::string ID = std::to_string(id);
+    std::vector<std::vector<std::string>> MyData = database->Get("SELECT mark FROM recommend_questions WHERE page_ID=? AND rec_question_id=?", { "I:" + ID, "I:" + q_id}, 1);
+    return MyData[0][0];
+}
+
+std::vector<std::vector<std::string>> Page::get_all_rec_question_marks_and_id() {
+    std::string ID = std::to_string(id);
+    return database->Get("SELECT rec_question_id, mark FROM recommend_questions WHERE page_ID=?", { "I:" + ID}, 2);
+}
+
+
+
 
 
 

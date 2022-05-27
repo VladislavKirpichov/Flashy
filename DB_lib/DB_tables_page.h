@@ -62,6 +62,13 @@ class Page {
         std::vector<std::vector<std::string>> get_rec_questions_id() const;
 
         void add_rec_question_id(std::string q_id);
+        void add_one_rec_question_id(std::string q_id);
+        void add_five_rec_questions_id(std::vector<std::vector<std::string>> q_id);
+        void add_five_rec_questions_id(std::vector<std::string> q_id);
+
+        void set_rec_question_mark(std::string q_id, std::string mark);
+        std::string get_rec_question_mark(std::string q_id);
+        std::vector<std::vector<std::string>> get_all_rec_question_marks_and_id();
 
 		//void update_page_mime(size_t page_ID, std::string new_mime);
 

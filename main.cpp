@@ -11,11 +11,13 @@ int main() {
     //user.update_email("new_email");
     //user.user_close_connect();
 
-    Page page("sss");
+    Page page(7, "Math", "Algos", "kkk");
 
-    std::vector<std::string> Mydata = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+    page.add_page();
 
-    page.set_rec_questions_id(Mydata);
+    std::vector<std::string> Ques = {"1", "2", "3", "4", "5"};
+
+    page.add_five_rec_questions_id(Ques);
 
     std::vector<std::vector<std::string>> MyData = page.get_rec_questions_id();
 
