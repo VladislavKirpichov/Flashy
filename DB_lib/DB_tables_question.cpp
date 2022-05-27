@@ -24,6 +24,7 @@ Question::Question(std::string file)
     answer = MyData[0][4];
     right_answers = std::stoi(MyData[0][5]);
     wrong_answers = std::stoi(MyData[0][6]);
+    mark = std::stoi(MyData[0][7]);
     //MyData = database->Get("SELECT `rightAnswers`, `wrongAnswers`, (`rightAnswers` / (`rightAnswers` + `wrongAnswers`)) FROM questions WHERE id=?", { "I:" + ID}, 1);
     //right_answers_rate = std::stod(MyData[0][7]);
     
@@ -137,5 +138,16 @@ double Question::get_right_answers_rate(){
     return res;
     //return right_answers_rate;
     //SELECT `rightAnswers`, `wrongAnswers`, (`rightAnswers` / (`rightAnswers` + `wrongAnswers`)) AS Rate FROM questions
+}
+
+void Question::set_mark(int new_mark) {
+    std::string ID = std::to_string(id);
+    std::string Mark = std::to_string(new_mark);
+    database->Update("UPDATE questions SET mark=? WHERE id=?", { "I:" + Mark, "I:" + ID});
+    mark = new_mark;
+}
+
+int Question::get_mark() {
+    return mark;
 }
 

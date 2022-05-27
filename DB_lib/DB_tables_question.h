@@ -13,7 +13,7 @@ class Question {
         std::string answer;
         int right_answers;
         int wrong_answers;
-        double right_answers_rate;
+		int mark;
 		DB *database;
 
     public:
@@ -59,6 +59,10 @@ class Question {
 		int get_wrong_answers();
 
 		double get_right_answers_rate();
+
+		void set_mark(int mark);
+
+		int get_mark();
 
 };
 

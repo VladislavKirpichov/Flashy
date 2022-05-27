@@ -8,16 +8,18 @@ class Page {
     private:
         int id;
         int user_id;
+        std::string theme;
         std::string title;
         std::string created_time;
         std::string updated_time;
         std::string last_visited_time;
         std::string file;
+        std::vector<std::vector<std::string>> recommend_questions_id;
         DB *database;
 
     public:
 
-        Page(int user_ID, std::string title, std::string file);
+        Page(int user_ID, std::string theme, std::string title, std::string file);
 
         Page(std::string file);
 
@@ -34,6 +36,10 @@ class Page {
         std::vector<std::vector<std::string>> get_all_user_pages_id();
         
         int get_user_ID();
+
+        std::string get_theme();
+
+        void update_theme(std::string new_theme);
 
 		void update_page_title(std::string new_title);
 
@@ -52,6 +58,10 @@ class Page {
 		void update_file_page(std::string new_file);
 
 		std::string get_file_page();
+
+        std::vector<std::vector<std::string>> get_rec_questions_id();
+
+        void set_rec_questions_id(int first, int second, int third, int forth, int fifth, int sixth, int seventh, int eighth, int nineth, int tenth);
 
 		//void update_page_mime(size_t page_ID, std::string new_mime);
 
