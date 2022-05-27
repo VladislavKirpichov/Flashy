@@ -146,6 +146,8 @@ void Page::set_rec_questions_id(int first, int second, int third, int forth, int
     std::string q_9 = std::to_string(nineth);
     std::string q_10 = std::to_string(tenth);
 
+    database->Insert("INSERT INTO recommend_questions(page_ID) VALUES (?)", { "I:" + ID });
+
     database->Update("UPDATE recommend_questions SET rec_question_1_id=?, rec_question_2_id=?, rec_question_3_id=?, rec_question_4_id=?, rec_question_5_id=?, rec_question_6_id=?, rec_question_7_id=?, rec_question_8_id=?, rec_question_9_id=?, rec_question_10_id=? WHERE page_ID=?", { "I:" + q_1, "I:" + q_2, "I:" + q_3, "I:" + q_4, "I:" + q_5, "I:" + q_6, "I:" + q_7, "I:" + q_8, "I:" + q_9, "I:" + q_10, "I:" + ID });
 
     recommend_questions_id = database->Get("SELECT rec_question_1_id, rec_question_2_id, rec_question_3_id, rec_question_4_id, rec_question_5_id, rec_question_6_id, rec_question_7_id, rec_question_8_id, rec_question_9_id, rec_question_10_id FROM recommend_questions WHERE page_ID=?", { "I:"+ ID }, 10);

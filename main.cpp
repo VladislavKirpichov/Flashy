@@ -13,7 +13,18 @@ int main() {
 
     Page page("sss");
 
+    page.set_rec_questions_id(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+    std::vector<std::vector<std::string>> MyData = page.get_rec_questions_id();
+
+
     page.page_close_connect();
+
+    for (int a = 0; a < MyData.size(); a++) {
+        for (int c = 0; c < MyData[a].size(); c++) {
+            std::cout << MyData[a][c] + " - ";
+        } std::cout << " " << std::endl;
+    }
 
 
 
