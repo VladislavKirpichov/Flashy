@@ -16,6 +16,7 @@ class StartPage : public QMainWindow
 public:
     StartPage(QWidget *parent = nullptr);
     ~StartPage();
+    void connection();
 public slots:
     void open_window();
 private slots:

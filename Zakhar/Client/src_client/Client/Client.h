@@ -19,8 +19,12 @@ namespace net = boost::asio;            // from <boost/asio.hpp>
 using tcp = boost::asio::ip::tcp;
 class HTTPClient{
 public:
-    HTTPClient(net::io_context &ioc);
+    explicit HTTPClient(net::io_context &ioc);
     std::string get_response(const std::string& host,const unsigned short& port, const std::string& target);
+    bool post_request(const std::string& host, const unsigned short& port, const std::string& target,
+                             const std::string& body);
+    bool put_request(const std::string& host, const unsigned short& port, const std::string& target,
+                      const std::string& body);
 
 private:
     tcp::resolver resolver;

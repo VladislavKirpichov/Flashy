@@ -10,9 +10,9 @@
 #include "Page.h"
 class Serializer{
 public:
-    User user_deserialize(std::string);
+    User user_deserialize(const std::string &json);
     std::string user_serialize(User & user);
-    Page page_deserialize(std::string);
+    Page page_deserialize(const std::string &json);
     std::string page_serialize(Page & page);
 private:
 

@@ -39,10 +39,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     connect(this, &MainWindow::user_signal, user_page, &UserPage::get_data);
-    update();
-    this->show();
-
-
 }
 
 MainWindow::~MainWindow()
@@ -78,5 +74,6 @@ void MainWindow::on_user_button_clicked()
 
 void MainWindow::on_flashy_button_clicked()
 {
+    update();
     emit signal(4);
 }

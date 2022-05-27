@@ -8,10 +8,7 @@ StartPage::StartPage(QWidget *parent)
     , ui(new Ui::StartPage)
 {
     ui->setupUi(this);
-    main_window = new MainWindow(this);
-    main_window->hide();
-    user_page = main_window->get_page();
-    connect(user_page, &UserPage::exit_signal, this, &StartPage::open_window);
+
 }
 
 StartPage::~StartPage()
@@ -32,6 +29,13 @@ void StartPage::on_reg_button_clicked()
     reg_page = new regpage(this);
     reg_page->show();
 }
+void StartPage::connection()
+{
+    main_window = new MainWindow(this);
+    main_window->hide();
+    user_page = main_window->get_page();
+    connect(user_page, &UserPage::exit_signal, this, &StartPage::open_window);
+}
 
 void StartPage::on_sign_up_button_clicked()
 {
@@ -40,6 +44,8 @@ void StartPage::on_sign_up_button_clicked()
     if(Manager::get_instance()->auth(login, pass)){
         hide();
         Manager::get_instance()->get_user_from_server(login);
+        connection();
+        main_window->update();
         main_window->show();
     } else {
         QMessageBox::information(this, "Auth error", "Uncorrent Login or password");

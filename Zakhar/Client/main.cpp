@@ -2,11 +2,11 @@
 #include <boost/asio/ip/tcp.hpp>
 #include <iostream>
 #include <string>
-#include "Client.h"
-#include "Serializer.h"
 #include "Manager.h"
 #include <QApplication>
 #include "startpage.h"
+#include "Serializer.h"
+#include "Page.h"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
@@ -26,8 +26,20 @@ int main(int argc, char *argv[]) {
                                     "  \"pages_title\": [\"Moc Page 1\", \"Moc Page 2\"]\n"
                                     "}";
 
+    std::string page_json_example = "{\n"
+                                    "  \"id\": \"0\",\n"
+                                    "  \"title\": \"moc_title\",\n"
+                                    " \"theme\": \"0\",\n"
+                                    "  \"login\": \"moc_login\",\n"
+                                    "  \"created_time\": \"01:01:1970\",\n"
+                                    "  \"updated_time\": \"01:01:1970\",\n"
+                                    "  \"last_visited_time\": \"01:01:1970\",\n"
+                                    "  \"text\": \"MOC_TEXT MOC_TEXT\",\n"
+                                    "  \"questions_id\": [ \"1\", \"2\"]\n"
+                                    "}";
+
     Manager::get_instance()->set_destination(host,port);
-    //Manager::get_instance()->get_user_from_server("test_user");
+    Manager::get_instance()->reg("moc_name", "moc_login", "moc_password", "moc@example.com");
     QApplication a(argc, argv);
     StartPage w;
     w.show();

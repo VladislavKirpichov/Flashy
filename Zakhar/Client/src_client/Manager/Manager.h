@@ -33,28 +33,44 @@ public:
 
     void get_user_from_server(const std::string &login);
 
+    void get_page_from_server(const std::string &page_id);
+
+    bool post_user();
+
+    bool post_page();
+
+    bool put_user();
+
+    bool put_page();
     bool auth(const std::string &login, const std::string &password);
 
-    void reg(std::string login, std::string password);
+    bool reg(const std::string &name, const std::string &login, const std::string &password,
+             const std::string &email);
 
-    void get_page(std::string page_id);
 
     void update(std::string update_message);
 
-    std::string get(const std::string &target);
 
-    User get_user();
+    User& get_user();
+
+    Page& get_page();
 
     void change_user(const User &new_user);
 
-    void set_destination(const std::string &new_host,const unsigned short &new_port);
+    void set_destination(const std::string &new_host, const unsigned short &new_port);
 
 private:
     explicit Manager(net::io_context &ioc);
 
+    std::string get(const std::string &target);
+
+    bool post(const std::string &target, const std::string &body);
+
+    bool put(const std::string &target, const std::string &body);
+
     HTTPClient client;
     User current_user;
-    Page current_note;
+    Page current_page;
     Serializer serializer;
     std::string host;
     unsigned short port;
