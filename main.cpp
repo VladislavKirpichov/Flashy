@@ -13,7 +13,9 @@ int main() {
 
     Page page("sss");
 
-    page.set_rec_questions_id(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    std::vector<std::string> Mydata = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+
+    page.set_rec_questions_id(Mydata);
 
     std::vector<std::vector<std::string>> MyData = page.get_rec_questions_id();
 

@@ -42,6 +42,8 @@ void Page::add_page(){
     database->Insert("INSERT INTO page(userID,title,file) VALUES (?, ?, ?, ?)", { "I:" + user_ID , "S:" + theme, "S:" + title , "S:" + file });
     std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM page WHERE file=?", { "S:" + file}, 1);
     id = std::stoi(MyData[0][0]);
+    std::string ID = std::to_string(id);
+    database->Insert("INSERT INTO recommend_questions(page_ID) VALUES (?)", { "I:" + ID });
 }
 
 int Page::get_page_ID() const {
@@ -133,26 +135,16 @@ std::vector<std::vector<std::string>> Page::get_rec_questions_id() const  {
     return recommend_questions_id;
 }
 
-void Page::set_rec_questions_id(int first, int second, int third, int forth, int fifth, int sixth, int seventh, int eighth, int nineth, int tenth) {
+void Page::set_rec_questions_id(std::vector<std::string> q) {
     std::string ID = std::to_string(id);
-    std::string q_1 = std::to_string(first);
-    std::string q_2 = std::to_string(second);
-    std::string q_3 = std::to_string(third);
-    std::string q_4 = std::to_string(forth);
-    std::string q_5 = std::to_string(fifth);
-    std::string q_6 = std::to_string(sixth);
-    std::string q_7 = std::to_string(seventh);
-    std::string q_8 = std::to_string(eighth);
-    std::string q_9 = std::to_string(nineth);
-    std::string q_10 = std::to_string(tenth);
 
-    database->Insert("INSERT INTO recommend_questions(page_ID) VALUES (?)", { "I:" + ID });
-
-    database->Update("UPDATE recommend_questions SET rec_question_1_id=?, rec_question_2_id=?, rec_question_3_id=?, rec_question_4_id=?, rec_question_5_id=?, rec_question_6_id=?, rec_question_7_id=?, rec_question_8_id=?, rec_question_9_id=?, rec_question_10_id=? WHERE page_ID=?", { "I:" + q_1, "I:" + q_2, "I:" + q_3, "I:" + q_4, "I:" + q_5, "I:" + q_6, "I:" + q_7, "I:" + q_8, "I:" + q_9, "I:" + q_10, "I:" + ID });
+    database->Update("UPDATE recommend_questions SET rec_question_1_id=?, rec_question_2_id=?, rec_question_3_id=?, rec_question_4_id=?, rec_question_5_id=?, rec_question_6_id=?, rec_question_7_id=?, rec_question_8_id=?, rec_question_9_id=?, rec_question_10_id=? WHERE page_ID=?", { "I:" + q[0], "I:" + q[1], "I:" + q[2], "I:" + q[3], "I:" + q[4], "I:" + q[5], "I:" + q[6], "I:" + q[7], "I:" + q[8], "I:" + q[9], "I:" + ID });
 
     recommend_questions_id = database->Get("SELECT rec_question_1_id, rec_question_2_id, rec_question_3_id, rec_question_4_id, rec_question_5_id, rec_question_6_id, rec_question_7_id, rec_question_8_id, rec_question_9_id, rec_question_10_id FROM recommend_questions WHERE page_ID=?", { "I:"+ ID }, 10);
-
 }
+
+
+
 /*
 void Page::update_page_mime(size_t page_ID, std::string new_mime){
     std::string ID = std::to_string(page_ID);

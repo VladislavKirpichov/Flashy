@@ -61,7 +61,7 @@ class Page {
 
         std::vector<std::vector<std::string>> get_rec_questions_id() const;
 
-        void set_rec_questions_id(int first, int second, int third, int forth, int fifth, int sixth, int seventh, int eighth, int nineth, int tenth);
+        void set_rec_questions_id(std::vector<std::string> rec_questions);
 
 		//void update_page_mime(size_t page_ID, std::string new_mime);
 
