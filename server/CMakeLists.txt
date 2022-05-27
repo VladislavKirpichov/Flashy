@@ -11,6 +11,7 @@ file(COPY entities DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/data)
 add_subdirectory(DB)
 add_subdirectory(entities)
 add_subdirectory(storage)
+add_subdirectory(recommendations_system)
 
 #libs
 add_subdirectory(libs/Logger)
@@ -33,6 +34,7 @@ add_executable(${PROJECT_NAME} main.cpp)
 #target_link_libraries(${PROJECT_NAME} PUBLIC API)
 #target_link_libraries(${PROJECT_NAME} PUBLIC http_response)
 target_link_libraries(${PROJECT_NAME} PUBLIC src)
+target_link_libraries(${PROJECT_NAME} PUBLIC recommend)
 
 # Packages
 #target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
