@@ -39,7 +39,7 @@ void Page::page_close_connect() {
 
 void Page::add_page(){
     std::string user_ID = std::to_string(user_id);
-    database->Insert("INSERT INTO page(userID,title,file) VALUES (?, ?, ?, ?)", { "I:" + user_ID , "S:" + theme, "S:" + title , "S:" + file });
+    database->Insert("INSERT INTO page(userID,theme,title,file) VALUES (?, ?, ?, ?)", { "I:" + user_ID , "S:" + theme, "S:" + title , "S:" + file });
     std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM page WHERE file=?", { "S:" + file}, 1);
     id = std::stoi(MyData[0][0]);
     std::string ID = std::to_string(id);
@@ -135,13 +135,16 @@ std::vector<std::vector<std::string>> Page::get_rec_questions_id() const  {
     return recommend_questions_id;
 }
 
-void Page::set_rec_questions_id(std::vector<std::string> q) {
+void Page::add_rec_question_id(std::string q_id) {
     std::string ID = std::to_string(id);
 
-    database->Update("UPDATE recommend_questions SET rec_question_1_id=?, rec_question_2_id=?, rec_question_3_id=?, rec_question_4_id=?, rec_question_5_id=?, rec_question_6_id=?, rec_question_7_id=?, rec_question_8_id=?, rec_question_9_id=?, rec_question_10_id=? WHERE page_ID=?", { "I:" + q[0], "I:" + q[1], "I:" + q[2], "I:" + q[3], "I:" + q[4], "I:" + q[5], "I:" + q[6], "I:" + q[7], "I:" + q[8], "I:" + q[9], "I:" + ID });
+    database->Insert("INSERT INTO recommend_questions(page_ID,rec_question_id) VALUES (?, ?)", { "I:" + ID , "I:" + q_id });
 
-    recommend_questions_id = database->Get("SELECT rec_question_1_id, rec_question_2_id, rec_question_3_id, rec_question_4_id, rec_question_5_id, rec_question_6_id, rec_question_7_id, rec_question_8_id, rec_question_9_id, rec_question_10_id FROM recommend_questions WHERE page_ID=?", { "I:"+ ID }, 10);
+    //database->Update("UPDATE recommend_questions SET rec_question_1_id=?, rec_question_2_id=?, rec_question_3_id=?, rec_question_4_id=?, rec_question_5_id=?, rec_question_6_id=?, rec_question_7_id=?, rec_question_8_id=?, rec_question_9_id=?, rec_question_10_id=? WHERE page_ID=?", { "I:" + q[0], "I:" + q[1], "I:" + q[2], "I:" + q[3], "I:" + q[4], "I:" + q[5], "I:" + q[6], "I:" + q[7], "I:" + q[8], "I:" + q[9], "I:" + ID });
+
+    //recommend_questions_id = database->Get("SELECT rec_question_1_id, rec_question_2_id, rec_question_3_id, rec_question_4_id, rec_question_5_id, rec_question_6_id, rec_question_7_id, rec_question_8_id, rec_question_9_id, rec_question_10_id FROM recommend_questions WHERE page_ID=?", { "I:"+ ID }, 10);
 }
+
 
 
 
