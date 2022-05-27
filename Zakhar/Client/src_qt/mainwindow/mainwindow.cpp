@@ -44,6 +44,12 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete user_page;
+    delete main_page;
+    delete custom_page;
+    delete recom_page;
+    delete test_page;
+    delete edit_page;
 }
 
 UserPage *MainWindow::get_page()

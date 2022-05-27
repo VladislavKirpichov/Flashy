@@ -14,6 +14,9 @@ StartPage::StartPage(QWidget *parent)
 StartPage::~StartPage()
 {
     delete ui;
+    delete main_window;
+    delete reg_page;
+    delete user_page;
 }
 
 void StartPage::open_window()
