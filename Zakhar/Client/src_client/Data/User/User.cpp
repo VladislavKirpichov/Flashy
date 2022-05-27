@@ -22,7 +22,7 @@ void User::set_status(const std::string &new_status) {
     status = new_status;
 }
 
-void User::set_pages_id(const std::vector<unsigned int> &new_pages_id) {
+void User::set_pages_id(const std::vector<std::string> &new_pages_id) {
     pages_id = new_pages_id;
 }
 
@@ -50,7 +50,7 @@ std::string User::get_status() const {
     return status;
 }
 
-std::vector<unsigned int> User::get_pages_id() const {
+std::vector<std::string> User::get_pages_id() const {
     return pages_id;
 }
 

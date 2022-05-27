@@ -9,11 +9,11 @@
 class Page{
 public:
     Page();
-    Page(const User &user, const unsigned int &_id);
+    Page(const User &user, const std::string &_id);
 
-    unsigned int get_id(){ return id;}
+    std::string get_page_id(){ return page_id;}
     std::string get_title(){ return title;}
-    unsigned short get_theme(){return theme;}
+    std::string get_theme(){return theme;}
     std::string get_login(){return login;}
     std::string get_created_time(){return created_time;}
     std::string  get_updated_time(){return updated_time;}
@@ -21,9 +21,9 @@ public:
     std::string get_text(){return text;}
     std::vector<unsigned int> get_questions_id(){return questions_id;}
 
-    void set_id(const unsigned int &new_id){id = new_id;}
+    void set_page_id(const std::string &new_id){page_id = new_id;}
     void set_title(const std::string & new_title){title = new_title;}
-    void set_theme(const unsigned short & new_theme){theme = new_theme;}
+    void set_theme(const std::string & new_theme){theme = new_theme;}
     void set_login(const std::string & new_login){login = new_login;}
     void set_created_time(const std::string & new_created_time){created_time = new_created_time;}
     void set_updated_time(const std::string & new_updated_time){updated_time = new_updated_time;}
@@ -31,9 +31,9 @@ public:
     void set_text(const std::string & new_text){text = new_text;}
     void set_questions_id(const std::vector<unsigned int> new_questions_id){questions_id = new_questions_id;}
 private:
-    unsigned int id;
+    std::string page_id;
     std::string title;
-    unsigned short theme;
+    std::string theme;
     std::string login;
     std::string created_time;
     std::string  updated_time;

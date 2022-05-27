@@ -43,7 +43,7 @@ void StartPage::on_sign_up_button_clicked()
     std::string pass = ui->pass->text().toStdString();
     if(Manager::get_instance()->auth(login, pass)){
         hide();
-        Manager::get_instance()->get_user_from_server(login);
+        Manager::get_instance()->get_user_from_server(login, pass);
         connection();
         main_window->update();
         main_window->show();

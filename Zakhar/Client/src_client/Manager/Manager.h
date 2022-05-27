@@ -31,31 +31,25 @@ public:
         return &_instance;
     }
 
-    void get_user_from_server(const std::string &login);
+    void get_user_from_server(const std::string &login, const std::string &password);
 
     void get_page_from_server(const std::string &page_id);
 
-    bool post_user();
 
-    bool post_page();
+    bool create_page_to_server();
 
-    bool put_user();
+    bool change_user_in_server();
 
-    bool put_page();
+    bool change_page_in_server();
+
     bool auth(const std::string &login, const std::string &password);
 
     bool reg(const std::string &name, const std::string &login, const std::string &password,
              const std::string &email);
 
+    User &get_user();
 
-    void update(std::string update_message);
-
-
-    User& get_user();
-
-    Page& get_page();
-
-    void change_user(const User &new_user);
+    Page &get_page();
 
     void set_destination(const std::string &new_host, const unsigned short &new_port);
 
@@ -67,6 +61,8 @@ private:
     bool post(const std::string &target, const std::string &body);
 
     bool put(const std::string &target, const std::string &body);
+
+    bool _delete(const std::string &target);
 
     HTTPClient client;
     User current_user;

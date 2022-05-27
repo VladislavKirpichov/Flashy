@@ -19,7 +19,7 @@ public:
 
     void set_status(const std::string &new_status);
 
-    void set_pages_id(const std::vector<unsigned int> &new_notes_id);
+    void set_pages_id(const std::vector<std::string> &new_notes_id);
 
     void set_pages_title(const std::vector<std::string> &new_notes_name);
 
@@ -33,7 +33,7 @@ public:
 
     std::string get_status() const;
 
-    std::vector<unsigned int> get_pages_id() const;
+    std::vector<std::string> get_pages_id() const;
 
     std::vector<std::string> get_pages_title() const;
 
@@ -43,7 +43,7 @@ private:
     std::string password;
     std::string email;
     std::string status;
-    std::vector<unsigned int> pages_id;
+    std::vector<std::string> pages_id;
     std::vector<std::string> pages_title;
 };
 

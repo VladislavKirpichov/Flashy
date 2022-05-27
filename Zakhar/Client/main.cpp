@@ -39,7 +39,6 @@ int main(int argc, char *argv[]) {
                                     "}";
 
     Manager::get_instance()->set_destination(host,port);
-    Manager::get_instance()->reg("moc_name", "moc_login", "moc_password", "moc@example.com");
     QApplication a(argc, argv);
     StartPage w;
     w.show();

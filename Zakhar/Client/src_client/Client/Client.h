@@ -25,10 +25,10 @@ public:
                              const std::string& body);
     bool put_request(const std::string& host, const unsigned short& port, const std::string& target,
                       const std::string& body);
+    bool delete_request(const std::string& host, const unsigned short& port,const std::string& target);
 
 private:
     tcp::resolver resolver;
-    websocket::stream<tcp::socket> ws;
     beast::tcp_stream stream;
     beast::flat_buffer buffer;
 

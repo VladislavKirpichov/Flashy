@@ -12,9 +12,9 @@ User Serializer::user_deserialize(const std::string &json) {
     temp.set_status(root.get<std::string>("status","ERROR_STATUS"));
 
 
-    std::vector<unsigned int> pages_id;
+    std::vector<std::string> pages_id;
     for (boost::property_tree::ptree::value_type &page_id: root.get_child("pages_id")) {
-        pages_id.push_back(page_id.second.get_value<unsigned int>());
+        pages_id.push_back(page_id.second.get_value<std::string>());
     }
     temp.set_pages_id(pages_id);
 
@@ -50,11 +50,11 @@ std::string Serializer::user_serialize(User &user) {
     res += user.get_status();
     res += "\",\n";
 
-    std::vector<unsigned int> temp_pages_id = user.get_pages_id();
+    std::vector<std::string> temp_pages_id = user.get_pages_id();
     res += "  \"pages_id\": [ ";
     for(size_t i = 0; i < temp_pages_id.size(); i++){
         res+= "\"";
-        res+= std::to_string(temp_pages_id[i]);
+        res+= temp_pages_id[i];
         res+= "\"";
         if(i<temp_pages_id.size()-1)
             res+= ", ";
@@ -82,9 +82,9 @@ Page Serializer::page_deserialize(const std::string &json){
     std::stringstream jsonEncoded(json);
     boost::property_tree::ptree root;
     boost::property_tree::read_json(jsonEncoded, root);
-    temp.set_id(root.get<unsigned int>("id", 0));
+    temp.set_page_id(root.get<std::string>("page_id", "ERROR_ID"));
     temp.set_title(root.get<std::string>("title" , "ERROR_TITLE"));
-    temp.set_theme(root.get<unsigned short>("theme", 0));
+    temp.set_theme(root.get<std::string>("theme", "ERROR_THEME"));
     temp.set_login(root.get<std::string>("login","ERROR_LORIN"));
     temp.set_created_time(root.get<std::string>("created_time", "ERROR_TIME"));
     temp.set_updated_time(root.get<std::string>("updated_time", "ERROR_TIME"));
@@ -101,8 +101,8 @@ Page Serializer::page_deserialize(const std::string &json){
 std::string Serializer::page_serialize(Page & page){
     std::string res = "{\n";
 
-    res += "  \"id\": \"";
-    res += std::to_string(page.get_id());
+    res += "  \"page_id\": \"";
+    res += page.get_page_id();
     res += "\",\n";
 
     res += "  \"title\": \"";
@@ -110,7 +110,7 @@ std::string Serializer::page_serialize(Page & page){
     res += "\",\n";
 
     res += " \"theme\": \"";
-    res += std::to_string(page.get_theme());
+    res += page.get_theme();
     res += "\",\n";
 
     res += "  \"login\": \"";
