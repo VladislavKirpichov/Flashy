@@ -116,8 +116,6 @@ void API_Gateway::read_request() {
 }
 
 void API_Gateway::handle_request() {
-    // TODO
-    //  Добавить обработку HEAD, PUT, POST, DELETE
     try {
         if (_request.method() == http::verb::get) {
             std::make_unique<GetHandler<http::dynamic_body, std::allocator<char>, Send>>(std::move(_request), std::forward<Send>(send))->process_request();

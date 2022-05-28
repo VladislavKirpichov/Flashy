@@ -62,9 +62,6 @@ public:
 
 protected:
     void set_flags(http::response<http::string_body> &response) noexcept override;
-
-    void send_page_json_data();
-    void send_page_txt_data();
 };
 
 template<typename Body, typename Allocator, typename Send>
@@ -166,7 +163,7 @@ void PutPageManager<Body, Allocator, Send>::handle_request() {
         Storage storage{};
         std::string page_id = storage.create_file(args.at("login"), "");
         
-        create_new_page(page_id, JsonSerializer::deserialize_page(this->get_request_body_data()));
+        create_new_page(page_id, JsonSerializer::deserialize_in_vector(this->get_request_body_data()));
     }
 
     catch (JsonException::JsonException& ec) {
@@ -237,7 +234,7 @@ void PostPageManager<Body, Allocator, Send>::handle_request() {
         }
         else {
             Page page{args.at("page_id")};
-            set_page_fields(args.at("page_id"), JsonSerializer::deserialize_page(this->get_request_body_data()));
+            set_page_fields(args.at("page_id"), JsonSerializer::deserialize_in_vector(this->get_request_body_data()));
         }
     }
     catch (JsonException::JsonException& ec) {

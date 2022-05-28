@@ -18,8 +18,8 @@ public:
     static std::string serialize_user(const User& user);
     static User deserialize_user(const std::string& input_data);
 
-    static std::string serialize_page(Page& page);
-    static std::unordered_map<std::string, std::vector<std::string>> deserialize_page(const std::string& json_str);
+    static std::string serialize_page(const Page& page);
+    static std::unordered_map<std::string, std::vector<std::string>> deserialize_in_vector(const std::string& json_str);
 
     static std::string serialize_question(const Question& user);
     static Question deserialize_question(const std::string& input_data);

@@ -30,7 +30,6 @@ public:
     unsigned short get_port();
     bool is_running();
     void set_opts(Options opts);
-    void run_recommendations_system();
 
 private:
     bool started{};
