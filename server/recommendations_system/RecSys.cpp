@@ -227,28 +227,17 @@ void Creator::start_rec_sys() {
     double loss = recommender.fit();
     std::cout << loss << '\n';
 
-
     for (auto i: recommender.i2i_predictions(0, 2)) {
         std::cout << i << std::endl;
     }
 }
 
 int main() {
-    torch::Tensor interactions = torch::rand({3,3});
-    std::cout << interactions << std::endl;
-    Dataset data(interactions);
+    Dataset data(Storage::all_files);
     RecSys<Net> recommender(data);
     double loss = recommender.fit();
-    std::cout << loss << '\n';
-
-//    Page page{};
-
-    for (auto& i: Storage::all_files) {
-        Page page{i};
-
-    }
-
-    for (auto i: recommender.i2i_predictions(0, 2)) {
-        std::cout << i << std::endl;
+    std::cout << loss << std::endl;
+    for (const int i: Storage::all_files) {
+        recommender.u2i_predictions(i, 5);
     }
 }
