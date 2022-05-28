@@ -45,17 +45,6 @@ const std::vector<Dataset::Data_t> &Dataset::get_interactions_data() const {
   return interactions_data_;
 }
 
-//Dataset::Dataset(torch::Tensor a)
-//: interactions_table_(a)
-//{
-//  for (size_t i = 0; i < a.size(0); ++i) {
-//    documents_id_.push
-//  }
-//  for (size_t i = 0; i < a.size(1); ++i) {
-//    flashcards_id_
-//  }
-//}
-
 const std::vector<int> Dataset::get_documents() const {
   return documents_id_;
 }
@@ -72,7 +61,6 @@ Dataset::Dataset(const Dataset &other)
 {
 }
 
-//TODO
 const Dataset &Dataset::operator=(const Dataset &other) {
   documents_id_ = other.documents_id_;
   flashcards_id_ = other.flashcards_id_;
@@ -86,7 +74,7 @@ Dataset::Dataset(const std::vector<int> &pages)
 {
 
   for (const auto &p: pages) {
-    Page page(p);
+    Page page(std::to_string(p));
     Data_t temp;
     for (const auto &i: page.get_all_rec_questions_and_id()) {
       temp.doc_id = std::stoi(p);
@@ -107,6 +95,3 @@ Dataset::Dataset(const std::vector<int> &pages)
   preprocessing();
 }
 
-//Dataset::~Dataset() {
-//
-//}

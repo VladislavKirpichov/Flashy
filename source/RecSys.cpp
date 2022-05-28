@@ -128,21 +128,12 @@ RecSys<Net>::RecSys(const Dataset &p_dataset) {
   dataset_ = std::make_shared<Dataset>(p_dataset);
   net_ = std::make_shared<Net>(dataset_->get_documents_count(),
                                  dataset_->get_flashcards_count());
-//  try {
-//    load_model(net_);
-//    // TODO: load embeddings (from file or database)
-//  } catch (...) {
-//    net_ = std::make_shared<Net>(dataset_->get_documents_count(),
-//                                 dataset_->get_flashcards_count());
-//  }
-  //
+
+  // TODO: load embeddings? (from file or database)
 }
 
 template<class Net>
 RecSys<Net>::~RecSys() {
-  //
-  //save_model(net_);
-  //save data?
   // TODO: save embeddings to database(?) or in file
 }
 
@@ -181,7 +172,6 @@ std::vector<int> RecSys<Net>::i2i_predictions(int card_id, int count) {
   });
 
   std::vector<int> result(count + 1);
-//  std::copy(similarity_vec.begin(), similarity_vec.begin() + count, result.begin());
   for (const auto &i: similarity_vec) {
     result.push_back(i.first);
   }
@@ -220,10 +210,11 @@ std::vector<int> RecSys<Net>::u2i_predictions(int doc_id, int count) {
     std::cout << i << " ";
   }
   ///////////////
-  Page page(doc_id);
+  Page page(std::to_string(doc_id));
 
   //get tests of page
   std::vector<std::string> tests_from_curr_page = page.get_all_page_questions_id(doc_id);
+
   std::transform(tests_from_curr_page.begin(), tests_from_curr_page.end()
   , tests_from_curr_page.begin(), [tests_from_curr_page](std::string test_id){
     return std::stoi(test_id);
@@ -237,7 +228,7 @@ std::vector<int> RecSys<Net>::u2i_predictions(int doc_id, int count) {
   });
 
   //get title of page
-//  std::string title = page.get_page_title();
+  //std::string title = page.get_page_title();
   //get tests with curr title
   //remove tests out of title
 
@@ -249,23 +240,4 @@ std::vector<int> RecSys<Net>::u2i_predictions(int doc_id, int count) {
     std::cout << i << " ";
   }
   return result;
-}
-
-void Creator::start_rec_sys() {
-//  torch::Tensor interactions = torch::rand({3,3});
-//  std::cout << interactions << std::endl;
-//  Dataset data(interactions);
-//  RecSys<Net> recommender(data);
-//  double loss = recommender.fit();
-//  std::cout << loss << '\n';
-
-    Dataset data(Storage::all_files);
-    RecSys<Net> recommender(data);
-    double loss = recommender.fit();
-    std::cout << loss << std::endl;
-    for (const int i: Storage::all_files) {
-      recommender.u2i_predictions(i, 5);
-    }
-
-
 }
