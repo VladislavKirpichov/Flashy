@@ -223,7 +223,8 @@ std::vector<int> RecSys<Net>::u2i_predictions(int doc_id, int count) {
   //remove test of page
   std::remove_if(result.begin(), result.end()
                  , [result, tests_from_curr_page](int test_id) {
-      return std::find(tests_from_curr_page.begin(), tests_from_curr_page.end(), result) != test_id;
+      return std::find(tests_from_curr_page.begin(), tests_from_curr_page.end(), test_id)
+      != tests_from_curr_page.end();
 
   });
 
