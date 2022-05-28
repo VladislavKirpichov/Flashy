@@ -59,6 +59,8 @@ class Page {
 
 		std::string get_file_page() const;
 
+        std::vector<std::vector<std::string>> get_all_page_questions_id() const;
+
         std::vector<std::vector<std::string>> get_rec_questions_id() const;
 
         void add_rec_question_id(std::string q_id);
