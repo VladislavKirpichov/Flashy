@@ -13,6 +13,10 @@ TEST(Json, serialize_user) {
     EXPECT_EQ(answer, JsonSerializer::serialize_user(user));
 }
 
+TEST(Json, ) {
+
+}
+
 TEST(Json, deserialize_in_vector) {
     auto test = JsonSerializer::deserialize_in_vector("{\"hello\":\"from\", \"this\": [\"amazing\", \"json\"]}");
 
