@@ -77,7 +77,7 @@ Dataset::Dataset(const std::vector<int> &pages)
     Page page(std::to_string(p));
     Data_t temp;
     for (const auto &i: page.get_all_rec_questions_and_id()) {
-      temp.doc_id = std::stoi(p);
+      temp.doc_id = p;
       temp.card_id = std::stoi(i[0]);
       temp.mark = std::stoi(i[1]);
 
