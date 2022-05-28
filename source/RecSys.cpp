@@ -69,7 +69,7 @@ double RecSys<Net>::fit() {
 
 template<class Net>
 const std::vector<int> RecSys<Net>::generate_k_grid(int M, int N) {
-  std::vector<int> grid;
+  std::vector<int> grid(std::max(M,N));
 
   for (int i = 1; i < std::max(M,N); ++i) {
     grid.push_back(i);
@@ -212,21 +212,60 @@ std::vector<int> RecSys<Net>::u2i_predictions(int doc_id, int count) {
             });
 
   std::vector<int> result;
-  std::copy(flashcards.begin(), flashcards.begin() + count, result.begin());
+  for (const auto &i: flashcards) {
+    result.push_back(i.first);
+  }
 
+  for (auto i: result) {
+    std::cout << i << " ";
+  }
+  ///////////////
+  Page page(doc_id);
+
+  //get tests of page
+  std::vector<std::string> tests_from_curr_page = page.get_all_page_questions_id(doc_id);
+  std::transform(tests_from_curr_page.begin(), tests_from_curr_page.end()
+  , tests_from_curr_page.begin(), [tests_from_curr_page](std::string test_id){
+    return std::stoi(test_id);
+  });
+
+  //remove test of page
+  std::remove_if(result.begin(), result.end()
+                 , [result, tests_from_curr_page](int test_id) {
+      return std::find(tests_from_curr_page.begin(), tests_from_curr_page.end(), result) != test_id;
+
+  });
+
+  //get title of page
+//  std::string title = page.get_page_title();
+  //get tests with curr title
+  //remove tests out of title
+
+  //save result to db
+  for (int i = 0; i < count; ++i) {
+    page.add_rec_question_id(std::to_string(result[i]));
+  }
+  for (auto i: result) {
+    std::cout << i << " ";
+  }
   return result;
 }
 
 void Creator::start_rec_sys() {
-  torch::Tensor interactions = torch::rand({3,3});
-  std::cout << interactions << std::endl;
-  Dataset data(interactions);
-  RecSys<Net> recommender(data);
-  double loss = recommender.fit();
-  std::cout << loss << '\n';
+//  torch::Tensor interactions = torch::rand({3,3});
+//  std::cout << interactions << std::endl;
+//  Dataset data(interactions);
+//  RecSys<Net> recommender(data);
+//  double loss = recommender.fit();
+//  std::cout << loss << '\n';
+
+    Dataset data(Storage::all_files);
+    RecSys<Net> recommender(data);
+    double loss = recommender.fit();
+    std::cout << loss << std::endl;
+    for (const int i: Storage::all_files) {
+      recommender.u2i_predictions(i, 5);
+    }
 
 
-  for (auto i: recommender.i2i_predictions(0, 2)) {
-    std::cout << i << std::endl;
-  }
 }

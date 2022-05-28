@@ -27,7 +27,7 @@ class Dataset {
 
   const std::vector<int> get_flashcards() const;
 
-  Dataset()=default;
+  Dataset(const std::vector<int> &pages);
 
   explicit Dataset(torch::Tensor a)
       : interactions_table_(a)
