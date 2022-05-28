@@ -10,7 +10,7 @@ int main() {
     //User user("Bob");
     //user.update_email("new_email");
     //user.user_close_connect();
-
+/*
     Page page(7, "Math", "Algos", "kkk");
 
     page.add_page();
@@ -30,9 +30,19 @@ int main() {
         } std::cout << " " << std::endl;
     }
 
+*/
 
+    DB *database = new DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
 
+    std::vector<std::vector<std::string>> MyData = database->Execute("SELECT * FROM users", 6);
 
+    database->Close();
+
+    for (int a = 0; a < MyData.size(); a++) {
+        for (int c = 0; c < MyData[a].size(); c++) {
+            std::cout << MyData[a][c] + " - ";
+        } std::cout << " " << std::endl;
+    }
 
     /*
     std::string nickname = "'Akim'"; 

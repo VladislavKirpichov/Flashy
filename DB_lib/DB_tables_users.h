@@ -17,8 +17,6 @@ class User {
 
     public:
 
-        User();
-
         User(std::string nick, std::string name, std::string pass, std::string email, std::string status);
 
         User(std::string nick);

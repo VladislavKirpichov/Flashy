@@ -1,9 +1,6 @@
 #include "DB.h"
 #include "DB_tables_users.h"
 
-User::User()
-{}
-
 User::User(std::string nick, std::string name, std::string pass, std::string email, std::string status)
         : nickname(nick), name(name), password(pass), email(email), status(status)
 {
@@ -89,12 +86,6 @@ void User::update_name(std::string new_name) {
 std::string User::get_pass() const {
     return password;
 }
-/*
-std::vector<std::vector<std::string>> User::get_pass(size_t id){
-    std::string ID = std::to_string(id);
-    return database->Get("SELECT pass FROM users WHERE id=?", { "I:" + ID}, 1);
-}
-*/
 
 void User::update_pass(std::string new_pass){
     std::string ID = std::to_string(id);
@@ -103,8 +94,6 @@ void User::update_pass(std::string new_pass){
 }
 
 std::string User::get_email() const {
-    //std::string ID = std::to_string(id);
-    //return database->Get("SELECT email FROM users WHERE id=?", { "I:" + ID}, 1);
     return email;
 }
 
@@ -115,8 +104,6 @@ void User::update_email(std::string new_email){
 }
 
 std::string User::get_status() const {
-    //std::string ID = std::to_string(id);
-    //return database->Get("SELECT status FROM users WHERE id=?", { "I:" + ID}, 1);
     return status;
 }
 

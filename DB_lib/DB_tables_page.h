@@ -72,14 +72,6 @@ class Page {
         std::string get_rec_question_mark(std::string q_id);
         std::vector<std::vector<std::string>> get_all_rec_question_marks_and_id();
 
-		//void update_page_mime(size_t page_ID, std::string new_mime);
-
-		//std::vector<std::vector<std::string>> get_page_mime(size_t page_ID);
-
-		//void update_page_url(size_t page_ID, std::string new_url);
-
-		//std::vector<std::vector<std::string>> get_page_url(size_t page_ID);
-
         void delete_page();
 
 };
