@@ -173,6 +173,11 @@ std::vector<std::vector<std::string>> Page::get_all_rec_question_marks_and_id() 
     return database->Get("SELECT rec_question_id, mark FROM recommend_questions WHERE page_ID=?", { "I:" + ID}, 2);
 }
 
+std::vector<std::vector<std::string>> Page::get_all_page_questions_id() const{
+    std::string page_ID = std::to_string(id);
+    return database->Get("SELECT id FROM questions WHERE pageID=?", { "I:" + page_ID}, 1);
+}
+
 
 /*
 void Page::update_page_mime(size_t page_ID, std::string new_mime){

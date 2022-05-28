@@ -144,6 +144,9 @@ std::string JsonSerializer::serialize_page(const Page &page) {
         json_data["last_visited_time"] = page.get_last_visited_time();
         json_data["page_id"] = page.get_file_page();
 
+        for (auto& i : page.get_all_page_questions_id())
+            json_data["questions_id"] += i[0];
+
         return to_string(json_data);
     }
     catch (nlohmann::json::exception& ec) {

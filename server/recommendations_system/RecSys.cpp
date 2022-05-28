@@ -1,6 +1,8 @@
 #include "RecSys.h"
 #include "Storage.h"
 #include "Page.h"
+#include "Dataset.h"
+#include "Storage.h"
 
 template<class Net>
 double RecSys<Net>::fit() {
