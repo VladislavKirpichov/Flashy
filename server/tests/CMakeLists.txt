@@ -11,11 +11,11 @@ add_executable(http_test http_parser.cpp)
 target_link_libraries(${PROJECT_NAME} PUBLIC GTest::gtest)
 target_link_libraries(http_test PUBLIC GTest::gtest)
 
-# libs for tests
+# libs for question
 target_link_libraries(${PROJECT_NAME} PUBLIC Json)
 target_link_libraries(${PROJECT_NAME} PUBLIC entities)
 
 target_link_libraries(http_test PUBLIC http_parser)
 
-# add tests
+# add question
 gtest_discover_tests(${PROJECT_NAME} http_test)
