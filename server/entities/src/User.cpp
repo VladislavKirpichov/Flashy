@@ -37,22 +37,14 @@ void User::user_close_connect() {
 }
 
 void User::add_user() {
-    database->Insert("INSERT INTO users(nick,pass,email,status) VALUES (?, ?, ?, ?)", { "S:" + nickname , "S:" + password , "S:" + email, "S:" + status });
+
+    database->Insert("INSERT INTO users(nick,name,pass,email,status) VALUES (?, ?, ?, ?, ?)", { "S:" + nickname , "S" + name, "S:" + password , "S:" + email, "S:" + status });
     std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM users WHERE nick=?", { "S:" + nickname}, 1);
     id = std::stoi(MyData[0][0]);
 }
 
-int User::get_user_ID() {
+int User::get_user_ID() const  {
     return id;
-}
-std::string User::get_name() {
-    return name;
-}
-
-void User::update_name(std::string new_name) {
-    std::string ID = std::to_string(id);
-    database->Update("UPDATE users SET name=? WHERE id=?", { "S:" + new_name, "I:" + ID});
-    name = new_name;
 }
 
 /*
@@ -72,7 +64,7 @@ void User::delete_user(){
     database->Delete("DELETE FROM users WHERE id=?", { "I:" + ID});
 }
 
-std::string User::get_nick(){
+std::string User::get_nick() const {
     //std::string ID = std::to_string(id);
     //return database->Get("SELECT nick FROM users WHERE id=?", { "I:" + ID}, 1);
     return nickname;
@@ -84,7 +76,17 @@ void User::update_nick(std::string new_nick){
     nickname = new_nick;
 }
 
-std::string User::get_pass() {
+std::string User::get_name() const  {
+    return name;
+}
+
+void User::update_name(std::string new_name) {
+    std::string ID = std::to_string(id);
+    database->Update("UPDATE users SET name=? WHERE id=?", { "S:" + new_name, "I:" + ID});
+    name = new_name;
+}
+
+std::string User::get_pass() const  {
     return password;
 }
 /*
@@ -100,7 +102,7 @@ void User::update_pass(std::string new_pass){
     password = new_pass;
 }
 
-std::string User::get_email(){
+std::string User::get_email() const {
     //std::string ID = std::to_string(id);
     //return database->Get("SELECT email FROM users WHERE id=?", { "I:" + ID}, 1);
     return email;
@@ -112,7 +114,7 @@ void User::update_email(std::string new_email){
     email = new_email;
 }
 
-std::string User::get_status(){
+std::string User::get_status() const {
     //std::string ID = std::to_string(id);
     //return database->Get("SELECT status FROM users WHERE id=?", { "I:" + ID}, 1);
     return status;
@@ -124,12 +126,17 @@ void User::update_status(std::string new_status){
     status = new_status;
 }
 
-std::vector<std::vector<std::string>> User::get_pages_id() {
+std::vector<std::vector<std::string>> User::get_pages_id() const  {
     std::string userID = std::to_string(id);
     return database->Get("SELECT id FROM page WHERE userID=?", { "I:" + userID }, 1);
 }
 
-std::vector<std::vector<std::string>> User::get_pages_title() {
+std::vector<std::vector<std::string>> User::get_pages_file() const  {
+    std::string userID = std::to_string(id);
+    return database->Get("SELECT file FROM page WHERE userID=?", { "I:" + userID }, 1);
+}
+
+std::vector<std::vector<std::string>> User::get_pages_title() const  {
     std::string userID = std::to_string(id);
     return database->Get("SELECT title FROM page WHERE userID=?", { "I:" + userID }, 1);
 }

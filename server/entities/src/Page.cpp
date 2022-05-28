@@ -1,104 +1,87 @@
-
-// TODO: ПОДКЛЮЧИТЬ БД!
-
-/*
+#ifndef DB_tables_page_H_
+#define DB_tables_page_H_
 #include "DB.h"
-
 #include <string>
 #include <vector>
 
-void DB::add_page(size_t user_ID, std::string title, std::string file, std::string mime, std::string url){
-    std::string ID = std::to_string(user_ID);
-    Insert("INSERT INTO page(userID,title,file,mime,url) VALUES (?, ?, ?, ?, ?)", { "I:" + user_ID , "S:" + title , "S:" + mime, "S:" + url });
-}
+class Page {
+private:
+    int id;
+    int user_id;
+    std::string theme;
+    std::string title;
+    std::string created_time;
+    std::string updated_time;
+    std::string last_visited_time;
+    std::string file;
+    std::vector<std::vector<std::string>> recommend_questions_id;
+    DB *database;
 
-std::vector<std::vector<std::string>> DB::get_page_ID(std::string page_title){
-    return Get("SELECT id FROM page WHERE title=?", { "S:" + page_title}, 1);
-}
+public:
 
-std::vector<std::vector<std::string>> DB::get_all_page_info(size_t page_ID){
-    std::string ID = std::to_string(page_ID);
-    return Get("SELECT * FROM page WHERE id=?", { "I:" + ID}, 9);
-}
+    Page(int user_ID, std::string theme, std::string title, std::string file);
 
-std::vector<std::vector<std::string>> DB::get_all_user_pages(size_t user_ID){
-    std::string ID = std::to_string(user_ID);
-    return Get("SELECT * FROM page WHERE userID=?", { "I:" + ID}, 9);
-}
+    Page(std::string file);
 
-std::vector<std::vector<std::string>> DB::get_user_ID(size_t page_ID){
-    std::string ID = std::to_string(page_ID);
-    return Get("SELECT userID FROM page WHERE id=?", { "I:" + ID}, 1);
-}
+    void page_connect_DB();
 
-void DB::update_page_title(size_t page_ID, std::string new_title){
-    std::string ID = std::to_string(page_ID);
-    Update("UPDATE page SET title=? WHERE id=?", { "S:" + new_title, "I:" + ID});
-}
+    void page_close_connect();
 
-std::vector<std::vector<std::string>> DB::get_page_title(size_t page_ID){
-    std::string ID = std::to_string(page_ID);
-    return Get("SELECT title FROM page WHERE id=?", { "I:" + ID}, 1);
-}
+    void add_page();
 
-std::vector<std::vector<std::string>> DB::get_created_time(size_t page_ID){
-    std::string ID = std::to_string(page_ID);
-    return Get("SELECT createdTime FROM page WHERE id=?", { "I:" + ID}, 1);
-}
+    int get_page_ID() const;
 
-void DB::set_updated_time(size_t page_ID){
-    std::string ID = std::to_string(page_ID);
-    Execute("UPDATE page SET updatedTime=NOW() WHERE id=" + ID);
-}
+    std::vector<std::vector<std::string>> get_all_page_info(size_t page_ID) const;
 
-std::vector<std::vector<std::string>> DB::get_updated_time(size_t page_ID){
-    std::string ID = std::to_string(page_ID);
-    return Get("SELECT updatedTime FROM page WHERE id=?", { "I:" + ID}, 1);
-}
+    std::vector<std::vector<std::string>> get_all_user_pages_id() const;
 
-void DB::set_last_visited_time(size_t page_ID){
-    std::string ID = std::to_string(page_ID);
-    Execute("UPDATE page SET lastVisited=NOW() WHERE id=" + ID);
-}
+    std::vector<std::vector<std::string>> get_all_page_questions_id() const;
 
-std::vector<std::vector<std::string>> DB::get_last_visited_time(size_t page_ID){
-    std::string ID = std::to_string(page_ID);
-    return Get("SELECT lastVisited FROM page WHERE id=?", { "I:" + ID}, 1);
-}
+    int get_user_ID() const;
 
-void DB::update_file_page(size_t page_ID, std::string new_file){
-    std::string ID = std::to_string(page_ID);
-    Update("UPDATE page SET file=? WHERE id=?", { "S:" + new_file, "I:" + ID});
-}
+    std::string get_theme() const;
 
-std::vector<std::vector<std::string>> DB::get_file_page(size_t page_ID){
-    std::string ID = std::to_string(page_ID);
-    return Get("SELECT file FROM page WHERE id=?", { "I:" + ID}, 1);
-}
+    void update_theme(std::string new_theme);
 
-void DB::update_page_mime(size_t page_ID, std::string new_mime){
-    std::string ID = std::to_string(page_ID);
-    Update("UPDATE page SET mime=? WHERE id=?", { "S:" + new_mime, "I:" + ID});
-}
+    void update_page_title(std::string new_title);
 
-std::vector<std::vector<std::string>> DB::get_page_mime(size_t page_ID){
-    std::string ID = std::to_string(page_ID);
-    return Get("SELECT mime FROM page WHERE id=?", { "I:" + ID}, 1);
-}
+    std::string get_page_title() const;
 
-void DB::update_page_url(size_t page_ID, std::string new_url){
-    std::string ID = std::to_string(page_ID);
-    Update("UPDATE page SET url=? WHERE id=?", { "S:" + new_url, "I:" + ID});
-}
+    std::string get_created_time() const;
 
-std::vector<std::vector<std::string>> DB::get_page_url(size_t page_ID){
-    std::string ID = std::to_string(page_ID);
-    return Get("SELECT url FROM page WHERE id=?", { "I:" + ID}, 1);
-}
+    void set_updated_time();
 
-void DB::delete_page(size_t page_ID){
-    std::string ID = std::to_string(page_ID);
-    Delete("DELETE FROM page WHERE id=?", { "I:" + ID});
-}
+    std::string get_updated_time() const;
 
- */
+    void set_last_visited_time();
+
+    std::string get_last_visited_time() const;
+
+    void update_file_page(std::string new_file);
+
+    std::string get_file_page() const;
+
+    std::vector<std::vector<std::string>> get_rec_questions_id() const;
+
+    void add_rec_question_id(std::string q_id);
+    void add_one_rec_question_id(std::string q_id);
+    void add_five_rec_questions_id(std::vector<std::vector<std::string>> q_id);
+    void add_five_rec_questions_id(std::vector<std::string> q_id);
+
+    void set_rec_question_mark(std::string q_id, std::string mark);
+    std::string get_rec_question_mark(std::string q_id);
+    std::vector<std::vector<std::string>> get_all_rec_question_marks_and_id();
+
+    //void update_page_mime(size_t page_ID, std::string new_mime);
+
+    //std::vector<std::vector<std::string>> get_page_mime(size_t page_ID);
+
+    //void update_page_url(size_t page_ID, std::string new_url);
+
+    //std::vector<std::vector<std::string>> get_page_url(size_t page_ID);
+
+    void delete_page();
+
+};
+
+#endif  // DB_tables_page_H_

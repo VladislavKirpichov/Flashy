@@ -1,78 +1,87 @@
-//
-// Created by vladislav on 24.05.22.
-//
-
-#ifndef SERVER_V0_1_PAGE_H
-#define SERVER_V0_1_PAGE_H
-
+#ifndef DB_tables_page_H_
+#define DB_tables_page_H_
+#include "DB.h"
 #include <string>
 #include <vector>
 
 class Page {
+private:
+    int id;
+    int user_id;
+    std::string theme;
+    std::string title;
+    std::string created_time;
+    std::string updated_time;
+    std::string last_visited_time;
+    std::string file;
+    std::vector<std::vector<std::string>> recommend_questions_id;
+    DB *database;
+
 public:
+
+    Page(int user_ID, std::string theme, std::string title, std::string file);
+
+    Page(std::string file);
+
     void page_connect_DB();
 
     void page_close_connect();
 
-    void add_page(size_t user_ID, std::string title, std::string file, std::string mime, std::string url);
+    void add_page();
 
-    std::vector<std::vector<std::string>> get_page_ID(std::string page_title);
+    int get_page_ID() const;
 
-    std::vector<std::vector<std::string>> get_all_page_info(size_t page_ID);
+    std::vector<std::vector<std::string>> get_all_page_info(size_t page_ID) const;
 
-    std::vector<std::vector<std::string>> get_all_user_pages(size_t user_ID);
+    std::vector<std::vector<std::string>> get_all_user_pages_id() const;
 
-    std::vector<std::vector<std::string>> get_user_ID(size_t page_ID);
+    std::vector<std::vector<std::string>> get_all_page_questions_id() const;
 
-    void update_page_title(size_t page_ID, std::string new_title);
+    int get_user_ID() const;
 
-    std::vector<std::vector<std::string>> get_page_title(size_t page_ID);
+    std::string get_theme() const;
 
-    std::vector<std::vector<std::string>> get_created_time(size_t page_ID);
+    void update_theme(std::string new_theme);
 
-    void set_updated_time(size_t page_ID);
+    void update_page_title(std::string new_title);
 
-    std::vector<std::vector<std::string>> get_updated_time(size_t page_ID);
+    std::string get_page_title() const;
 
-    void set_last_visited_time(size_t page_ID);
+    std::string get_created_time() const;
 
-    std::vector<std::vector<std::string>> get_last_visited_time(size_t page_ID);
+    void set_updated_time();
 
-    void update_file_page(size_t page_ID, std::string new_file);
+    std::string get_updated_time() const;
 
-    std::vector<std::vector<std::string>> get_file_page(size_t page_ID);
+    void set_last_visited_time();
 
-    void update_page_mime(size_t page_ID, std::string new_mime);
+    std::string get_last_visited_time() const;
 
-    std::vector<std::vector<std::string>> get_page_mime(size_t page_ID);
+    void update_file_page(std::string new_file);
 
-    void update_page_url(size_t page_ID, std::string new_url);
+    std::string get_file_page() const;
 
-    std::vector<std::vector<std::string>> get_page_url(size_t page_ID);
+    std::vector<std::vector<std::string>> get_rec_questions_id() const;
 
-    void delete_page(size_t page_ID);
+    void add_rec_question_id(std::string q_id);
+    void add_one_rec_question_id(std::string q_id);
+    void add_five_rec_questions_id(std::vector<std::vector<std::string>> q_id);
+    void add_five_rec_questions_id(std::vector<std::string> q_id);
 
-    size_t get_id() const { return id; }
-    size_t get_login() const { return login; }
-    std::string get_title() const { return title; }
-    time_t get_created_time() const { return created_time; }
-    time_t get_updated_time() const { return updated_time; }
-    time_t get_last_visited_time() const { return last_visited_time; }
-    std::string get_file() const { return file; }
-    std::string get_mime() const { return mime; }
-    std::string get_url() const { return url; }
+    void set_rec_question_mark(std::string q_id, std::string mark);
+    std::string get_rec_question_mark(std::string q_id);
+    std::vector<std::vector<std::string>> get_all_rec_question_marks_and_id();
 
-private:
-    size_t id;
-    size_t login;
-    std::string title;
-    time_t created_time;
-    time_t updated_time;
-    time_t last_visited_time;
-    std::string file;
-    std::string mime;
-    std::string url;
-    // DB *database;
+    //void update_page_mime(size_t page_ID, std::string new_mime);
+
+    //std::vector<std::vector<std::string>> get_page_mime(size_t page_ID);
+
+    //void update_page_url(size_t page_ID, std::string new_url);
+
+    //std::vector<std::vector<std::string>> get_page_url(size_t page_ID);
+
+    void delete_page();
+
 };
 
-#endif //SERVER_V0_1_PAGE_H
+#endif  // DB_tables_page_H_

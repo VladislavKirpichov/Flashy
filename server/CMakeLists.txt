@@ -8,6 +8,7 @@ file(COPY entities DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/data)
 # add libs
 add_subdirectory(DB)
 add_subdirectory(entities)
+add_subdirectory(storage)
 
 #libs
 add_subdirectory(libs/Logger)
@@ -21,14 +22,6 @@ add_subdirectory(src)
 
 add_executable(${PROJECT_NAME} main.cpp)
 
-# link libs
-target_link_libraries(${PROJECT_NAME} PUBLIC DB)
-target_link_libraries(${PROJECT_NAME} PUBLIC Logger)
-target_link_libraries(${PROJECT_NAME} PUBLIC Exceptions)
-target_link_libraries(${PROJECT_NAME} PUBLIC Json)
-target_link_libraries(${PROJECT_NAME} PUBLIC http_parser)
-target_link_libraries(${PROJECT_NAME} PUBLIC API)
-target_link_libraries(${PROJECT_NAME} PUBLIC http_response)
 target_link_libraries(${PROJECT_NAME} PUBLIC src)
 
 # Packages
