@@ -1,4 +1,6 @@
 #include "RecSys.h"
+#include "Storage.h"
+#include "Page.h"
 
 template<class Net>
 double RecSys<Net>::fit() {
@@ -239,6 +241,12 @@ int main() {
     double loss = recommender.fit();
     std::cout << loss << '\n';
 
+//    Page page{};
+
+    for (auto& i: Storage::all_files) {
+        Page page{i};
+
+    }
 
     for (auto i: recommender.i2i_predictions(0, 2)) {
         std::cout << i << std::endl;

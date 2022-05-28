@@ -208,7 +208,8 @@ void PostPageManager<Body, Allocator, Send>::set_page_fields(const std::string& 
     page.set_updated_time();
 
     if (json.find("questions") != json.end())
-        page.set_rec_questions_id(json.at("questions"));
+        for (auto& i : json.at("questions"))
+            page.add_one_rec_question_id(i);
 
     page.page_close_connect();
 }

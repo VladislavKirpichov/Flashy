@@ -22,6 +22,7 @@ std::string Storage::create_file(const std::string& login, std::string&& input_d
 
     write_input_data_in_file(file_url, std::move(input_data));
 
+    all_files.push_back(file_url);
     return file_url;
 }
 
