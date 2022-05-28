@@ -18,7 +18,7 @@ class Question {
 		
 		Question(int page_ID, std::string file, std::string answer);
 
-		Question(std::string file);
+		Question(int id);
 
 		void question_connect_DB();
 

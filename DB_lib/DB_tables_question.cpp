@@ -7,19 +7,19 @@ Question::Question(int page_ID, std::string file, std::string answer)
     question_connect_DB();
 }
 
-Question::Question(std::string file)
-    : file(file)
+Question::Question(int id)
+    : id(id)
 {
     question_connect_DB();
 
-    std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM questions WHERE file=?", { "S:" + file}, 1);
-    id = std::stoi(MyData[0][0]);
+    //std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM questions WHERE file=?", { "S:" + file}, 1);
+    //id = std::stoi(MyData[0][0]);
     
-    std::string ID = std::to_string(id);
-    MyData = database->Get("SELECT * FROM questions WHERE id=?", {"I:"+ ID}, 7);
+    std::string ID = std::to_string(this->id);
+    std::vector<std::vector<std::string>> MyData = database->Get("SELECT * FROM questions WHERE id=?", {"I:"+ ID}, 6);
 
     page_id = std::stoi(MyData[0][1]);
-    //this->file = MyData[0][2];
+    file = MyData[0][2];
     answer = MyData[0][3];
     right_answers = std::stoi(MyData[0][4]);
     wrong_answers = std::stoi(MyData[0][5]);
