@@ -9,7 +9,6 @@
 #include <thread>
 
 #include "Exceptions.h"
-#include "RecSys.h"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace websocket = beast::websocket; // from <boost/beast/websocket.hpp>
@@ -33,8 +32,7 @@ void ServerManager::run() {
 
     // Listener responsible for the life of the shared_ptr
     try {
-        run_recommendations_system();
-        // std::make_shared<Listener>(ioc, std::move(endpoint))->async_accept();
+        std::make_shared<Listener>(ioc, std::move(endpoint))->async_accept();
     }
     catch (ServerException::ListenerException& ec) {
         // ...
@@ -49,10 +47,4 @@ void ServerManager::run() {
 //        threads.emplace_back([&ioc](){ ioc.run(); }).detach();
 
     ioc.run();
-}
-
-void ServerManager::run_recommendations_system() {
-    // Creator::start_rec_sys();
-    std::thread daemon{Creator::start_rec_sys};
-    daemon.detach();
 }

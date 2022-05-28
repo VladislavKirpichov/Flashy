@@ -38,11 +38,11 @@ public:
     void register_user();
 
 private:
-    void create_new_user(std::unordered_map<std::string, std::string> json);
+    void create_new_user(std::unordered_map<std::string, std::string>& json);
 };
 
 template<typename Body, typename Allocator, typename Send>
-void RegistrationManager<Body, Allocator, Send>::create_new_user(std::unordered_map<std::string, std::string> json) {
+void RegistrationManager<Body, Allocator, Send>::create_new_user(std::unordered_map<std::string, std::string>& json) {
     User user {json.at("login"), json.at("name"), json.at("password"), json.at("email"), json.at("status")};
     user.user_close_connect();
 }
@@ -62,9 +62,7 @@ void RegistrationManager<Body, Allocator, Send>::register_user() {
         return;
     }
 
-    // TODO: взять данные о пользователе из БД и сверить пароль с тем, что пришел
     try {
-
         if (!User::find_user_nick(args.at("login"), args.at("password"))) {
             std::unordered_map<std::string, std::string> json = JsonSerializer::deserialize(this->get_request_body_data());
             create_new_user(json);

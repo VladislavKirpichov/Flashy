@@ -17,8 +17,8 @@ std::string_view HttpParser::define_page_type(const std::string& url_path) noexc
         return {"page"};
     else if (boost::starts_with(url_path, "/auth") || boost::starts_with(url_path, "/auth/"))
         return {"auth"};
-    else if (boost::starts_with(url_path, "/test") || boost::starts_with(url_path, "/test/"))
-        return {"test"};
+    else if (boost::starts_with(url_path, "/question") || boost::starts_with(url_path, "/question/"))
+        return {"question"};
     else
         throw HttpException::NotDefinedType("not type of user || page || auth || test");
 }
