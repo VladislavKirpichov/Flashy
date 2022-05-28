@@ -213,11 +213,11 @@ std::vector<int> RecSys<Net>::u2i_predictions(int doc_id, int count) {
   Page page(std::to_string(doc_id));
 
   //get tests of page
-  std::vector<std::string> tests_from_curr_page = page.get_all_page_questions_id(std::to_string(doc_id));
+  std::vector<std::vector<std::string>> tests_from_curr_page = page.get_all_page_questions_id(std::to_string(doc_id));
 
   std::transform(tests_from_curr_page.begin(), tests_from_curr_page.end()
-  , tests_from_curr_page.begin(), [tests_from_curr_page](std::string test_id){
-    return std::stoi(test_id);
+  , tests_from_curr_page.begin(), [tests_from_curr_page](std::vector<std::string> test_id){
+    return std::stoi(test_id[0]);
   });
 
   //remove test of page
