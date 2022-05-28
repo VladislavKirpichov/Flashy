@@ -35,6 +35,8 @@ public:
 
     std::vector<std::vector<std::string>> get_all_user_pages_id() const;
 
+    std::vector<std::vector<std::string>> get_all_page_questions_id() const;
+
     int get_user_ID() const;
 
     std::string get_theme() const;

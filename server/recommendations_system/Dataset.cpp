@@ -1,17 +1,12 @@
 #include "Dataset.h"
+#include "Page.h"
+#include <iostream>
 
 void Dataset::preprocessing() {
 
     interactions_table_ = torch::zeros({get_documents_count(),
                                         get_flashcards_count()});
 
-// int curr_doc_iter, curr_card_iter;
-// curr_doc_iter = 0;
-// curr_card_iter = 0;
-// for (const Data_t &i: interactions_data_) {
-//   interactions_table_.index_put_({,
-//                                   curr_card_iter}, get_mark(curr_doc_iter, curr_card_iter));
-// }
 
     for (int i = 0; i < flashcards_id_.size(); ++i)
     {
@@ -21,6 +16,8 @@ void Dataset::preprocessing() {
                     , get_mark(documents_id_[j], flashcards_id_[i]));
         }
     }
+
+    std::cout << interactions_table_ << std::endl;
 
 }
 
@@ -86,9 +83,31 @@ const Dataset &Dataset::operator=(const Dataset &other) {
     return (*this);
 }
 
-//Dataset::Dataset() {
-//
-//}
+Dataset::Dataset(const std::vector<int> &pages)
+        : documents_id_(pages)
+{
+
+    for (const auto &p: pages) {
+        Page page(p);
+        Data_t temp;
+        for (const auto &i: page.get_all_rec_questions_and_id()) {
+            temp.doc_id = std::stoi(p);
+            temp.card_id = std::stoi(i[0]);
+            temp.mark = std::stoi(i[1]);
+
+            interactions_data_.push_back(temp);
+
+            flashcards_id_.push_back(i[0]);
+        }
+    }
+
+    ////test
+    for (const auto &i: interactions_data_) {
+        std::cout << i.doc_id << i.card_id << i.mark << std::endl;
+    }
+    ////
+    preprocessing();
+}
 
 //Dataset::~Dataset() {
 //
