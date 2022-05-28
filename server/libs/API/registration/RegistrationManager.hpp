@@ -36,7 +36,16 @@ public:
     using IManager<Body, Allocator, Send>::IManager;
 
     void register_user();
+
+private:
+    void create_new_user(std::unordered_map<std::string, std::string>& json);
 };
+
+template<typename Body, typename Allocator, typename Send>
+void RegistrationManager<Body, Allocator, Send>::create_new_user(std::unordered_map<std::string, std::string>& json) {
+    User user {json.at("login"), json.at("name"), json.at("password"), json.at("email"), json.at("status")};
+    user.user_close_connect();
+}
 
 template<typename Body, typename Allocator, typename Send>
 void RegistrationManager<Body, Allocator, Send>::register_user() {
@@ -53,10 +62,10 @@ void RegistrationManager<Body, Allocator, Send>::register_user() {
         return;
     }
 
-    // TODO: взять данные о пользователе из БД и сверить пароль с тем, что пришел
     try {
         if (!User::find_user_nick(args.at("login"), args.at("password"))) {
-            User user = JsonSerializer::deserialize_user(this->get_request_body_data());
+            std::unordered_map<std::string, std::string> json = JsonSerializer::deserialize(this->get_request_body_data());
+            create_new_user(json);
         }
         else
             HttpClientErrorCreator<Send>::create_forbidden_403(std::move(this->get_send()), this->get_request_version())->send_response();

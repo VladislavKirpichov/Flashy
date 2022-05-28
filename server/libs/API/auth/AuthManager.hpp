@@ -48,7 +48,6 @@ void AuthManager<Body, Allocator, Send>::auth_user() {
         return;
     }
 
-    // TODO: взять данные о пользователе из БД и сверить пароль с тем, что пришел
     try {
         if (User::find_user_nick(args.at("login"), args.at("password")))
             HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();

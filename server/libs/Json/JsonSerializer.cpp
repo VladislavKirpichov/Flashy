@@ -78,7 +78,6 @@ std::unordered_map<std::string, std::string> JsonSerializer::deserialize(const s
 
         return data;
     }
-    // TODO: написать обработчики ошибок
     catch (nlohmann::json::exception& ec) {
         throw JsonException::JsonException(ec);
     }
@@ -121,7 +120,6 @@ User JsonSerializer::deserialize_user(const std::string &input_data) {
 
         return user;
     }
-        // TODO: написать обработчики ошибок
     catch (nlohmann::json::exception& ec) {
         throw JsonException::JsonException(ec);
     }
@@ -167,12 +165,10 @@ Page JsonSerializer::deserialize_page(const std::string &input_data) {
         std::string mime = json_data["mime"];
         std::string url = json_data["url"];
 
-        Page page{};
-        // page.add_page(std::move(id), std::move(title), std::move(file), std::move(mime), std::move(url));
+        Page page{};=
 
         return page;
     }
-        // TODO: написать обработчики ошибок
     catch (nlohmann::json::exception& ec) {
         throw JsonException::JsonException(ec);
     }

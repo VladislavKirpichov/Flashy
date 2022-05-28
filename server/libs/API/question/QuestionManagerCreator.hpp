@@ -15,7 +15,6 @@
 
 namespace http = beast::http;           // from <boost/beast/http.hpp>
 
-// TODO изменить классы
 
 template<typename Body, typename Allocator, typename Send>
 class QuestionManagerCreator {
@@ -26,8 +25,6 @@ public:
     create_PutQuestionManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
     static std::shared_ptr<PostQuestionManager<Body, Allocator, Send>>
     create_PostQuestionManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
-    static std::shared_ptr<GetQuestionManager<Body, Allocator, Send>>
-    create_DeleteQuestionManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send);
 };
 
 template<typename Body, typename Allocator, typename Send>
@@ -46,12 +43,6 @@ template<typename Body, typename Allocator, typename Send>
 std::shared_ptr<PostQuestionManager<Body, Allocator, Send>>
 QuestionManagerCreator<Body, Allocator, Send>::create_PostQuestionManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send) {
 return std::make_shared<PostQuestionManager<Body, Allocator, Send>>(std::move(req), std::move(send));
-}
-
-template<typename Body, typename Allocator, typename Send>
-std::shared_ptr<GetQuestionManager<Body, Allocator, Send>>
-QuestionManagerCreator<Body, Allocator, Send>::create_DeleteQuestionManager(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send) {
-return std::make_shared<GetQuestionManager<Body, Allocator, Send>>(std::move(req), std::move(send));
 }
 
 #endif //SERVER_V0_1_QUESTIONMANAGERCREATOR_HPP
