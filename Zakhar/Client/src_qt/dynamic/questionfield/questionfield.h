@@ -15,6 +15,13 @@ public:
     explicit QuestionFIeld(QWidget *parent = nullptr);
     ~QuestionFIeld();
 
+private slots:
+    void on_like_button_clicked();
+
+    void on_dislike_button_clicked();
+
+    void on_answer_button_clicked();
+
 private:
     Ui::QuestionFIeld *ui;
 };

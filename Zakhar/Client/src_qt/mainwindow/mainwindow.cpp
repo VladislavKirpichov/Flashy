@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this, &MainWindow::signal, edit_page, &EditPage::open_page);
     connect(edit_page, &EditPage::open_page_signal, this, &MainWindow::open_page);
 
-    connect(edit_page, &EditPage::save_text_signal, custom_page, &CustomPage::save_text);
+    connect(edit_page, &EditPage::save_page_signal, custom_page, &CustomPage::save_text);
 
 
     connect(this, &MainWindow::user_signal, user_page, &UserPage::get_data);

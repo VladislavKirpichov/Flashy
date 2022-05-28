@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true">background:white</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="page_title">
    <property name="geometry">
     <rect>
      <x>150</x>
@@ -75,7 +75,7 @@ color: #000000;</string>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
-       <widget class="QLabel" name="label_8">
+       <widget class="QLabel" name="created_time_title">
         <property name="layoutDirection">
          <enum>Qt::LeftToRight</enum>
         </property>
@@ -88,7 +88,7 @@ color: #000000;</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_9">
+       <widget class="QLabel" name="last_visited_time_title">
         <property name="layoutDirection">
          <enum>Qt::LeftToRight</enum>
         </property>
@@ -125,22 +125,6 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a rutrum sapien, congue lobortis velit. Pellentesque et condimentum lacus. Curabitur vehicula, tortor vitae placerat commodo, lorem diam placerat augue, id varius urna neque in nunc. Etiam rhoncus leo quis aliquam interdum. Quisque quis tincidunt lectus, et rhoncus lectus. Quisque ac molestie purus, sit amet ullamcorper risus. Nunc pulvinar lacus eget nulla tincidunt lobortis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_11">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>430</y>
-     <width>381</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color:black</string>
-   </property>
-   <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;What is an orthogonal system? Orthonormal system?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="start_testing_button">
    <property name="geometry">
     <rect>
@@ -167,7 +151,7 @@ border-radius: 12px;</string>
     <string>Start testing</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="Similar_notes_button">
+  <widget class="QPushButton" name="recom_notes_button">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -177,7 +161,7 @@ border-radius: 12px;</string>
     </rect>
    </property>
    <property name="text">
-    <string>Similar to this note</string>
+    <string>Recom  to this note</string>
    </property>
   </widget>
   <widget class="QPushButton" name="edit_button">

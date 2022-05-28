@@ -101,66 +101,6 @@ border-radius: 10px;</string>
      <string>Login</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="pass">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>300</y>
-      <width>324</width>
-      <height>64</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">position: absolute;
-width: 320px;
-height: 60px;
-left: 200px;
-top: 230px;
-
-background: #FFFFFF;
-border: 2px solid #E5E5E5;
-border-radius: 10px;</string>
-    </property>
-    <property name="inputMask">
-     <string/>
-    </property>
-    <property name="placeholderText">
-     <string>Password</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="pass_2">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>370</y>
-      <width>324</width>
-      <height>64</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">position: absolute;
-width: 320px;
-height: 60px;
-left: 200px;
-top: 230px;
-
-background: #FFFFFF;
-border: 2px solid #E5E5E5;
-border-radius: 10px;</string>
-    </property>
-    <property name="inputMask">
-     <string/>
-    </property>
-    <property name="placeholderText">
-     <string>Repeat the password</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="create_acc_button">
     <property name="geometry">
      <rect>
@@ -179,6 +119,136 @@ color: #FFFFFF;</string>
     <property name="text">
      <string>Create account!</string>
     </property>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>300</y>
+      <width>658</width>
+      <height>140</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLineEdit" name="email">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">position: absolute;
+width: 320px;
+height: 60px;
+left: 200px;
+top: 230px;
+
+background: #FFFFFF;
+border: 2px solid #E5E5E5;
+border-radius: 10px;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="placeholderText">
+          <string>Email</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="name">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">position: absolute;
+width: 320px;
+height: 60px;
+left: 200px;
+top: 230px;
+
+background: #FFFFFF;
+border: 2px solid #E5E5E5;
+border-radius: 10px;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="placeholderText">
+          <string>Name</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLineEdit" name="pass">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">position: absolute;
+width: 320px;
+height: 60px;
+left: 200px;
+top: 230px;
+
+background: #FFFFFF;
+border: 2px solid #E5E5E5;
+border-radius: 10px;</string>
+         </property>
+         <property name="inputMask">
+          <string/>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
+         <property name="placeholderText">
+          <string>Password</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="repeat_pass">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">position: absolute;
+width: 320px;
+height: 60px;
+left: 200px;
+top: 230px;
+
+background: #FFFFFF;
+border: 2px solid #E5E5E5;
+border-radius: 10px;</string>
+         </property>
+         <property name="inputMask">
+          <string/>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
+         <property name="placeholderText">
+          <string>Repeat the password</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </widget>
   </widget>
  </widget>

@@ -26,14 +26,24 @@ void StartPage::open_window()
     this->show();
 }
 
+void StartPage::reg_slot()
+{
+    hide();
+    connection();
+    main_window->update();
+    main_window->show();
+}
+
 void StartPage::on_reg_button_clicked()
 {
     hide();
     reg_page = new regpage(this);
     reg_page->show();
+    connect(reg_page, &regpage::reg_signal, this, &StartPage::reg_slot);
 }
 void StartPage::connection()
 {
+
     main_window = new MainWindow(this);
     main_window->hide();
     user_page = main_window->get_page();

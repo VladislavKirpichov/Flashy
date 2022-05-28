@@ -11,6 +11,7 @@
 #include "Serializer.h"
 #include "User.h"
 #include "Page.h"
+#include "Question.h"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
@@ -35,12 +36,19 @@ public:
 
     void get_page_from_server(const std::string &page_id);
 
+    Question get_question_from_server(const unsigned int &question_id);
+
+    void get_questions_from_page();
 
     bool create_page_to_server();
+
+    bool create_question_to_server(size_t i);
 
     bool change_user_in_server();
 
     bool change_page_in_server();
+
+    bool change_question_to_server();
 
     bool auth(const std::string &login, const std::string &password);
 
@@ -68,6 +76,7 @@ private:
     User current_user;
     Page current_page;
     Serializer serializer;
+    std::vector<Question> current_questions;
     std::string host;
     unsigned short port;
 

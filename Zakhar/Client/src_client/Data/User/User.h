@@ -8,7 +8,7 @@
 class User {
 public:
     User();
-
+    User(const std::string &_name, const std::string &_login, const std::string &_password, const std::string &_email);
     void set_name(const std::string &new_name);
 
     void set_login(const std::string &new_login);

@@ -26,10 +26,15 @@ void EditPage::open_page(int _page_num)
 
 void EditPage::on_save_text_button_clicked()
 {
-    emit save_text_signal(ui->text_field->toPlainText());
+    emit save_page_signal(ui->text_field->toPlainText());
 }
 
 void EditPage::on_exit_button_clicked()
 {
     emit open_page_signal(3);
+}
+
+void EditPage::on_add_question_button_clicked()
+{
+
 }

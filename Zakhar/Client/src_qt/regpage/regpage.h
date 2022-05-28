@@ -2,7 +2,8 @@
 #define REGPAGE_H
 
 #include <QDialog>
-
+#include <QMessageBox>
+#include "Manager.h"
 namespace Ui {
 class regpage;
 }
@@ -18,7 +19,8 @@ public:
 private slots:
 
     void on_create_acc_button_clicked();
-
+signals:
+    void reg_signal();
 private:
     Ui::regpage *ui;
 };

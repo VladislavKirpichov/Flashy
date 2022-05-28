@@ -18,7 +18,7 @@ public slots:
     void save_text(QString new_text);
 private slots:
 
-    void on_Similar_notes_button_clicked();
+    void on_recom_notes_button_clicked();
 
     void on_start_testing_button_clicked();
 

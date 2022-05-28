@@ -330,6 +330,9 @@ border-radius: 10px;</string>
      <property name="inputMask">
       <string/>
      </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
      <property name="placeholderText">
       <string>Password</string>
      </property>

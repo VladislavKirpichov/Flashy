@@ -30,7 +30,7 @@ void CustomPage::save_text(QString new_text)
     ui->text_field->setText(new_text);
 }
 
-void CustomPage::on_Similar_notes_button_clicked()
+void CustomPage::on_recom_notes_button_clicked()
 {
     emit open_page_signal(1);
 }

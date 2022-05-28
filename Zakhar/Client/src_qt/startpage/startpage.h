@@ -19,6 +19,7 @@ public:
     void connection();
 public slots:
     void open_window();
+    void reg_slot();
 private slots:
 
     void on_reg_button_clicked();

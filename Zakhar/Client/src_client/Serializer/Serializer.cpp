@@ -5,11 +5,11 @@ User Serializer::user_deserialize(const std::string &json) {
     std::stringstream jsonEncoded(json);
     boost::property_tree::ptree root;
     boost::property_tree::read_json(jsonEncoded, root);
-    temp.set_name(root.get<std::string>("name" , "ERROR_NAME"));
+    temp.set_name(root.get<std::string>("name", "ERROR_NAME"));
     temp.set_login(root.get<std::string>("login", "ERROR_LOGIN"));
-    temp.set_password(root.get<std::string>("password","ERROR_PASSWORD"));
+    temp.set_password(root.get<std::string>("password", "ERROR_PASSWORD"));
     temp.set_email(root.get<std::string>("email", "ERROR_EMAIL"));
-    temp.set_status(root.get<std::string>("status","ERROR_STATUS"));
+    temp.set_status(root.get<std::string>("status", "ERROR_STATUS"));
 
 
     std::vector<std::string> pages_id;
@@ -52,23 +52,23 @@ std::string Serializer::user_serialize(User &user) {
 
     std::vector<std::string> temp_pages_id = user.get_pages_id();
     res += "  \"pages_id\": [ ";
-    for(size_t i = 0; i < temp_pages_id.size(); i++){
-        res+= "\"";
-        res+= temp_pages_id[i];
-        res+= "\"";
-        if(i<temp_pages_id.size()-1)
-            res+= ", ";
+    for (size_t i = 0; i < temp_pages_id.size(); i++) {
+        res += "\"";
+        res += temp_pages_id[i];
+        res += "\"";
+        if (i < temp_pages_id.size() - 1)
+            res += ", ";
     }
     res += "],\n";
 
     std::vector<std::string> temp_pages_title = user.get_pages_title();
     res += "  \"pages_title\": [ ";
-    for(size_t i = 0; i < temp_pages_title.size(); i++){
-        res+= "\"";
-        res+= temp_pages_title[i];
-        res+= "\"";
-        if(i<temp_pages_title.size()-1)
-            res+= ", ";
+    for (size_t i = 0; i < temp_pages_title.size(); i++) {
+        res += "\"";
+        res += temp_pages_title[i];
+        res += "\"";
+        if (i < temp_pages_title.size() - 1)
+            res += ", ";
     }
 
 
@@ -77,19 +77,20 @@ std::string Serializer::user_serialize(User &user) {
     res += "}";
     return res;
 }
-Page Serializer::page_deserialize(const std::string &json){
+
+Page Serializer::page_deserialize(const std::string &json) {
     Page temp;
     std::stringstream jsonEncoded(json);
     boost::property_tree::ptree root;
     boost::property_tree::read_json(jsonEncoded, root);
     temp.set_page_id(root.get<std::string>("page_id", "ERROR_ID"));
-    temp.set_title(root.get<std::string>("title" , "ERROR_TITLE"));
+    temp.set_title(root.get<std::string>("title", "ERROR_TITLE"));
     temp.set_theme(root.get<std::string>("theme", "ERROR_THEME"));
-    temp.set_login(root.get<std::string>("login","ERROR_LORIN"));
+    temp.set_login(root.get<std::string>("login", "ERROR_LORIN"));
     temp.set_created_time(root.get<std::string>("created_time", "ERROR_TIME"));
     temp.set_updated_time(root.get<std::string>("updated_time", "ERROR_TIME"));
-    temp.set_last_visited_time(root.get<std::string>("last_visited_time","ERROR_TIME"));
-    temp.set_text(root.get<std::string>("text","ERROR_TEXT"));
+    temp.set_last_visited_time(root.get<std::string>("last_visited_time", "ERROR_TIME"));
+    temp.set_text(root.get<std::string>("text", "ERROR_TEXT"));
 
     std::vector<unsigned int> questions_id;
     for (boost::property_tree::ptree::value_type &question_id: root.get_child("questions_id")) {
@@ -98,7 +99,8 @@ Page Serializer::page_deserialize(const std::string &json){
     temp.set_questions_id(questions_id);
     return temp;
 }
-std::string Serializer::page_serialize(Page & page){
+
+std::string Serializer::page_serialize(Page &page) {
     std::string res = "{\n";
 
     res += "  \"page_id\": \"";
@@ -135,15 +137,51 @@ std::string Serializer::page_serialize(Page & page){
 
     std::vector<unsigned int> temp_questions_id = page.get_questions_id();
     res += "  \"questions_id\": [ ";
-    for(size_t i = 0; i < temp_questions_id.size(); i++){
-        res+= "\"";
-        res+= std::to_string(temp_questions_id[i]);
-        res+= "\"";
-        if(i<temp_questions_id.size()-1)
-            res+= ", ";
+    for (size_t i = 0; i < temp_questions_id.size(); i++) {
+        res += "\"";
+        res += std::to_string(temp_questions_id[i]);
+        res += "\"";
+        if (i < temp_questions_id.size() - 1)
+            res += ", ";
     }
-    res += "],\n";
+    res += "]\n";
 
+
+    res += "}";
+    return res;
+}
+
+Question Serializer::question_deserialize(const std::string &json) {
+    Question temp;
+    std::stringstream jsonEncoded(json);
+    boost::property_tree::ptree root;
+    boost::property_tree::read_json(jsonEncoded, root);
+    temp.set_title(root.get<std::string>("title", "ERROR_TITLE"));
+    temp.set_answer(root.get<std::string>("answer", "ERROR_ANSWER"));
+    temp.set_question_id(root.get<unsigned int>("question_id", 0));
+    temp.set_page_id(root.get<std::string>("page_id", "ERROR_PAGE_ID"));
+
+    return temp;
+}
+
+std::string Serializer::question_serialize(Question &question) {
+    std::string res = "{\n";
+
+    res += "  \"title\": \"";
+    res += question.get_title();
+    res += "\",\n";
+
+    res += "  \"answer\": \"";
+    res += question.get_answer();
+    res += "\",\n";
+
+    res += " \"question_id\": \"";
+    res += std::to_string(question.get_question_id());
+    res += "\",\n";
+
+    res += "  \"page_id\": \"";
+    res += question.get_page_id();
+    res += "\"\n";
 
     res += "}";
     return res;

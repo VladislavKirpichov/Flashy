@@ -16,22 +16,6 @@
   <property name="styleSheet">
    <string notr="true">background:white</string>
   </property>
-  <widget class="QLabel" name="label_11">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>420</y>
-     <width>381</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color:black</string>
-   </property>
-   <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;What is an orthogonal system? Orthonormal system?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
@@ -144,8 +128,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QPushButton" name="save_text_button">
    <property name="geometry">
     <rect>
-     <x>460</x>
-     <y>290</y>
+     <x>330</x>
+     <y>160</y>
      <width>89</width>
      <height>25</height>
     </rect>
@@ -178,6 +162,19 @@ border-radius: 12px;</string>
    </property>
    <property name="text">
     <string>Exit</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="add_question_button">
+   <property name="geometry">
+    <rect>
+     <x>58</x>
+     <y>160</y>
+     <width>111</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Add question</string>
    </property>
   </widget>
  </widget>

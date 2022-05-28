@@ -2,6 +2,14 @@
 
 User::User() {}
 
+User::User(const std::string &_name, const std::string &_login, const std::string &_password, const std::string &_email)
+{
+    name = _name;
+    login = _login;
+    password = _password;
+    email = _email;
+}
+
 void User::set_name(const std::string &new_name) {
     name = new_name;
 }
