@@ -23,6 +23,8 @@ class Page {
 
         Page(std::string file);
 
+        Page(std::string ID, bool def);
+
         void page_connect_DB();
 
         void page_close_connect();

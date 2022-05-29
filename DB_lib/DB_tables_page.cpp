@@ -29,6 +29,23 @@ Page::Page(std::string file)
 
 }
 
+Page::Page(std::string ID, bool def) {
+    id = std::stoi(ID);
+    page_connect_DB();
+
+    std::vector<std::vector<std::string>> MyData = database->Get("SELECT * FROM page WHERE id=?", {"I:"+ ID}, 8);
+
+    user_id = std::stoi(MyData[0][1]);
+    theme = MyData[0][2];
+    title = MyData[0][3];
+    created_time = MyData[0][4];
+    updated_time = MyData[0][5];
+    last_visited_time = MyData[0][6];
+
+    recommend_questions_id = database->Get("SELECT rec_question_id FROM recommend_questions WHERE page_ID=?", { "I:" + ID}, 1);
+
+}
+
 void Page::page_connect_DB() {
     database = new DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
 }
