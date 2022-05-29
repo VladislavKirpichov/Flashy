@@ -54,9 +54,9 @@ public:
 
     double get_right_answers_rate() const;
 
-    void set_rec_question_mark(std::string q_id, std::string mark);
+    void set_rec_question_mark(std::string page_id, std::string mark);
 
-    std::string get_rec_question_mark(std::string q_id);
+    std::string get_rec_question_mark(std::string page_id);
 
     std::vector<std::vector<std::string>> get_all_rec_question_marks_and_id();
 

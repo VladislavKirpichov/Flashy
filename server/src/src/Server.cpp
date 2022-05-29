@@ -9,6 +9,7 @@
 #include <thread>
 
 #include "Exceptions.h"
+// #include "RecSys.h"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace websocket = beast::websocket; // from <boost/beast/websocket.hpp>
@@ -16,7 +17,7 @@ namespace net = boost::asio;            // from <boost/asio.hpp>
 using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 
 ServerManager::ServerManager() {
-    _opts.ip = "127.0.0.1";
+    _opts.ip = "192.168.43.143";
     _opts.port = 8080;
     _opts.owner = "src";
     _opts.machine_name = "LAPTOP-9KQ1QFS1.local";
@@ -32,6 +33,7 @@ void ServerManager::run() {
 
     // Listener responsible for the life of the shared_ptr
     try {
+        // run_recommendations_system();
         std::make_shared<Listener>(ioc, std::move(endpoint))->async_accept();
     }
     catch (ServerException::ListenerException& ec) {
@@ -47,4 +49,10 @@ void ServerManager::run() {
 //        threads.emplace_back([&ioc](){ ioc.run(); }).detach();
 
     ioc.run();
+}
+
+void ServerManager::run_recommendations_system() {
+    // Creator::start_rec_sys();
+    // std::thread daemon{Creator::start_rec_sys};
+    // daemon.detach();
 }

@@ -1,6 +1,5 @@
 project(storage)
 
-# add_library(${PROJECT_NAME} SHARED Storage.cpp)
 file(GLOB SRC_DIR data/hello.txt)
 
 set(CMAKE_CXX_FLAGS "-fconcepts")

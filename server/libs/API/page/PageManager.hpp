@@ -127,19 +127,32 @@ class PutPageManager : public IPageManager<Body, Allocator, Send> {
 public:
     using IPageManager<Body, Allocator, Send>::IPageManager;
     void handle_request() final;
+
+protected:
+    void set_flags(http::response<http::string_body> &response) noexcept override;
+
 private:
-    void create_new_page(const std::string& page_id, const std::unordered_map<std::string, std::vector<std::string>>& json);
+    Page create_new_page(const std::string& page_id, const std::unordered_map<std::string, std::vector<std::string>>& json);
 };
 
 template<typename Body, typename Allocator, typename Send>
-void PutPageManager<Body, Allocator, Send>::create_new_page(const std::string& page_id, const std::unordered_map<std::string, std::vector<std::string>>& json) {
+Page PutPageManager<Body, Allocator, Send>::create_new_page(const std::string& page_id, const std::unordered_map<std::string, std::vector<std::string>>& json) {
     Page page{std::stoi(json.at("user_id")[0]), json.at("theme")[0], json.at("title")[0], page_id};
     page.add_page();
 
-//    if (json.find("questions") != json.end())
-//        page.set_rec_questions_id(json.at("questions"));
+    if (json.find("questions") != json.end())
+        for (auto& i : json.at("questions"))
+            page.add_one_rec_question_id(i);
 
-    page.page_close_connect();
+    return page;
+}
+
+template<typename Body, typename Allocator, typename Send>
+void PutPageManager<Body, Allocator, Send>::set_flags(http::response<http::string_body> &response) noexcept {
+    response.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+    response.set(http::field::content_type, "text/json");
+    response.keep_alive(this->get_request_keep_alive());
+    response.content_length(response.body().size());
 }
 
 template<typename Body, typename Allocator, typename Send>
@@ -150,7 +163,6 @@ void PutPageManager<Body, Allocator, Send>::handle_request() {
     std::unordered_map<std::string, std::string> args{};
     try {
         args = HttpParser::define_args_map(this->get_request_target());
-        // args = this->get_args_url();
     }
     catch (HttpException::InvalidArguments& ec) {
         Logger::Error(__LINE__, __FILE__, ec.what());
@@ -161,9 +173,10 @@ void PutPageManager<Body, Allocator, Send>::handle_request() {
     try {
         // create new page in storage
         Storage storage{};
-        std::string page_id = storage.create_file(args.at("login"), "");
-        
-        create_new_page(page_id, JsonSerializer::deserialize_in_vector(this->get_request_body_data()));
+        std::string page_id = storage.create_file(args.at("login"), "test");
+        Page page = create_new_page(page_id, JsonSerializer::deserialize_page(this->get_request_body_data()));
+
+        response.body() = JsonSerializer::serialize_page(page);
     }
 
     catch (JsonException::JsonException& ec) {
@@ -179,7 +192,8 @@ void PutPageManager<Body, Allocator, Send>::handle_request() {
         ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
     }
 
-    return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
+    this->set_flags(response);
+    return this->get_send()(std::move(response));
 }
 
 
@@ -235,7 +249,7 @@ void PostPageManager<Body, Allocator, Send>::handle_request() {
         }
         else {
             Page page{args.at("page_id")};
-            set_page_fields(args.at("page_id"), JsonSerializer::deserialize_in_vector(this->get_request_body_data()));
+            set_page_fields(args.at("page_id"), JsonSerializer::deserialize_page(this->get_request_body_data()));
         }
     }
     catch (JsonException::JsonException& ec) {
@@ -272,7 +286,6 @@ void DeletePageManager<Body, Allocator, Send>::handle_request() {
     std::unordered_map<std::string, std::string> args{};
     try {
         args = HttpParser::define_args_map(this->get_request_target());
-        // args = this->get_args_url();
     }
     catch (HttpException::InvalidArguments& ec) {
         Logger::Error(__LINE__, __FILE__, ec.what());
@@ -281,9 +294,9 @@ void DeletePageManager<Body, Allocator, Send>::handle_request() {
     }
 
     try {
-        // Page page{};
-        // page.delete_page(args.at("page_id));
-        // TODO: удалить данные из БД
+         Page page{args.at("page_id")};
+         page.delete_page();
+         page.page_close_connect();
     }
     catch (std::out_of_range& ec) {
         return HttpClientErrorCreator<Send>

@@ -1,6 +1,5 @@
 #include "Dataset.h"
 #include "Page.h"
-#include <iostream>
 
 void Dataset::preprocessing() {
 
@@ -47,17 +46,6 @@ const std::vector<Dataset::Data_t> &Dataset::get_interactions_data() const {
     return interactions_data_;
 }
 
-//Dataset::Dataset(torch::Tensor a)
-//: interactions_table_(a)
-//{
-//  for (size_t i = 0; i < a.size(0); ++i) {
-//    documents_id_.push
-//  }
-//  for (size_t i = 0; i < a.size(1); ++i) {
-//    flashcards_id_
-//  }
-//}
-
 const std::vector<int> Dataset::get_documents() const {
     return documents_id_;
 }
@@ -74,7 +62,6 @@ Dataset::Dataset(const Dataset &other)
 {
 }
 
-//TODO
 const Dataset &Dataset::operator=(const Dataset &other) {
     documents_id_ = other.documents_id_;
     flashcards_id_ = other.flashcards_id_;
@@ -87,17 +74,21 @@ Dataset::Dataset(const std::vector<int> &pages)
         : documents_id_(pages)
 {
 
-    for (const auto &p: pages) {
-        Page page(p);
+    for (auto p: pages) {
+        Page page(std::to_string(p), true);
         Data_t temp;
-        for (const auto &i: page.get_all_rec_questions_and_id()) {
-            temp.doc_id = std::stoi(p);
+        ////
+        std::vector<std::vector<std::string>> vec = page.get_all_rec_question_marks_and_id();
+
+        ////
+        for (const auto &i: page.get_all_rec_question_marks_and_id()) {
+            temp.doc_id = p;
             temp.card_id = std::stoi(i[0]);
             temp.mark = std::stoi(i[1]);
 
             interactions_data_.push_back(temp);
 
-            flashcards_id_.push_back(i[0]);
+            flashcards_id_.push_back(std::stoi(i[0]));
         }
     }
 
@@ -108,7 +99,3 @@ Dataset::Dataset(const std::vector<int> &pages)
     ////
     preprocessing();
 }
-
-//Dataset::~Dataset() {
-//
-//}

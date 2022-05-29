@@ -26,6 +26,24 @@ Page::Page(std::string file)
     last_visited_time = MyData[0][6];
 
     recommend_questions_id = database->Get("SELECT rec_question_id FROM recommend_questions WHERE page_ID=?", { "I:" + ID}, 1);
+
+}
+
+Page::Page(std::string ID, bool def) {
+    id = std::stoi(ID);
+    page_connect_DB();
+
+    std::vector<std::vector<std::string>> MyData = database->Get("SELECT * FROM page WHERE id=?", {"I:"+ ID}, 8);
+
+    user_id = std::stoi(MyData[0][1]);
+    theme = MyData[0][2];
+    title = MyData[0][3];
+    created_time = MyData[0][4];
+    updated_time = MyData[0][5];
+    last_visited_time = MyData[0][6];
+
+    recommend_questions_id = database->Get("SELECT rec_question_id FROM recommend_questions WHERE page_ID=?", { "I:" + ID}, 1);
+
 }
 
 void Page::page_connect_DB() {
@@ -42,11 +60,9 @@ void Page::add_page(){
     std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM page WHERE file=?", { "S:" + file}, 1);
     id = std::stoi(MyData[0][0]);
     std::string ID = std::to_string(id);
-    //database->Insert("INSERT INTO recommend_questions(page_ID) VALUES (?)", { "I:" + ID });
 }
 
 int Page::get_page_ID() const {
-    //return database->Get("SELECT id FROM page WHERE title=?", { "S:" + page_title}, 1);
     return id;
 }
 
@@ -61,8 +77,6 @@ std::vector<std::vector<std::string>> Page::get_all_user_pages_id() const {
 }
 
 int Page::get_user_ID() const {
-    //std::string ID = std::to_string(page_ID);
-    //return database->Get("SELECT userID FROM page WHERE id=?", { "I:" + ID}, 1);
     return user_id;
 }
 
@@ -81,14 +95,10 @@ void Page::update_page_title(std::string new_title){
 }
 
 std::string Page::get_page_title() const {
-    //std::string ID = std::to_string(page_ID);
-    //return database->Get("SELECT title FROM page WHERE id=?", { "I:" + ID}, 1);
     return title;
 }
 
 std::string Page::get_created_time() const {
-    //std::string ID = std::to_string(id);
-    //return database->Get("SELECT createdTime FROM page WHERE id=?", { "I:" + ID}, 1);
     return created_time;
 }
 
@@ -100,8 +110,6 @@ void Page::set_updated_time(){
 }
 
 std::string Page::get_updated_time() const {
-    //std::string ID = std::to_string(page_ID);
-    //return database->Get("SELECT updatedTime FROM page WHERE id=?", { "I:" + ID}, 1);
     return updated_time;
 }
 
@@ -113,8 +121,6 @@ void Page::set_last_visited_time(){
 }
 
 std::string Page::get_last_visited_time() const {
-    //std::string ID = std::to_string(page_ID);
-    //return database->Get("SELECT lastVisited FROM page WHERE id=?", { "I:" + ID}, 1);
     return last_visited_time;
 }
 
@@ -125,8 +131,6 @@ void Page::update_file_page(std::string new_file){
 }
 
 std::string Page::get_file_page() const {
-    //std::string ID = std::to_string(id);
-    //return database->Get("SELECT file FROM page WHERE id=?", { "I:" + ID}, 1);
     return file;
 }
 
@@ -138,10 +142,6 @@ void Page::add_one_rec_question_id(std::string q_id) {
     std::string ID = std::to_string(id);
 
     database->Insert("INSERT INTO recommend_questions(page_ID,rec_question_id) VALUES (?, ?)", { "I:" + ID , "I:" + q_id });
-
-    //database->Update("UPDATE recommend_questions SET rec_question_1_id=?, rec_question_2_id=?, rec_question_3_id=?, rec_question_4_id=?, rec_question_5_id=?, rec_question_6_id=?, rec_question_7_id=?, rec_question_8_id=?, rec_question_9_id=?, rec_question_10_id=? WHERE page_ID=?", { "I:" + q[0], "I:" + q[1], "I:" + q[2], "I:" + q[3], "I:" + q[4], "I:" + q[5], "I:" + q[6], "I:" + q[7], "I:" + q[8], "I:" + q[9], "I:" + ID });
-
-    //recommend_questions_id = database->Get("SELECT rec_question_1_id, rec_question_2_id, rec_question_3_id, rec_question_4_id, rec_question_5_id, rec_question_6_id, rec_question_7_id, rec_question_8_id, rec_question_9_id, rec_question_10_id FROM recommend_questions WHERE page_ID=?", { "I:"+ ID }, 10);
 }
 
 void Page::add_five_rec_questions_id(std::vector<std::string> q_id) {
@@ -178,31 +178,11 @@ std::vector<std::vector<std::string>> Page::get_all_page_questions_id() const{
     return database->Get("SELECT id FROM questions WHERE pageID=?", { "I:" + page_ID}, 1);
 }
 
-
-/*
-void Page::update_page_mime(size_t page_ID, std::string new_mime){
-    std::string ID = std::to_string(page_ID);
-    database->Update("UPDATE page SET mime=? WHERE id=?", { "S:" + new_mime, "I:" + ID});
-}
-
-std::vector<std::vector<std::string>> Page::get_page_mime(size_t page_ID){
-    std::string ID = std::to_string(page_ID);
-    return database->Get("SELECT mime FROM page WHERE id=?", { "I:" + ID}, 1);
-}
-
-void Page::update_page_url(size_t page_ID, std::string new_url){
-    std::string ID = std::to_string(page_ID);
-    database->Update("UPDATE page SET url=? WHERE id=?", { "S:" + new_url, "I:" + ID});
-}
-
-std::vector<std::vector<std::string>> Page::get_page_url(size_t page_ID){
-    std::string ID = std::to_string(page_ID);
-    return database->Get("SELECT url FROM page WHERE id=?", { "I:" + ID}, 1);
-}
-
-*/
-
 void Page::delete_page(){
     std::string ID = std::to_string(id);
     database->Delete("DELETE FROM page WHERE id=?", { "I:" + ID});
+}
+
+std::vector<std::vector<std::string>> Page::get_all_questions_by_theme() {
+    return database->Get("SELECT id FROM questions WHERE page_theme=?", { "S:" + theme}, 1);
 }

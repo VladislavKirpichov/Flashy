@@ -15,6 +15,8 @@
 #include <memory>
 #include <string>
 
+#include <cppconn/exception.h>
+
 #include "IManager.hpp"
 #include "HttpSuccessCreator.hpp"
 #include "HttpClientErrorCreator.hpp"
@@ -41,9 +43,11 @@ private:
     void create_new_user(std::unordered_map<std::string, std::string>& json);
 };
 
+// TODO: пофиксить
 template<typename Body, typename Allocator, typename Send>
 void RegistrationManager<Body, Allocator, Send>::create_new_user(std::unordered_map<std::string, std::string>& json) {
     User user {json.at("login"), json.at("name"), json.at("password"), json.at("email"), json.at("status")};
+    user.add_user();
     user.user_close_connect();
 }
 
@@ -64,6 +68,7 @@ void RegistrationManager<Body, Allocator, Send>::register_user() {
 
     try {
         if (!User::find_user_nick(args.at("login"), args.at("password"))) {
+            std::cout << this->get_request_body_data() << '\n';
             std::unordered_map<std::string, std::string> json = JsonSerializer::deserialize(this->get_request_body_data());
             create_new_user(json);
         }
@@ -72,6 +77,17 @@ void RegistrationManager<Body, Allocator, Send>::register_user() {
     }
     catch (std::out_of_range& ec) {
         HttpClientErrorCreator<Send>::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
+    // TODO: исправить с 404
+    catch (sql::SQLException& ec) {
+        HttpClientErrorCreator<Send>
+        ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
+    catch (JsonException::JsonException& ec) {
+        HttpClientErrorCreator<Send>::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
+        return;
     }
 
     return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();

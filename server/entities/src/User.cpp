@@ -37,8 +37,7 @@ void User::user_close_connect() {
 }
 
 void User::add_user() {
-
-    database->Insert("INSERT INTO users(nick,name,pass,email,status) VALUES (?, ?, ?, ?, ?)", { "S:" + nickname , "S" + name, "S:" + password , "S:" + email, "S:" + status });
+    database->Insert("INSERT INTO users(nick,name,pass,email,status) VALUES (?, ?, ?, ?, ?)", { "S:" + nickname , "S:" + name, "S:" + password , "S:" + email, "S:" + status });
     std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM users WHERE nick=?", { "S:" + nickname}, 1);
     id = std::stoi(MyData[0][0]);
 }
@@ -152,4 +151,3 @@ bool User::find_user_nick(std::string nick, std::string pass) {
         return true;
     }
 }
-

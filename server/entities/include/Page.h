@@ -20,6 +20,7 @@ private:
 public:
 
     Page(int user_ID, std::string theme, std::string title, std::string file);
+    Page(std::string ID, bool def);
 
     Page(std::string file);
 
@@ -79,6 +80,8 @@ public:
     //void update_page_url(size_t page_ID, std::string new_url);
 
     //std::vector<std::vector<std::string>> get_page_url(size_t page_ID);
+
+    std::vector<std::vector<std::string>> get_all_questions_by_theme();
 
     void delete_page();
 
