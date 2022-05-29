@@ -128,14 +128,16 @@ double Question::get_right_answers_rate() const{
     //SELECT `rightAnswers`, `wrongAnswers`, (`rightAnswers` / (`rightAnswers` + `wrongAnswers`)) AS Rate FROM questions
 }
 
-void Question::set_rec_question_mark(std::string q_id, std::string mark) {
+void Question::set_rec_question_mark(std::string mark) {
     std::string ID = std::to_string(id);
-    database->Update("UPDATE recommend_questions SET mark=? WHERE page_ID=? AND rec_question_id=?", { "I:" + mark, "I:" + ID, "I" + q_id});
+    std::string Page_id = std::to_string(page_id);
+    database->Update("UPDATE recommend_questions SET mark=? WHERE page_ID=? AND rec_question_id=?", { "I:" + mark, "I:" + Page_id, "I" + ID});
 }
 
-std::string Question::get_rec_question_mark(std::string q_id) {
-    std::string page_ID = std::to_string(page_id);
-    std::vector<std::vector<std::string>> MyData = database->Get("SELECT mark FROM recommend_questions WHERE page_ID=? AND rec_question_id=?", { "I:" + page_ID, "I:" + q_id}, 1);
+std::string Question::get_rec_question_mark() {
+    std::string ID = std::to_string(id);
+    std::string Page_id = std::to_string(page_id);
+    std::vector<std::vector<std::string>> MyData = database->Get("SELECT mark FROM recommend_questions WHERE page_ID=? AND rec_question_id=?", { "I:" + Page_id, "I:" + ID}, 1);
     return MyData[0][0];
 }
 

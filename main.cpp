@@ -31,26 +31,14 @@ int main() {
     }
 
 */
+    //User user("Paul", "Paul", "123", "paul@mail.ru", "student");
+
+    //user.add_user();
+    //user.user_close_connect();
 
     DB *database = new DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
-
-    std::vector<std::vector<std::string>> MyData = database->Execute("SELECT * FROM users", 6);
-
+    database->Insert("INSERT INTO users(nick,name,pass,email,status) VALUES (?, ?, ?, ?, ?)", { "S:Paul", "S:Paul" , "S:pass" , "S:email", "S:status"});
     database->Close();
-
-    for (int a = 0; a < MyData.size(); a++) {
-        for (int c = 0; c < MyData[a].size(); c++) {
-            std::cout << MyData[a][c] + " - ";
-        } std::cout << " " << std::endl;
-    }
-
-    /*
-    std::string nickname = "'Akim'"; 
-
-    DB *database = new DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
-    std::vector<std::vector<std::string>> MyData = database->Execute("SELECT id FROM users WHERE nick = " + nickname, 1);
-    database->Close();
-    */
     
     /*
     for (int a = 0; a < MyData.size(); a++) {

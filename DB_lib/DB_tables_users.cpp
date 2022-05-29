@@ -35,9 +35,9 @@ void User::user_close_connect() {
 
 void User::add_user() {
 
-    database->Insert("INSERT INTO users(nick,name,pass,email,status) VALUES (?, ?, ?, ?, ?)", { "S:" + nickname , "S" + name, "S:" + password , "S:" + email, "S:" + status });
-    std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM users WHERE nick=?", { "S:" + nickname}, 1);
-    id = std::stoi(MyData[0][0]);
+    database->Insert("INSERT INTO users(nick,name,pass,email,status) VALUES (?, ?, ?, ?, ?)", { "S:" + nickname , "S;" + name , "S:" + password , "S:" + email, "S:" + status });
+    //std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM users WHERE nick=?", { "S:" + nickname}, 1);
+    //id = std::stoi(MyData[0][0]);
 }
 
 int User::get_user_ID() const {
