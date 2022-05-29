@@ -103,6 +103,8 @@ void GetHandler<Body, Allocator, Send>::process_request() {
         else if (this->_url_path == "question")
             QuestionManagerCreator<Body, Allocator, Send>
             ::create_GetQuestionManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
+        else
+            HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->_send), this->_request.version())->send_response();
     }
     catch (APIException::APIException& ec) {
         HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->_send), this->_request.version())->send_response();
@@ -130,7 +132,7 @@ void PutHandler<Body, Allocator, Send>::process_request() {
 
     // Send a request to the desired manager
     try {
-        if (this->_url_path == "registration")
+        if (this->_url_path == "signup")
             RegistrationManagerCreator<Body, Allocator, Send>
             ::create_RegistrationManager(std::move(this->_request), std::forward<Send>(this->_send))->register_user();
         else if (this->_url_path == "page")
@@ -175,6 +177,37 @@ void PostHandler<Body, Allocator, Send>::process_request() {
         else if (this->_url_path == "question")
             QuestionManagerCreator<Body, Allocator, Send>
             ::create_PostQuestionManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
+    }
+    catch (APIException::APIException& ec) {
+        HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->_send), this->_request.version())->send_response();
+    }
+    catch (...) {
+        throw ServerException::RequestHandlerException("Not API exception in RequestHandler");
+    }
+}
+
+
+// DELETE
+
+
+template<typename Body, typename Allocator, typename Send>
+class DeleteHandler : public RequestHandler<Body, Allocator, Send> {
+public:
+    using RequestHandler<Body, Allocator, Send>::RequestHandler;
+
+    void process_request() final;
+};
+
+template<typename Body, typename Allocator, typename Send>
+void DeleteHandler<Body, Allocator, Send>::process_request() {
+    this->define_type_by_path();
+    try {
+        if (this->_url_path == "user")
+            UserManagerCreator<Body, Allocator, Send>
+                ::create_DeleteUserManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
+        else if (this->_url_path == "page")
+            PageManagerCreator<Body, Allocator, Send>
+                ::create_DeletePageManager(std::move(this->_request), std::forward<Send>(this->_send))->handle_request();
     }
     catch (APIException::APIException& ec) {
         HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->_send), this->_request.version())->send_response();

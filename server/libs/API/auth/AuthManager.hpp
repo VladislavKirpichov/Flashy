@@ -57,6 +57,10 @@ void AuthManager<Body, Allocator, Send>::auth_user() {
         HttpClientErrorCreator<Send>::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
         return;
     }
+    catch (JsonException::JsonException& ec) {
+        HttpClientErrorCreator<Send>::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
 }
 
 #endif //SERVER_V0_1_AUTHMANAGER_HPP

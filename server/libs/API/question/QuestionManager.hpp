@@ -56,7 +56,7 @@ void GetQuestionManager<Body, Allocator, Send>::handle_request() {
     }
 
     try {
-        Question question{std::stoi(args.at("question_id"))};
+        Question question{std::stoi(args.at("id"))};
         response.body() = JsonSerializer::serialize_question(question);
     }
     catch (JsonException::JsonException& ec) {
@@ -102,15 +102,6 @@ void PutQuestionManager<Body, Allocator, Send>::create_new_question(int page_id,
 
 template<typename Body, typename Allocator, typename Send>
 void PutQuestionManager<Body, Allocator, Send>::handle_request() {
-    std::unordered_map<std::string, std::string> args{};
-    try {
-        args = HttpParser::define_args_map(this->get_request_target());
-    }
-    catch (HttpException::InvalidArguments& ec) {
-        Logger::Error(__LINE__, __FILE__, ec.what());
-        HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->get_send()), this->get_request_version())->send_response();
-    }
-
     try {
         auto json = JsonSerializer::deserialize(this->get_request_body_data());
         create_new_question(std::stoi(json.at("page_id")), json);
@@ -177,6 +168,9 @@ void PostQuestionManager<Body, Allocator, Send>::handle_request() {
             return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
         }
         else {
+            Question question{std::stoi(args.at("question_id"))};
+            question.set_rec_question_mark(args.at("page_id"), "1");
+            question.question_close_connect();
             return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
         }
     }

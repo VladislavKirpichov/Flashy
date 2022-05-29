@@ -108,6 +108,8 @@ void API_Gateway::read_request() {
 
         if (ec) {
             self->close_connection();
+            std::cout << ec << '\n';
+            std::cout << ec.message() << '\n';
             throw ServerException::APIGatewayException(ec);
         }
 
@@ -127,7 +129,7 @@ void API_Gateway::handle_request() {
             std::make_unique<PostHandler<http::dynamic_body, std::allocator<char>, Send>>(std::move(_request), std::forward<Send>(send))->process_request();
         }
         else if (_request.method() == http::verb::delete_) {
-            // ...
+            std::make_unique<DeleteHandler<http::dynamic_body, std::allocator<char>, Send>>(std::move(_request), std::forward<Send>(send))->process_request();
         }
         else {
             HttpClientErrorCreator<Send>::create_method_not_allowed_405(std::forward<Send>(send), this->_request.version())->send_response();

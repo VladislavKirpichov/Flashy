@@ -127,7 +127,7 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
 }
 
 
-// POST
+// PUT
 
 
 template<typename Body, typename Allocator, typename Send>
@@ -216,9 +216,10 @@ void DeleteUserManager<Body, Allocator, Send>::handle_request() {
     try {
         args = HttpParser::define_args_map(this->get_request_target());
     }
-    catch (HttpException::InvalidArguments& ec) {
+    catch (HttpException::InvalidArguments &ec) {
         Logger::Error(__LINE__, __FILE__, ec.what());
-        HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->get_send()), this->get_request_version())->send_response();
+        HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->get_send()),
+                                                             this->get_request_version())->send_response();
         return;
     }
 
@@ -227,33 +228,32 @@ void DeleteUserManager<Body, Allocator, Send>::handle_request() {
             User user{args.at("login")};
             user.delete_user();
             user.user_close_connect();
-            return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
-        }
-        else
-            return HttpClientErrorCreator<Send>::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
+            return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()),
+                                                           this->get_request_version())->send_response();
+        } else
+            return HttpClientErrorCreator<Send>::create_not_found_404(std::move(this->get_send()),
+                                                                      this->get_request_version())->send_response();
     }
-    catch (JsonException::JsonException& ec) {
+    catch (JsonException::JsonException &ec) {
         HttpServerErrorCreator<Send>
         ::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
         return;
     }
-    catch (std::out_of_range& ec) {
+    catch (std::out_of_range &ec) {
         HttpClientErrorCreator<Send>
         ::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
         return;
     }
-    catch (APIException::UserException& ec) {
+    catch (APIException::UserException &ec) {
         HttpClientErrorCreator<Send>
         ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
         return;
     }
-    catch (sql::SQLException& ec) {
+    catch (sql::SQLException &ec) {
         HttpClientErrorCreator<Send>
         ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
         return;
     }
-
-    return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
 }
 
 #endif //SERVER_V0_1_USERMANAGER_HPP

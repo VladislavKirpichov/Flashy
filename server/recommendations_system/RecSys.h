@@ -6,7 +6,6 @@
 #include <unordered_map>
 #include <algorithm>
 
-template<class Net>
 class RecSys {
 
     std::shared_ptr<Net> net_;
@@ -32,17 +31,19 @@ class RecSys {
 
     double cosine_similarity(torch::Tensor first, torch::Tensor second);
 
+    const std::vector<int> filter(std::vector<int> &flashcards, int doc_id);
+
 public:
 
     RecSys(const Dataset &p_dataset);
 
-    RecSys(const RecSys<Net> &other) = delete;
+    RecSys(const RecSys &other) = delete;
 
-    RecSys(RecSys<Net> &&other) = delete;
+    RecSys(RecSys &&other) = delete;
 
-    RecSys& operator=(const RecSys<Net> &other) = delete;
+    RecSys& operator=(const RecSys &other) = delete;
 
-    RecSys& operator=(RecSys<Net> &&other) = delete;
+    RecSys& operator=(RecSys &&other) = delete;
 
     ~RecSys();
 
@@ -54,9 +55,5 @@ public:
 
 };
 
-class Creator {
-public:
-    static void start_rec_sys();
-};
 
 #endif //RECSYS__RECSYS_H_

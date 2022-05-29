@@ -62,7 +62,7 @@ private:
 
     torch::Tensor interactions_table_;
 
-    void preprocessing(); // creates interactions table
+    void preprocessing();
 
     int get_mark(int p_doc_id, int p_card_id);
 

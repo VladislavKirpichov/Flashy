@@ -13,16 +13,16 @@
 std::string_view HttpParser::define_page_type(const std::string& url_path) noexcept(false) {
     if (boost::starts_with(url_path, "/user") || boost::starts_with(url_path, "/user/"))
         return {"user"};
-    else if (boost::starts_with(url_path, "/registration") || boost::starts_with(url_path, "/registration/"))
-        return {"registration"};
     else if (boost::starts_with(url_path, "/page") || boost::starts_with(url_path, "/page/"))
         return {"page"};
     else if (boost::starts_with(url_path, "/auth") || boost::starts_with(url_path, "/auth/"))
         return {"auth"};
     else if (boost::starts_with(url_path, "/question") || boost::starts_with(url_path, "/question/"))
         return {"question"};
+    else if (boost::starts_with(url_path, "/signup") || boost::starts_with(url_path, "/signup/"))
+        return {"signup"};
     else
-        throw HttpException::NotDefinedType("not type of user || page || auth || test");
+        throw HttpException::NotDefinedType("not type of user || page || auth || signup || question");
 }
 
 std::vector<std::tuple<std::string, std::string>> HttpParser::define_args(const std::string& url_path) {

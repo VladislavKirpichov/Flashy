@@ -143,7 +143,7 @@ namespace APIException {
 
     class TestsException : public APIException{
     public:
-        TestsException() : APIException("API Exception: questions exception\n") {}
+        TestsException() : APIException("API Exception: question exception\n") {}
         using APIException::APIException;
     };
 
