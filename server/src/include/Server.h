@@ -36,5 +36,4 @@ private:
     Options _opts;
 };
 
-
 #endif //SERVER_SERVER_H

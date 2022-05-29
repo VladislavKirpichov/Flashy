@@ -89,7 +89,7 @@ std::unordered_map<std::string, std::string> JsonSerializer::deserialize(const s
     }
 }
 
-std::unordered_map<std::string, std::vector<std::string>> JsonSerializer::deserialize_page(const std::string& json_str) {
+std::unordered_map<std::string, std::vector<std::string>> JsonSerializer::deserialize_in_vector(const std::string& json_str) {
     try {
         nlohmann::json json_data = nlohmann::json::parse(json_str);
         std::unordered_map<std::string, std::vector<std::string>> data{};
@@ -121,11 +121,10 @@ std::string JsonSerializer::serialize_user(const User& user) {
         json_data["status"] = user.get_status();
 
         json_data["pages_id"];
-        json_data["pages_titles"];
-
         for (auto& i : user.get_pages_file())
             json_data["pages_id"] += i[0];
 
+        json_data["pages_titles"];
         for (auto& i : user.get_pages_title())
             json_data["pages_titles"] += i[0];
 
@@ -140,7 +139,7 @@ std::string JsonSerializer::serialize_user(const User& user) {
 }
 
 // TODO: сделать const Page
-std::string JsonSerializer::serialize_page(Page &page) {
+std::string JsonSerializer::serialize_page(const Page &page) {
     try {
         nlohmann::json json_data{};
         json_data["id"] = page.get_page_ID();
@@ -151,6 +150,7 @@ std::string JsonSerializer::serialize_page(Page &page) {
         json_data["last_visited_time"] = page.get_last_visited_time();
         json_data["page_id"] = page.get_file_page();
 
+        json_data["questions_id"];
         for (auto& i : page.get_all_page_questions_id())
             json_data["questions_id"] += i[0];
 

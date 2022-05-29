@@ -50,9 +50,3 @@ void ServerManager::run() {
 
     ioc.run();
 }
-
-void ServerManager::run_recommendations_system() {
-    // Creator::start_rec_sys();
-    // std::thread daemon{Creator::start_rec_sys};
-    // daemon.detach();
-}

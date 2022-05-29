@@ -105,6 +105,7 @@ void PutQuestionManager<Body, Allocator, Send>::handle_request() {
     try {
         auto json = JsonSerializer::deserialize(this->get_request_body_data());
         create_new_question(std::stoi(json.at("page_id")), json);
+        // TODO: вернуть question_id
         return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
     }
     catch (JsonException::JsonException& ec) {
