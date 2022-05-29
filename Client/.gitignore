@@ -4,3 +4,5 @@
 /Vlad*
 /build-src_qt-Desktop-Debug
 /build-Client-Desktop-Debug
+CMakeLists.txt.user*
+*build-Client-Desktop-Debug/

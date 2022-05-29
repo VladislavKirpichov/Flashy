@@ -71,25 +71,6 @@ border-radius: 8px;</string>
     <string>+add new page</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="custom_page_button">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>130</y>
-     <width>111</width>
-     <height>181</height>
-    </rect>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Example1</string>
-   </property>
-  </widget>
  </widget>
  <resources/>
  <connections/>

@@ -34,8 +34,8 @@ void User::set_pages_id(const std::vector<std::string> &new_pages_id) {
     pages_id = new_pages_id;
 }
 
-void User::set_pages_title(const std::vector<std::string> &new_pages_title) {
-    pages_title = new_pages_title;
+void User::set_pages_titles(const std::vector<std::string> &new_pages_title) {
+    pages_titles = new_pages_title;
 }
 
 std::string User::get_name() const {
@@ -62,6 +62,6 @@ std::vector<std::string> User::get_pages_id() const {
     return pages_id;
 }
 
-std::vector<std::string> User::get_pages_title() const {
-    return pages_title;
+std::vector<std::string> User::get_pages_titles() const {
+    return pages_titles;
 }

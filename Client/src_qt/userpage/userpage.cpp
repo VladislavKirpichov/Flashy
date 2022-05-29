@@ -24,7 +24,7 @@ void UserPage::open_page(int _page_num)
     }
 }
 
-void UserPage::get_data(QString name, QString login, QString password)
+void UserPage::update(QString name, QString login, QString password)
 {
     ui->name_label->setText(name);
     ui->edit_name->setText(name);

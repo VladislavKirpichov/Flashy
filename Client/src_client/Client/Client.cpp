@@ -1,4 +1,3 @@
-
 #include "Client.h"
 
 HTTPClient::HTTPClient(net::io_context &ioc):
@@ -24,11 +23,12 @@ bool HTTPClient::post_request(const std::string& host, const unsigned short& por
                          const std::string& body){
     auto const results = resolver.resolve(host, std::to_string(port));
     stream.connect(results);
-
     http::request<http::string_body> req(http::verb::post, target, 11);
     req.set(http::field::body, body);
+    req.prepare_payload();
     req.set(http::field::host, host);
     req.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
+    req.prepare_payload();
 
     http::write(stream, req);
 
@@ -43,15 +43,17 @@ bool HTTPClient::post_request(const std::string& host, const unsigned short& por
         return false;
 
 }
-bool HTTPClient::put_request(const std::string& host, const unsigned short& port, const std::string& target,
-                 const std::string& body){
+std::string HTTPClient::put_request(const std::string& host, const unsigned short& port, const std::string& target,
+                            const std::string& body){
     auto const results = resolver.resolve(host, std::to_string(port));
     stream.connect(results);
 
     http::request<http::string_body> req(http::verb::put, target, 11);
-    req.set(http::field::body, body);
+    req.set(http::field::content_type, "application/json");
     req.set(http::field::host, host);
     req.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
+    req.body() = body;
+    req.prepare_payload();
 
     http::write(stream, req);
 
@@ -59,11 +61,7 @@ bool HTTPClient::put_request(const std::string& host, const unsigned short& port
     http::read(stream, buffer, res);
     stream.socket().shutdown(net::ip::tcp::socket::shutdown_both);
     std::string result=  res.body();
-    if(result == "ok\n"){
-        return true;
-    }
-    else
-        return false;
+    return result;
 }
 bool HTTPClient::delete_request(const std::string& host, const unsigned short& port,const std::string& target){
     auto const results = resolver.resolve(host, std::to_string(port));

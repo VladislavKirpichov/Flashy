@@ -23,7 +23,7 @@ public:
     std::string get_response(const std::string& host,const unsigned short& port, const std::string& target);
     bool post_request(const std::string& host, const unsigned short& port, const std::string& target,
                              const std::string& body);
-    bool put_request(const std::string& host, const unsigned short& port, const std::string& target,
+    std::string put_request(const std::string& host, const unsigned short& port, const std::string& target,
                       const std::string& body);
     bool delete_request(const std::string& host, const unsigned short& port,const std::string& target);
 

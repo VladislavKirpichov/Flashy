@@ -38,7 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(edit_page, &EditPage::save_page_signal, custom_page, &CustomPage::save_text);
 
 
-    connect(this, &MainWindow::user_signal, user_page, &UserPage::get_data);
+    connect(this, &MainWindow::user_signal, user_page, &UserPage::update);
+    connect(main_page, &MainPage::update_custom_page_signal, this, &MainWindow::update_custom_page_slot);
 }
 
 MainWindow::~MainWindow()
@@ -70,6 +71,11 @@ void MainWindow::update()
 void MainWindow::open_page(int page_num)
 {
     emit signal(page_num);
+}
+
+void MainWindow::update_custom_page_slot()
+{
+    custom_page->update();
 }
 
 

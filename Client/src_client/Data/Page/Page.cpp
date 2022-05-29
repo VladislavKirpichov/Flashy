@@ -1,6 +1,6 @@
 #include "Page.h"
 
-Page::Page() {}
+Page::Page() {int user_id = 0;}
 
 Page::Page(const User &user, const std::string &_id) {
     page_id = _id;

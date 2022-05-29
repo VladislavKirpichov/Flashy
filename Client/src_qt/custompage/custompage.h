@@ -2,6 +2,7 @@
 #define CUSTOMPAGE_H
 
 #include <QWidget>
+#include "Manager.h"
 namespace Ui {
 class CustomPage;
 }
@@ -13,6 +14,7 @@ class CustomPage : public QWidget
 public:
     explicit CustomPage(QWidget *parent = nullptr);
     ~CustomPage();
+    void update();
 public slots:
     void open_page(int _page_num);
     void save_text(QString new_text);

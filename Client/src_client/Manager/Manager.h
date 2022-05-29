@@ -40,9 +40,9 @@ public:
 
     void get_questions_from_page();
 
-    bool create_page_to_server();
+    bool create_page_to_server(const std::string &title);
 
-    bool create_question_to_server(size_t i);
+    std::string  create_question_to_server(size_t i);
 
     bool change_user_in_server();
 
@@ -68,7 +68,7 @@ private:
 
     bool post(const std::string &target, const std::string &body);
 
-    bool put(const std::string &target, const std::string &body);
+    std::string put(const std::string &target, std::string &body);
 
     bool _delete(const std::string &target);
 

@@ -24,6 +24,8 @@ public:
     void update();
 public slots:
     void open_page(int page_num);
+
+    void update_custom_page_slot();
 private slots:
 
     void on_user_button_clicked();

@@ -15,7 +15,7 @@ public:
     ~UserPage();
 public slots:
     void open_page(int _page_num);
-    void get_data(QString name, QString login, QString password);
+    void update(QString name, QString login, QString password);
 private slots:
     void on_exit_button_clicked();
 

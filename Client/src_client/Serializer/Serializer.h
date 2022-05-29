@@ -40,4 +40,11 @@ public:
 //                                "  \"questions_id\": [ \"1\", \"2\"]\n"
 //                                "}";
 
+//std::string question_json_example = "{\n"
+//                                    "  \"title\": \"Moc Question\",\n"
+//                                    "  \"answer\": \"Yes\",\n"
+//                                    " \"question_id\": \"0\",\n"
+//                                    "  \"page_id\": \"\"\n"
+//                                    "}";
+
 #endif //CLIENT_SERIALIZER_H

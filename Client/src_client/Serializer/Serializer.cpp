@@ -5,6 +5,7 @@ User Serializer::user_deserialize(const std::string &json) {
     std::stringstream jsonEncoded(json);
     boost::property_tree::ptree root;
     boost::property_tree::read_json(jsonEncoded, root);
+    temp.set_id(root.get<int>("id", 0));
     temp.set_name(root.get<std::string>("name", "ERROR_NAME"));
     temp.set_login(root.get<std::string>("login", "ERROR_LOGIN"));
     temp.set_password(root.get<std::string>("password", "ERROR_PASSWORD"));
@@ -19,16 +20,19 @@ User Serializer::user_deserialize(const std::string &json) {
     temp.set_pages_id(pages_id);
 
     std::vector<std::string> pages_title;
-    for (boost::property_tree::ptree::value_type &page_title: root.get_child("pages_title")) {
+    for (boost::property_tree::ptree::value_type &page_title: root.get_child("pages_titles")) {
         pages_title.push_back(page_title.second.get_value<std::string>());
     }
-    temp.set_pages_title(pages_title);
+    temp.set_pages_titles(pages_title);
 
     return temp;
 }
 
 std::string Serializer::user_serialize(User &user) {
     std::string res = "{\n";
+    res += "  \"id\": \"";
+    res += user.get_id();
+    res += "\",\n";
 
     res += "  \"name\": \"";
     res += user.get_name();
@@ -48,31 +52,32 @@ std::string Serializer::user_serialize(User &user) {
 
     res += "  \"status\": \"";
     res += user.get_status();
-    res += "\",\n";
+    res +="\"\n";
+//    res += "\",\n";
 
-    std::vector<std::string> temp_pages_id = user.get_pages_id();
-    res += "  \"pages_id\": [ ";
-    for (size_t i = 0; i < temp_pages_id.size(); i++) {
-        res += "\"";
-        res += temp_pages_id[i];
-        res += "\"";
-        if (i < temp_pages_id.size() - 1)
-            res += ", ";
-    }
-    res += "],\n";
-
-    std::vector<std::string> temp_pages_title = user.get_pages_title();
-    res += "  \"pages_title\": [ ";
-    for (size_t i = 0; i < temp_pages_title.size(); i++) {
-        res += "\"";
-        res += temp_pages_title[i];
-        res += "\"";
-        if (i < temp_pages_title.size() - 1)
-            res += ", ";
-    }
-
-
-    res += "]\n";
+//    std::vector<std::string> temp_pages_id = user.get_pages_id();
+//    res += "  \"pages_id\": [ ";
+//    for (size_t i = 0; i < temp_pages_id.size(); i++) {
+//        res += "\"";
+//        res += temp_pages_id[i];
+//        res += "\"";
+//        if (i < temp_pages_id.size() - 1)
+//            res += ", ";
+//    }
+//    res += "],\n";
+//
+//    std::vector<std::string> temp_pages_title = user.get_pages_titles();
+//    res += "  \"pages_title\": [ ";
+//    for (size_t i = 0; i < temp_pages_title.size(); i++) {
+//        res += "\"";
+//        res += temp_pages_title[i];
+//        res += "\"";
+//        if (i < temp_pages_title.size() - 1)
+//            res += ", ";
+//    }
+//
+//
+//    res += "]\n";
 
     res += "}";
     return res;
@@ -84,6 +89,7 @@ Page Serializer::page_deserialize(const std::string &json) {
     boost::property_tree::ptree root;
     boost::property_tree::read_json(jsonEncoded, root);
     temp.set_page_id(root.get<std::string>("page_id", "ERROR_ID"));
+    temp.set_user_id(root.get<int>("user_id", 0));
     temp.set_title(root.get<std::string>("title", "ERROR_TITLE"));
     temp.set_theme(root.get<std::string>("theme", "ERROR_THEME"));
     temp.set_login(root.get<std::string>("login", "ERROR_LORIN"));
@@ -105,6 +111,10 @@ std::string Serializer::page_serialize(Page &page) {
 
     res += "  \"page_id\": \"";
     res += page.get_page_id();
+    res += "\",\n";
+
+    res += "  \"user_id\": \"";
+    res += std::to_string(page.get_user_id());
     res += "\",\n";
 
     res += "  \"title\": \"";

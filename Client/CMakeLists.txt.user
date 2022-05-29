@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.11.0, 2022-05-28T03:16:58. -->
+<!-- Written by QtCreator 4.11.0, 2022-05-29T19:42:21. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
-  <value type="QByteArray">{68825137-aade-40b0-b930-1f22421dbde2}</value>
+  <value type="QByteArray">{39073026-c099-4ce1-9d44-09faf08bf204}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -64,7 +64,7 @@
   <valuemap type="QVariantMap">
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{c0bbde94-60c8-4f2c-81c3-b5ea2bed05d0}</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{7a181c0a-e4fb-4a73-aa62-c0f23bcbde4f}</value>
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
@@ -76,7 +76,7 @@
      <value type="QString">CMAKE_PREFIX_PATH:STRING=%{Qt:QT_INSTALL_PREFIX}</value>
      <value type="QString">QT_QMAKE_EXECUTABLE:STRING=%{Qt:qmakeExecutable}</value>
     </valuelist>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/zuhropenchik/Flashy/Zakhar/build-Client-Desktop-Debug</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/zakhar/Projects/build-Client-Desktop-Debug</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="QString" key="CMakeProjectManager.MakeStep.AdditionalArguments"></value>
@@ -119,7 +119,7 @@
      <value type="QString">CMAKE_PREFIX_PATH:STRING=%{Qt:QT_INSTALL_PREFIX}</value>
      <value type="QString">QT_QMAKE_EXECUTABLE:STRING=%{Qt:qmakeExecutable}</value>
     </valuelist>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/zuhropenchik/Flashy/Zakhar/build-Client-Desktop-Release</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/zakhar/Projects/build-Client-Desktop-Release</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="QString" key="CMakeProjectManager.MakeStep.AdditionalArguments"></value>
@@ -162,7 +162,7 @@
      <value type="QString">CMAKE_PREFIX_PATH:STRING=%{Qt:QT_INSTALL_PREFIX}</value>
      <value type="QString">QT_QMAKE_EXECUTABLE:STRING=%{Qt:qmakeExecutable}</value>
     </valuelist>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/zuhropenchik/Flashy/Zakhar/build-Client-Desktop-RelWithDebInfo</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/zakhar/Projects/build-Client-Desktop-RelWithDebInfo</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="QString" key="CMakeProjectManager.MakeStep.AdditionalArguments"></value>
@@ -205,7 +205,7 @@
      <value type="QString">CMAKE_PREFIX_PATH:STRING=%{Qt:QT_INSTALL_PREFIX}</value>
      <value type="QString">QT_QMAKE_EXECUTABLE:STRING=%{Qt:qmakeExecutable}</value>
     </valuelist>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/zuhropenchik/Flashy/Zakhar/build-Client-Desktop-MinSizeRel</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/zakhar/Projects/build-Client-Desktop-MinSizeRel</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="QString" key="CMakeProjectManager.MakeStep.AdditionalArguments"></value>
@@ -313,20 +313,19 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Client</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.Client</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">Client</value>
+    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Executable"></value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.CustomExecutableRunConfiguration</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey"></value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="bool" key="RunConfiguration.Arguments.multi">false</value>
     <value type="QString" key="RunConfiguration.OverrideDebuggerStartup"></value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
-    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseMultiProcess">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory"></value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/zuhropenchik/Flashy/Zakhar/build-Client-Desktop-Debug</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default"></value>
    </valuemap>
    <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>
