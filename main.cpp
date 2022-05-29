@@ -7,6 +7,13 @@
 
 int main() {
 
+    Question question(2);
+
+    question.set_rec_question_mark("8", "1");
+
+    question.question_close_connect();
+
+
     //User user("Bob");
     //user.update_email("new_email");
     //user.user_close_connect();
@@ -35,10 +42,6 @@ int main() {
 
     //user.add_user();
     //user.user_close_connect();
-
-    DB *database = new DB("LAPTOP-9KQ1QFS1.local", "3306", "Admin", "123", "flashy");
-    database->Insert("INSERT INTO users(nick,name,pass,email,status) VALUES (?, ?, ?, ?, ?)", { "S:Paul", "S:Paul" , "S:pass" , "S:email", "S:status"});
-    database->Close();
     
     /*
     for (int a = 0; a < MyData.size(); a++) {

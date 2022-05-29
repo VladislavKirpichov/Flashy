@@ -72,7 +72,7 @@ class Page {
         std::string get_rec_question_mark(std::string q_id);
         std::vector<std::vector<std::string>> get_all_rec_question_marks_and_id();
 
-        std::vector<std::vector<std::string>> get_all_questions_by_title();
+        std::vector<std::vector<std::string>> get_all_questions_by_theme();
 
         void delete_page();
 

@@ -166,6 +166,6 @@ void Page::delete_page(){
     database->Delete("DELETE FROM page WHERE id=?", { "I:" + ID});
 }
 
-std::vector<std::vector<std::string>> Page::get_all_questions_by_title() {
+std::vector<std::vector<std::string>> Page::get_all_questions_by_theme() {
     return database->Get("SELECT id FROM questions WHERE page_theme=?", { "S:" + theme}, 1);
 }
