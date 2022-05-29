@@ -1,7 +1,6 @@
 #include "RecSys.h"
 
-template<class Net>
-double RecSys<Net>::fit() {
+double RecSys::fit() {
   //optimize hyperparameters:
   //learning rate
   //k - tensor shape
@@ -31,7 +30,6 @@ double RecSys<Net>::fit() {
       auto net = std::make_shared<Net>(docs_count, cards_count, k_iter);
       torch::Tensor output = net->train(dataset_->get_interaction_table(), 1e+3, lr_iter);
       double loss = output.item().toDouble();
-          //eval_loss(output, dataset_);
 
       std::cout << "Model {lr = " << lr_iter << ", k = " << k_iter << "}"
        << "\nLoss: " << loss << std::endl;
@@ -52,12 +50,9 @@ double RecSys<Net>::fit() {
   << "\nTIME: " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_fit - start_fit).count()
   << "nanoseconds" << std::endl;
 
-
-
   //Training best model
   net_ = std::make_shared<Net>(docs_count, cards_count, best_k);
   net_->train(dataset_->get_interaction_table(), 1e+3, best_lr);
-//  net_->save_model();
   std::cout << net_->get_doc2card() << std::endl;
 
   //save embeddings
@@ -67,8 +62,7 @@ double RecSys<Net>::fit() {
   return best_loss;
 }
 
-template<class Net>
-const std::vector<int> RecSys<Net>::generate_k_grid(int M, int N) {
+const std::vector<int> RecSys::generate_k_grid(int M, int N) {
   std::vector<int> grid(std::max(M,N));
 
   for (int i = 1; i < std::max(M,N); ++i) {
@@ -78,8 +72,7 @@ const std::vector<int> RecSys<Net>::generate_k_grid(int M, int N) {
   return grid;
 }
 
-template<class Net>
-const std::vector<double> RecSys<Net>::generate_lr_grid(int count) {
+const std::vector<double> RecSys::generate_lr_grid(int count) {
   std::vector<double> grid(count);
   srand(time(nullptr));
 
@@ -91,8 +84,7 @@ const std::vector<double> RecSys<Net>::generate_lr_grid(int count) {
   return grid;
 }
 
-template<class Net>
-double RecSys<Net>::eval_loss(const torch::Tensor &output,
+double RecSys::eval_loss(const torch::Tensor &output,
                                        std::shared_ptr<Dataset> p_dataset) {
   double loss = 0;
   for (const auto& i: p_dataset->get_interactions_data()) {
@@ -102,8 +94,7 @@ double RecSys<Net>::eval_loss(const torch::Tensor &output,
   return loss;
 }
 
-template<class Net>
-void RecSys<Net>::save_cards_embeddings(const torch::Tensor &p_flashcard_matrix,
+void RecSys::save_cards_embeddings(const torch::Tensor &p_flashcard_matrix,
                                         std::shared_ptr<Dataset> p_dataset) {
   using namespace torch::indexing;
 
@@ -113,8 +104,7 @@ void RecSys<Net>::save_cards_embeddings(const torch::Tensor &p_flashcard_matrix,
   }
 }
 
-template<class Net>
-void RecSys<Net>::save_docs_embeddings(const torch::Tensor &p_documents_matrix,
+void RecSys::save_docs_embeddings(const torch::Tensor &p_documents_matrix,
                                        std::shared_ptr<Dataset> p_dataset) {
 
   for (size_t i = 0; i < p_dataset->get_documents_count(); ++i) {
@@ -123,23 +113,16 @@ void RecSys<Net>::save_docs_embeddings(const torch::Tensor &p_documents_matrix,
 }
 
 
-template<class Net>
-RecSys<Net>::RecSys(const Dataset &p_dataset) {
+RecSys::RecSys(const Dataset &p_dataset) {
   dataset_ = std::make_shared<Dataset>(p_dataset);
   net_ = std::make_shared<Net>(dataset_->get_documents_count(),
                                  dataset_->get_flashcards_count());
-
-  // TODO: load embeddings? (from file or database)
 }
 
-template<class Net>
-RecSys<Net>::~RecSys() {
-  // TODO: save embeddings to database(?) or in file
+RecSys::~RecSys() {
 }
 
-
-template<class Net>
-double RecSys<Net>::cosine_similarity(torch::Tensor first, torch::Tensor second) {
+double RecSys::cosine_similarity(torch::Tensor first, torch::Tensor second) {
   double res = 0;
 
   int size = std::min(first.size(0), second.size(0));
@@ -151,8 +134,7 @@ double RecSys<Net>::cosine_similarity(torch::Tensor first, torch::Tensor second)
   return res;
 }
 
-template<class Net>
-std::vector<int> RecSys<Net>::i2i_predictions(int card_id, int count) {
+std::vector<int> RecSys::i2i_predictions(int card_id, int count) {
 
   std::vector<std::pair<int,double>> similarity_vec;
   torch::Tensor current_emb = flashcard_embeddings_[card_id];
@@ -178,14 +160,16 @@ std::vector<int> RecSys<Net>::i2i_predictions(int card_id, int count) {
   return result;
 }
 
-template<class Net>
-std::vector<int> RecSys<Net>::u2i_predictions(int doc_id, int count) {
+std::vector<int> RecSys::u2i_predictions(int doc_id, int count) {
 
   std::vector<std::pair<int, double>> flashcards;
   torch::Tensor interactions = net_->get_doc2card();
   std::vector<int> cards_id = dataset_->get_flashcards();
   std::vector<int> docs_id = dataset_->get_documents();
 
+  if (std::find(docs_id.begin(), docs_id.end(), doc_id) == docs_id.end()) {
+    throw("U2I prediction: document id is not found");
+  }
 
   for (int i = 0; i < dataset_->get_flashcards_count(); ++i) {
     std::pair<int, double> temp;
@@ -195,50 +179,60 @@ std::vector<int> RecSys<Net>::u2i_predictions(int doc_id, int count) {
     flashcards.push_back(temp);
   }
 
-  std::sort(flashcards.begin(), flashcards.end(),
-            [flashcards](std::pair<int, double> p1, std::pair<int, double> p2)
-            {
-              return p1.second < p2.second;
-            });
-
   std::vector<int> result;
   for (const auto &i: flashcards) {
     result.push_back(i.first);
   }
 
+  std::cout << "Predicted tests before filter\n";
   for (auto i: result) {
     std::cout << i << " ";
   }
-  ///////////////
+
+  filter(result, doc_id);
+
   Page page(std::to_string(doc_id));
-
-  //get tests of page
-  std::vector<std::vector<std::string>> tests_from_curr_page = page.get_all_page_questions_id(std::to_string(doc_id));
-
-  std::transform(tests_from_curr_page.begin(), tests_from_curr_page.end()
-  , tests_from_curr_page.begin(), [tests_from_curr_page](std::vector<std::string> test_id){
-    return std::stoi(test_id[0]);
-  });
-
-  //remove test of page
-  std::remove_if(result.begin(), result.end()
-                 , [result, tests_from_curr_page](int test_id) {
-      return std::find(tests_from_curr_page.begin(), tests_from_curr_page.end(), test_id)
-      != tests_from_curr_page.end();
-
-  });
-
-  //get title of page
-  //std::string title = page.get_page_title();
-  //get tests with curr title
-  //remove tests out of title
-
   //save result to db
   for (int i = 0; i < count; ++i) {
     page.add_rec_question_id(std::to_string(result[i]));
   }
+
+  std::cout << "Predicted result\n";
   for (auto i: result) {
     std::cout << i << " ";
   }
+
   return result;
+}
+
+
+const std::vector<int> RecSys::filter(const std::vector<int> &flashcards, int doc_id) {
+  Page page(std::to_string(doc_id));
+
+  //get tests of page
+  std::vector<std::vector<std::string>> tests_from_curr_page = page.get_all_page_questions_id(std::to_string(doc_id));
+  //get title of page
+  std::string title = page.get_page_title();
+
+  std::transform(tests_from_curr_page.begin(), tests_from_curr_page.end()
+      , tests_from_curr_page.begin(), [tests_from_curr_page](std::vector<std::string> test_id){
+        return std::stoi(test_id[0]);
+      });
+
+  //get tests with curr title
+  std::vector<std::vector<std::string>> titles_tests = page.get_all_questions_by_title(title);
+  std::transform(titles_tests.begin(), titles_tests.end()
+      , titles_tests.begin(), [titles_tests](std::vector<std::string> test_id){
+        return std::stoi(test_id[0]);
+      });
+
+  //remove test of page
+  std::remove_if(flashcards.begin(), flashcards.end()
+      , [flashcards, tests_from_curr_page, titles_tests](int test_id) {
+        return std::find(tests_from_curr_page.begin(), tests_from_curr_page.end(), test_id)
+            != tests_from_curr_page.end() ||
+            std::find(titles_tests.begin(),titles_tests.end(), test_id) != titles_tests.end();
+      });
+
+  return flashcards;
 }
