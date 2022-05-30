@@ -86,9 +86,6 @@ void GetPageManager<Body, Allocator, Send>::handle_request() {
     }
 
     try {
-        // TODO: реализовать хранилище файлов .txt и отдачу их через БД
-
-        // Если есть метка content, то отдаем контент страницы
         if (args.find("content") != args.end()) {
             Storage storage{};
             response.body() = storage.get_file(args.at("page_id"));
@@ -175,15 +172,11 @@ void PutPageManager<Body, Allocator, Send>::handle_request() {
         Storage storage{};
         std::string page_id = storage.create_file(args.at("login"), "test");
 
-        // TODO: удалить
-        std::cout << this->get_request_body_data() << '\n';
-
         Page page = create_new_page(page_id, JsonSerializer::deserialize_in_vector(this->get_request_body_data()));
-
         response.body() = JsonSerializer::serialize_page(page);
 
-        // TODO: удалить
         std::cout << response.body().data() << '\n';
+        page.page_close_connect();
     }
 
     catch (JsonException::JsonException& ec) {
@@ -257,6 +250,7 @@ void PostPageManager<Body, Allocator, Send>::handle_request() {
         else {
             Page page{args.at("page_id")};
             set_page_fields(args.at("page_id"), JsonSerializer::deserialize_in_vector(this->get_request_body_data()));
+            page.page_close_connect();
         }
     }
     catch (JsonException::JsonException& ec) {
@@ -286,7 +280,6 @@ public:
     void handle_request() final;
 };
 
-// TODO: доделать delete
 template<typename Body, typename Allocator, typename Send>
 void DeletePageManager<Body, Allocator, Send>::handle_request() {
     // get args from url

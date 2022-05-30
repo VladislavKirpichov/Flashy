@@ -69,7 +69,7 @@ private:
 
                 if (ec) {
                     Logger::Error(__LINE__, __FILE__, "http::async_write: %s", ec.message().data());
-                    return;
+                    throw APIException::APIException(ec.message().data());
                 }
 
                 // We're done with the response so delete it
@@ -108,9 +108,8 @@ void API_Gateway::read_request() {
 
         if (ec) {
             self->close_connection();
-            std::cout << ec << '\n';
-            std::cout << ec.message() << '\n';
-            throw ServerException::APIGatewayException(ec);
+            Logger::Critical(__LINE__, __FILE__, ec.message().data());
+            throw ServerException::APIGatewayException(ec.message().data());
         }
 
         self->handle_request();

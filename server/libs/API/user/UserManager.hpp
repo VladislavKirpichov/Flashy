@@ -100,29 +100,36 @@ void GetUserManager<Body, Allocator, Send>::handle_request() {
         if (User::find_user_nick(args.at("login"), args.at("password"))) {
             User temp_user{args.at("login")};
             response.body() = JsonSerializer::serialize_user(temp_user);
+
+            std::cout << response.body() << '\n';
+            temp_user.user_close_connect();
         }
         else
             throw APIException::UserException();
     }
     catch (JsonException::JsonException& ec) {
+        Logger::Error(__LINE__, __FILE__, ec.what());
         HttpServerErrorCreator<Send>
                 ::create_service_unavailable_503(std::move(this->get_send()), this->get_request_version())->send_response();
         return;
     }
     // if in request we have no "login"
     catch (std::out_of_range& ec) {
+        Logger::Info(__LINE__, __FILE__, "request dont have login or password");
         HttpClientErrorCreator<Send>
                 ::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
         return;
     }
     catch (APIException::UserException& ec) {
+        Logger::Info(__LINE__, __FILE__, "user not found or wrong password");
         HttpClientErrorCreator<Send>
                 ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
         return;
     }
     catch (sql::SQLException& ec) {
+        Logger::Info(__LINE__, __FILE__, "SQL error: ", ec.what());
         HttpClientErrorCreator<Send>
-        ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
+                ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
         return;
     }
 

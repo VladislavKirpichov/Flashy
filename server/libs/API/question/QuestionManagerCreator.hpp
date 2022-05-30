@@ -15,7 +15,6 @@
 
 namespace http = beast::http;           // from <boost/beast/http.hpp>
 
-// TODO изменить классы
 
 template<typename Body, typename Allocator, typename Send>
 class QuestionManagerCreator {

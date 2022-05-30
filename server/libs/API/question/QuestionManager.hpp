@@ -56,8 +56,9 @@ void GetQuestionManager<Body, Allocator, Send>::handle_request() {
     }
 
     try {
-        Question question{std::stoi(args.at("id"))};
+        Question question{std::stoi(args.at("question_id"))};
         response.body() = JsonSerializer::serialize_question(question);
+        question.question_close_connect();
     }
     catch (JsonException::JsonException& ec) {
         return HttpServerErrorCreator<Send>
@@ -137,7 +138,6 @@ public:
     virtual void handle_request() final;
 protected:
     void set_question_fields(int question_id, const std::unordered_map<std::string, std::string>& json);
-    void add_like(int question_id);
 };
 
 template<typename Body, typename Allocator, typename Send>

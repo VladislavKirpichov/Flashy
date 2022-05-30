@@ -19,11 +19,10 @@ public:
     // std::stringODO: сделать const Page& page
     std::string create_file(const std::string& login, std::string&& input_data);
     std::string get_file(const std::string& file_url);
-    void update_file_header(const std::string& file_url);
     void update_file_body(const std::string& file_url, std::string&& input_data);
     void delete_file(const std::string& file_url);
 
-    static inline std::vector<std::string> all_files {"kkk", };
+    static inline std::vector<std::string> all_files {"kkk", "Mat_ORr6W5WH"};
 
 protected:
     // void write_page_header_in_file(const std::string& file_url, Page& page);

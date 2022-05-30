@@ -12,22 +12,6 @@
 #include <cppconn/exception.h>
 
 
-// ---------- LAYER 4 | DB ----------
-
-
-// TODO: сделать исключения для БД
-namespace DbExceptions {
-    // Interface for all HTTP Exceptions
-    class DbException : public std::runtime_error {
-    public:
-        DbException() : std::runtime_error("DB exception") {}
-        explicit DbException(const char* msg) : std::runtime_error("DB exception: " + std::string(msg)) {}
-        explicit DbException(std::string const& msg) : std::runtime_error("DB exception: " + msg) {}
-        using std::runtime_error::runtime_error;
-    };
-}
-
-
 // ---------- LAYER 3.1 | HTTP ----------
 
 
@@ -58,7 +42,6 @@ namespace HttpException {
 
 // ---------- LAYER 3.2 | JSON ----------
 
-// TODO: Добавить исключения к JsonException
 
 namespace JsonException {
     // Interface for all JSON Exceptions
@@ -69,7 +52,7 @@ namespace JsonException {
         explicit JsonException(nlohmann::json::exception &ec) : std::runtime_error(
                 std::string("nlohmann Json error: ") + ec.what()) {}
 
-        explicit JsonException(std::string &msg) : std::runtime_error(msg) {}
+        explicit JsonException(std::string &msg) : std::runtime_error(std::string("Json Exception: ") + msg) {}
 
         using std::runtime_error::runtime_error;
     };
