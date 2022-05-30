@@ -71,13 +71,12 @@ void RegistrationManager<Body, Allocator, Send>::register_user() {
             create_new_user(json);
         }
         else
-            HttpClientErrorCreator<Send>::create_forbidden_403(std::move(this->get_send()), this->get_request_version())->send_response();
+            return HttpClientErrorCreator<Send>::create_forbidden_403(std::move(this->get_send()), this->get_request_version())->send_response();
     }
     catch (std::out_of_range& ec) {
         HttpClientErrorCreator<Send>::create_bad_request_400(std::move(this->get_send()), this->get_request_version())->send_response();
         return;
     }
-    // TODO: исправить с 404
     catch (sql::SQLException& ec) {
         HttpClientErrorCreator<Send>
         ::create_not_found_404(std::move(this->get_send()), this->get_request_version())->send_response();
