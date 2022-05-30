@@ -35,6 +35,7 @@ void CustomPage::update()
         q->set_data(title, answer);
         question_fields.push_back(q);
         question_fields[i]->move(80,350+ 100*(i+1));
+        question_fields[i]->show();
     }
 
 }

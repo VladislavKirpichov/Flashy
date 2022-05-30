@@ -85,10 +85,10 @@ bool Manager::change_page_in_server() {
     std::cout << serializer.page_serialize(current_page) << "\n";
     if (post(target, serializer.page_serialize(current_page),"application/json") &&
         post(target + "&content=true", current_page.get_text(),"text/text")) {
-        if (change_question_from_page())
-            return true;
-        else
-            return false;
+//        if (change_question_from_page())
+//            return true;
+//        else
+//            return false;
     }
     return false;
 }
@@ -96,8 +96,10 @@ bool Manager::change_page_in_server() {
 bool Manager::change_question_to_server(const int &question_index) {
     std::string target =
             "/question/?question_id=" + std::to_string(current_questions[question_index].get_question_id()) +
-            "&page_id= " + current_page.get_page_id();
-    if (post(target, serializer.question_serialize(current_questions[question_index]),"application/json")) {
+            "&page_id= " + std::to_string(current_page.get_id());
+    std::string request =  serializer.question_serialize(current_questions[question_index]);
+    std::cout << request << "\n";
+    if (post(target,request,"application/json")) {
         return true;
     } else
         return false;

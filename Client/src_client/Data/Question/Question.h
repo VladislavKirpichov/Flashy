@@ -5,8 +5,8 @@
 #include<vector>
 class Question{
 public:
-    Question(): question_id(0), mark(0), title("Input your question"), answer("Input your answer"){}
-    Question(const int& _page_id ): question_id(0), mark(0), page_id(_page_id), title("Input your question"), answer("Input your answer"){}
+    Question(): question_id(0), mark(0), title("Input your question"), answer("Answer"){}
+    Question(const int& _page_id ): question_id(0), mark(0), page_id(_page_id), title("Input your question"), answer("Answer"){}
     int get_question_id(){return question_id;}
     int get_page_id(){return page_id;}
     std::string get_title(){return title;}
