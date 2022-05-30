@@ -1,0 +1,5 @@
+add_library(editpage editpage.h editpage.cpp editpage.ui)
+target_include_directories(editpage PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(editpage PUBLIC questioneditor)
+target_link_libraries(editpage PUBLIC Manager)
+target_link_libraries(editpage PRIVATE Qt5::Widgets)
