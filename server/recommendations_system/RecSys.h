@@ -25,7 +25,7 @@ class RecSys {
     double eval_loss(const torch::Tensor &output,
                      std::shared_ptr<Dataset> p_dataset);
 
-    const std::vector<int> generate_k_grid(int M, int N);
+    std::vector<int> generate_k_grid(int M, int N);
 
     const std::vector<double> generate_lr_grid(int count);
 

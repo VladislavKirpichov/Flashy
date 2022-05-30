@@ -15,7 +15,7 @@ public:
         int mark;
     };
 
-    const torch::Tensor& get_interaction_table() const;
+    std::vector<torch::Tensor> get_interaction_table();
 
     const int get_documents_count() const;
 

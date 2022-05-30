@@ -22,9 +22,9 @@ double RecSys::fit() {
     std::vector<double> learning_rate_grid = generate_lr_grid(5);
 
     //Define best parameters
-    double best_loss;
-    int best_k;
-    double best_lr;
+    double best_loss = 100;
+    int best_k = docs_count;
+    double best_lr = 0.5;
 
     srand(time(nullptr));
     const std::chrono::time_point<std::chrono::steady_clock> start_fit =
@@ -34,7 +34,8 @@ double RecSys::fit() {
         for (const double lr_iter: learning_rate_grid) {
 
             auto net = std::make_shared<Net>(docs_count, cards_count, k_iter);
-            torch::Tensor output = net->train(dataset_->get_interaction_table(), 1e+3, lr_iter);
+            torch::Tensor interactions = dataset_->get_interaction_table()[0];
+            torch::Tensor output = net->train(interactions, 1e+3, lr_iter);
             double loss = output.item().toDouble();
 
             std::cout << "Model {lr = " << lr_iter << ", k = " << k_iter << "}"
@@ -58,8 +59,12 @@ double RecSys::fit() {
 
     //Training best model
     net_ = std::make_shared<Net>(docs_count, cards_count, best_k);
-    net_->train(dataset_->get_interaction_table(), 1e+3, best_lr);
-    std::cout << net_->get_doc2card() << std::endl;
+    net_->train(dataset_->get_interaction_table()[0], 1e+2, best_lr);
+    std::cout << "RESULT\n";
+    torch::Tensor output = net_->get_doc2card();
+    std::cout << output << std::endl;
+    std::cout << "INPUT" << std::endl;
+    std::cout << dataset_->get_interaction_table()[0] << std::endl;
 
     //save embeddings
     save_cards_embeddings(net_->get_flashcards_embeddings(), dataset_);
@@ -68,10 +73,11 @@ double RecSys::fit() {
     return best_loss;
 }
 
-const std::vector<int> RecSys::generate_k_grid(int M, int N) {
-    std::vector<int> grid(std::max(M,N));
+std::vector<int> RecSys::generate_k_grid(int M, int N) {
+    std::vector<int> grid{};
+    std::cout << std::max(M, N) << '\n';
 
-    for (int i = 1; i < std::max(M,N); ++i) {
+    for (int i = 1; i <= std::max(M,N); ++i) {
         grid.push_back(i);
     }
 
@@ -80,7 +86,6 @@ const std::vector<int> RecSys::generate_k_grid(int M, int N) {
 
 const std::vector<double> RecSys::generate_lr_grid(int count) {
     std::vector<double> grid(count);
-    srand(time(nullptr));
 
     for (int i = 0; i < count; ++i) {
         int a = rand() % 10 + 1;
@@ -248,6 +253,7 @@ const std::vector<int> RecSys::filter(std::vector<int> &flashcards, int doc_id) 
 
     return flashcards;
 }
+
 
 int main() {
     std::vector<int> pages_id_data;

@@ -1,8 +1,8 @@
 #include "Net.h"
 
 Net::Net(int M, int N, int k) {
-    if (k == -1) {
-        k = (M + N) / 2;
+    if (k == -1 || k == 0) {
+        k = (M + N) / 2 + 1;
     }
 
     documents_embeddings = register_parameter("docs_embeddings", torch::randn({M, k}));
@@ -14,7 +14,8 @@ Net::Net(int M, int N, int k) {
 
 torch::Tensor Net::forward() {
     doc2card = torch::mm(documents_embeddings, flashcards_embedding);
-    doc2card.addmm(bias_q, bias_p);
+    doc2card.add(bias_q);
+    doc2card.add(bias_p);
 
     doc2card = torch::sigmoid(doc2card);
     return doc2card;
@@ -38,8 +39,8 @@ void Net::load_model() {
 torch::Tensor Net::train(torch::Tensor input, size_t pEpoch,
                          double learning_rate)
 {
-    torch::optim::Adam nn_optimizers(this->parameters(),
-                                     torch::optim::AdamOptions(learning_rate));
+    torch::optim::SGD nn_optimizers(this->parameters(),
+                                     torch::optim::SGDOptions(learning_rate));
     torch::Tensor output;
     torch::Tensor loss;
 

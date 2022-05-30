@@ -217,6 +217,4 @@ void DeleteHandler<Body, Allocator, Send>::process_request() {
     }
 }
 
-// TODO: добавить обработчик удаления
-
 #endif //SERVER_V0_1_REQUESTHANDLER_H

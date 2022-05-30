@@ -7,6 +7,8 @@
 
 #include <mutex>
 #include <ctime>
+#include <fstream>
+#include <iostream>
 
 class Logger {
 public:
@@ -66,24 +68,33 @@ private:
         if (message_priority >= priority) {
             const std::lock_guard<std::mutex> lock(mutex);
 
+            std::ofstream file;
+            file.open("logger.txt", std::ios::app);
+
             switch (message_priority) {
                 case (MESSAGE_PRIORITY::CriticalPriority):
                     std::cout << "[CRITICAL!!!]\t";
+                    file << "[CRITICAL!!!]\t";
                     break;
                 case (MESSAGE_PRIORITY::ErrorPriority):
                     std::cout << "[ERROR]\t";
+                    file << "[ERROR]\t";
                     break;
                 case (MESSAGE_PRIORITY::WarnPriority):
                     std::cout << "[WARN]\t";
+                    file << "[WARN]\t";
                     break;
                 case (MESSAGE_PRIORITY::InfoPriority):
                     std::cout << "[INFO]\t";
+                    file << "[INFO]\t";
                     break;
                 case (MESSAGE_PRIORITY::DebugPriority):
                     std::cout << "[DEBUG]\t";
+                    file << "[DEBUG]\t";
                     break;
                 case (MESSAGE_PRIORITY::TracePriority):
                     std::cout << "[TRACE]\t";
+                    file << "[TRACE]\t";
                     break;
             }
 
@@ -91,13 +102,23 @@ private:
             std::strftime(buffer, BUFFER_SIZE, "%c", std::localtime(&time));
 
             std::cout << "time: " << buffer << '\t';
+            file << "time: " << buffer << '\t';
+
             std::cout << "file: " << source_file << ':' << line_number << '\t';
+            file << "file: " << source_file << ':' << line_number << '\t';
+
             std::cout << message << ' ';
+            file << message << ' ';
+
             ((std::cout << args << ' '), ...);
+            ((file << args << ' '), ...);
+
             std::cout << '\n';
+            file << '\n';
+
+            file.close();
         }
     }
-
 };
 
 #endif //SERVER_V0_1_LOGGER_HPP

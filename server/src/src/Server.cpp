@@ -8,8 +8,8 @@
 #include <vector>
 #include <thread>
 
+#include "Logger.hpp"
 #include "Exceptions.h"
-// #include "RecSys.h"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace websocket = beast::websocket; // from <boost/beast/websocket.hpp>
@@ -33,20 +33,12 @@ void ServerManager::run() {
 
     // Listener responsible for the life of the shared_ptr
     try {
-        // run_recommendations_system();
         std::make_shared<Listener>(ioc, std::move(endpoint))->async_accept();
     }
     catch (ServerException::ListenerException& ec) {
-        // ...
+        Logger::Critical(__LINE__, __FILE__, ec.what());
+        throw ServerException::ListenerException();
     }
-
-    // FOR MULTITHREAD SERVER
-//    size_t n = NUMBER_OF_THREADS;
-//    std::vector<std::thread> threads;
-//    threads.reserve(n);
-//
-//    while (n--)
-//        threads.emplace_back([&ioc](){ ioc.run(); }).detach();
 
     ioc.run();
 }

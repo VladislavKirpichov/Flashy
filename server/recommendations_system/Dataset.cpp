@@ -30,8 +30,8 @@ int Dataset::get_mark(int p_doc_id, int p_card_id) {
 }
 
 
-const torch::Tensor &Dataset::get_interaction_table() const {
-    return interactions_table_;
+std::vector<torch::Tensor> Dataset::get_interaction_table() {
+    return std::vector<torch::Tensor>{interactions_table_};
 }
 
 const int Dataset::get_documents_count() const {
