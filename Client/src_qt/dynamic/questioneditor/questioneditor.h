@@ -12,8 +12,9 @@ class QuestionEditor : public QWidget
     Q_OBJECT
 
 public:
-    QuestionEditor(QWidget *parent = nullptr, size_t _index = 0);
+    explicit QuestionEditor(QWidget *parent = nullptr);
     ~QuestionEditor();
+    void set_data(const std::string & new_title, const std::string& new_answer);
 
 private slots:
     void on_save_button_clicked();

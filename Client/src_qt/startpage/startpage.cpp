@@ -8,6 +8,8 @@ StartPage::StartPage(QWidget *parent)
     , ui(new Ui::StartPage)
 {
     ui->setupUi(this);
+    main_window = new MainWindow(this);
+    reg_page = new regpage(this);
 
 }
 
@@ -37,14 +39,11 @@ void StartPage::reg_slot()
 void StartPage::on_reg_button_clicked()
 {
     hide();
-    reg_page = new regpage(this);
     reg_page->show();
     connect(reg_page, &regpage::reg_signal, this, &StartPage::reg_slot);
 }
 void StartPage::connection()
 {
-
-    main_window = new MainWindow(this);
     main_window->hide();
     user_page = main_window->get_page();
     connect(user_page, &UserPage::exit_signal, this, &StartPage::open_window);
@@ -54,9 +53,9 @@ void StartPage::on_sign_up_button_clicked()
 {
     std::string login = ui->login->text().toStdString();
     std::string pass = ui->pass->text().toStdString();
-//    if(true){
-    if(Manager::get_instance()->auth(login, pass)){
-        Manager::get_instance()->get_user_from_server(login, pass);
+    if(true){
+//    if(Manager::get_instance()->auth(login, pass)){
+//        Manager::get_instance()->get_user_from_server(login, pass);
         hide();
         connection();
         main_window->update();

@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true">background:white</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -41,7 +41,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="question_edit">
+         <widget class="QLineEdit" name="question">
           <property name="styleSheet">
            <string notr="true">color:black</string>
           </property>
@@ -62,7 +62,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="answer_edit">
+         <widget class="QLineEdit" name="answer">
           <property name="styleSheet">
            <string notr="true">color:black</string>
           </property>

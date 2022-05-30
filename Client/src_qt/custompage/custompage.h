@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "Manager.h"
+#include "questioneditor.h"
 namespace Ui {
 class CustomPage;
 }
@@ -26,9 +27,12 @@ private slots:
 
     void on_edit_button_clicked();
 
+
+
 private:
     Ui::CustomPage *ui;
     int page_num;
+     std::vector<QuestionEditor*> question_fields;
 signals:
     void open_page_signal(int);
 };

@@ -20,7 +20,7 @@ public:
     std::string  get_updated_time(){return updated_time;}
     std::string  get_last_visited_time(){return last_visited_time;}
     std::string get_text(){return text;}
-    std::vector<unsigned int> get_questions_id(){return questions_id;}
+    std::vector<int> get_questions_id(){return questions_id;}
 
     void set_page_id(const std::string &new_id){page_id = new_id;}
     void set_user_id(const int & new_user_id){user_id = new_user_id;}
@@ -31,7 +31,7 @@ public:
     void set_updated_time(const std::string & new_updated_time){updated_time = new_updated_time;}
     void set_last_visited_time(const std::string & new_last_visited_time){last_visited_time = new_last_visited_time;}
     void set_text(const std::string & new_text){text = new_text;}
-    void set_questions_id(const std::vector<unsigned int> new_questions_id){questions_id = new_questions_id;}
+    void set_questions_id(const std::vector<int>& new_questions_id){questions_id = new_questions_id;}
 private:
     std::string page_id;
     int user_id;
@@ -42,7 +42,7 @@ private:
     std::string  updated_time;
     std::string  last_visited_time;
     std::string text;
-    std::vector<unsigned int> questions_id;
+    std::vector<int> questions_id;
 };
 std::string current_time();
 #endif //CLIENT_NOTE_H

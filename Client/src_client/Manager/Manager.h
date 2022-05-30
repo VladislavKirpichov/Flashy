@@ -36,7 +36,7 @@ public:
 
     void get_page_from_server(const std::string &page_id);
 
-    Question get_question_from_server(const unsigned int &question_id);
+    Question get_question_from_server(const int &question_id);
 
     void get_questions_from_page();
 
@@ -48,7 +48,7 @@ public:
 
     bool change_page_in_server();
 
-    bool change_question_to_server();
+    bool change_question_to_server(const int& question_index);
 
     bool auth(const std::string &login, const std::string &password);
 
@@ -58,6 +58,8 @@ public:
     User &get_user();
 
     Page &get_page();
+
+    std::vector<Question> &get_questions();
 
     void set_destination(const std::string &new_host, const unsigned short &new_port);
 

@@ -10,7 +10,7 @@ MainPage::MainPage(QWidget *parent) :
     page_num = 4;
     std::vector<std::string> pages_title = Manager::get_instance()->get_user().get_pages_titles();
     for (int i = 0; i < pages_title.size(); i++){
-        note_buttons.push_back(new NoteButton(this, pages_title[i]));
+        note_buttons.push_back(new NoteButton(this, pages_title[i], i));
         connect(note_buttons[i], &NoteButton::open_custom_page_signal, this, &MainPage::open_custom_page);
     }
 }

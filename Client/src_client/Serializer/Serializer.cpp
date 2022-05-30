@@ -98,9 +98,9 @@ Page Serializer::page_deserialize(const std::string &json) {
     temp.set_last_visited_time(root.get<std::string>("last_visited_time", "ERROR_TIME"));
     temp.set_text(root.get<std::string>("text", "ERROR_TEXT"));
 
-    std::vector<unsigned int> questions_id;
+    std::vector<int> questions_id;
     for (boost::property_tree::ptree::value_type &question_id: root.get_child("questions_id")) {
-        questions_id.push_back(question_id.second.get_value<unsigned int>());
+        questions_id.push_back(question_id.second.get_value<int>());
     }
     temp.set_questions_id(questions_id);
     return temp;
@@ -145,7 +145,7 @@ std::string Serializer::page_serialize(Page &page) {
     res += page.get_text();
     res += "\",\n";
 
-    std::vector<unsigned int> temp_questions_id = page.get_questions_id();
+    std::vector<int> temp_questions_id = page.get_questions_id();
     res += "  \"questions_id\": [ ";
     for (size_t i = 0; i < temp_questions_id.size(); i++) {
         res += "\"";
@@ -166,16 +166,25 @@ Question Serializer::question_deserialize(const std::string &json) {
     std::stringstream jsonEncoded(json);
     boost::property_tree::ptree root;
     boost::property_tree::read_json(jsonEncoded, root);
+    temp.set_question_id(root.get<int>("question_id", 0));
+    temp.set_page_id(root.get<std::string>("page_id", "ERROR_PAGE_ID"));
     temp.set_title(root.get<std::string>("title", "ERROR_TITLE"));
     temp.set_answer(root.get<std::string>("answer", "ERROR_ANSWER"));
-    temp.set_question_id(root.get<unsigned int>("question_id", 0));
-    temp.set_page_id(root.get<std::string>("page_id", "ERROR_PAGE_ID"));
+
 
     return temp;
 }
 
 std::string Serializer::question_serialize(Question &question) {
     std::string res = "{\n";
+
+    res += " \"question_id\": \"";
+    res += std::to_string(question.get_question_id());
+    res += "\",\n";
+
+    res += "  \"page_id\": \"";
+    res += question.get_page_id();
+    res += "\"\n";
 
     res += "  \"title\": \"";
     res += question.get_title();
@@ -185,13 +194,7 @@ std::string Serializer::question_serialize(Question &question) {
     res += question.get_answer();
     res += "\",\n";
 
-    res += " \"question_id\": \"";
-    res += std::to_string(question.get_question_id());
-    res += "\",\n";
 
-    res += "  \"page_id\": \"";
-    res += question.get_page_id();
-    res += "\"\n";
 
     res += "}";
     return res;

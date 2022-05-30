@@ -24,13 +24,15 @@ void Manager::get_user_from_server(const std::string &login, const std::string &
 }
 
 void Manager::get_page_from_server(const std::string &page_id) {
-    std::string target = "/page?page_id=" + page_id;
-    current_page = serializer.page_deserialize(get(target));
+    current_questions.clear();
+//    std::string target = "/page?page_id=" + page_id;
+//    current_page = serializer.page_deserialize(get(target));
+    get_questions_from_page();
 }
 
-Question Manager::get_question_from_server(const unsigned int &question_id) {
-    std::string target = "/question?question_id=" + std::to_string(question_id);
-    return serializer.question_deserialize(get(target));
+Question Manager::get_question_from_server(const int &question_id) {
+//    std::string target = "/question?question_id=" + std::to_string(question_id);
+//    return serializer.question_deserialize(get(target));
 }
 
 void Manager::get_questions_from_page() {
@@ -72,14 +74,19 @@ bool Manager::change_user_in_server() {
 }
 
 bool Manager::change_page_in_server() {
-    std::string target = "/page?page_id=" + current_page.get_page_id();
+    std::string target = "/page/?page_id=" + current_page.get_page_id();
     if (post(target, serializer.page_serialize(current_page)))
         return true;
     else
         return false;
 }
 
-bool Manager::change_question_to_server() {
+bool Manager::change_question_to_server(const int & question_index) {
+    std::string target = "/question/" + current_page.get_page_id();
+    if (post(target, serializer.page_serialize(current_page)))
+        return true;
+    else
+        return false;
     return true;
 }
 
@@ -113,6 +120,9 @@ User &Manager::get_user() {
 
 Page &Manager::get_page() {
     return current_page;
+}
+std::vector<Question> &Manager::get_questions(){
+    return current_questions;
 }
 
 
