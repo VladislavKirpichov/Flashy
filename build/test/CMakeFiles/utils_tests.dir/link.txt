@@ -1,1 +1,0 @@
-/usr/bin/c++  -fprofile-arcs -ftest-coverage -O0   -coverage -lgcov -rdynamic CMakeFiles/utils_tests.dir/tests.cpp.o  -o utils_tests  ../lib/libgtest_main.a ../DB_lib/libDB_lib.a ../lib/libgtest.a -lpthread -lmysqlcppconn 
