@@ -11,7 +11,6 @@ file(COPY entities DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/data)
 add_subdirectory(DB)
 add_subdirectory(entities)
 add_subdirectory(storage)
-add_subdirectory(recommendations_system)
 
 #libs
 add_subdirectory(libs/Logger)

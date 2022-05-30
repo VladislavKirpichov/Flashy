@@ -1,3 +1,7 @@
+/*
+ * MADE BY AKIM !!!
+ */
+
 #ifndef DB_TABLES_USERS_H_
 #define DB_TABLES_USERS_H_
 #include "DB.h"

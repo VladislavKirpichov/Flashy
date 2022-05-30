@@ -1,3 +1,7 @@
+/*
+ * MADE BY AKIM !!!
+ */
+
 #ifndef DB_LIB_DB_H_
 #define DB_LIB_DB_H_
 
