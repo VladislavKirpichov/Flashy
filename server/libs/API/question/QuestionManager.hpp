@@ -91,23 +91,46 @@ public:
     using IManager<Body, Allocator, Send>::IManager;
     virtual void handle_request() final;
 protected:
-    void create_new_question(int page_id, const std::unordered_map<std::string, std::string>& json);
+    virtual void set_flags(http::response<http::string_body>& response);
+    Question create_new_question(int page_id, const std::unordered_map<std::string, std::string>& json);
 };
 
 template<typename Body, typename Allocator, typename Send>
-void PutQuestionManager<Body, Allocator, Send>::create_new_question(int page_id, const std::unordered_map<std::string, std::string>& json) {
+void PutQuestionManager<Body, Allocator, Send>::set_flags(http::response<http::string_body>& response) {
+    response.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+    response.set(http::field::content_type, "text/text");
+    response.keep_alive(this->get_request_keep_alive());
+}
+
+template<typename Body, typename Allocator, typename Send>
+Question PutQuestionManager<Body, Allocator, Send>::create_new_question(int page_id, const std::unordered_map<std::string, std::string>& json) {
     Question question{page_id, json.at("title"), json.at("answer")};
     question.add_question();
-    question.question_close_connect();
+    return question;
 }
 
 template<typename Body, typename Allocator, typename Send>
 void PutQuestionManager<Body, Allocator, Send>::handle_request() {
+    std::unordered_map<std::string, std::string> args{};
+    try {
+        args = HttpParser::define_args_map(this->get_request_target());
+    }
+    catch (HttpException::InvalidArguments& ec) {
+        Logger::Error(__LINE__, __FILE__, ec.what());
+        HttpClientErrorCreator<Send>::create_bad_request_400(std::forward<Send>(this->get_send()), this->get_request_version())->send_response();
+        return;
+    }
+
     try {
         auto json = JsonSerializer::deserialize(this->get_request_body_data());
-        create_new_question(std::stoi(json.at("page_id")), json);
-        // TODO: вернуть question_id
-        return HttpSuccessCreator<Send>::create_ok_200(std::move(this->get_send()), this->get_request_version())->send_response();
+        Question question = create_new_question(std::stoi(args.at("page_id")), json);
+
+        http::response<http::string_body> response{http::status::ok, this->get_request_version()};
+        response.body() = std::to_string(question.get_question_ID());
+        this->set_flags(response);
+
+        question.question_close_connect();
+        return this->get_send()(std::move(response));
     }
     catch (JsonException::JsonException& ec) {
         return HttpServerErrorCreator<Send>
