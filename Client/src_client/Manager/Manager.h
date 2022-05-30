@@ -42,7 +42,7 @@ public:
 
     bool create_page_to_server(const std::string &title);
 
-    std::string  create_question_to_server(size_t i);
+    std::string  create_question_to_server();
 
     bool change_user_in_server();
 

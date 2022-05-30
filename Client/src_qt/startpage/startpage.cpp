@@ -35,6 +35,7 @@ void StartPage::reg_slot()
 void StartPage::on_reg_button_clicked()
 {
     reg_page = new regpage(this);
+    main_window = new MainWindow(this);
     hide();
     reg_page->show();
     connect(reg_page, &regpage::reg_signal, this, &StartPage::reg_slot);

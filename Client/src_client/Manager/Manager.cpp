@@ -21,14 +21,12 @@ bool Manager::_delete(const std::string &target) {
 void Manager::get_user_from_server(const std::string &login, const std::string &password) {
     std::string target = "/user/?login=" + login + "&password=" + password;
     std::string gt = get(target);
-    std::cout << gt << '\n';
     current_user = serializer.user_deserialize(gt);
 }
 
 void Manager::get_page_from_server(const std::string &page_id) {
     current_questions.clear();
     std::string target = "/page/?page_id=" + page_id;
-    std::cout << get(target) << '\n';
     current_page = serializer.page_deserialize(get(target));
     std::string _text = get(target + "&content=true");
     _text.erase(_text.size() - 1);
@@ -38,8 +36,7 @@ void Manager::get_page_from_server(const std::string &page_id) {
 
 Question Manager::get_question_from_server(const int &question_id) {
     std::string target =
-            "/question/?question_id=" + std::to_string(question_id) + "&page_id=" + current_page.get_page_id();
-    std::cout << get(target);
+            "/question/?question_id=" + std::to_string(question_id) + "&page_id=" + std::to_string(current_page.get_id());
     return serializer.question_deserialize(get(target));
 }
 
@@ -55,7 +52,6 @@ bool Manager::create_page_to_server(const std::string &title) {
     std::string target = "/page/?login=" + current_user.get_login();
     current_page = Page();
     current_page.set_title(title);
-    std::cout << current_user.get_id();
     current_page.set_user_id(current_user.get_id());
     std::string request = serializer.page_serialize(current_page);
     std::string json = put(target, request);
@@ -64,13 +60,16 @@ bool Manager::create_page_to_server(const std::string &title) {
         return false;
     }
     current_page = serializer.page_deserialize(json);
+    std::cout << request << '\n';
     return true;
 }
 
-std::string Manager::create_question_to_server(size_t i) {
-    std::string target = "/question/" + current_page.get_page_id(); //page_id в JSON
-    std::string request = serializer.page_serialize(current_page);
-    return put(target, request);
+std::string Manager::create_question_to_server() {
+    std::string target = "/question/?page_id=" + std::to_string(current_page.get_id()); //page_id в JSON
+    Question temp = Question(current_page.get_id());
+    std::string request = serializer.question_serialize(temp);
+    std::cout << request << '\n';
+   return put(target,request);
 }
 
 bool Manager::change_user_in_server() {
@@ -128,6 +127,7 @@ bool Manager::reg(const std::string &name, const std::string &login, const std::
     new_user.set_email(email);
     new_user.set_status("Status");
     std::string request = serializer.user_serialize(new_user);
+    std::cout << request << '\n';
     std::string target = "/signup/?login=" + login + "&password=" + password;
     if (put(target, request) == "ok\n")
         return true;

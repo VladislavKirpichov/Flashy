@@ -154,9 +154,9 @@ border-radius: 12px;</string>
   <widget class="QLineEdit" name="page_title">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>80</x>
      <y>20</y>
-     <width>261</width>
+     <width>381</width>
      <height>61</height>
     </rect>
    </property>

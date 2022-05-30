@@ -23,6 +23,9 @@ void regpage::on_create_acc_button_clicked()
     if(pass == repeat_pass){
         if(Manager::get_instance()->reg(name, login, pass, email)){
             Manager::get_instance()->get_user() = User(name, login, pass,email);
+            Manager::get_instance()->get_user_from_server(login,pass);
+            std::cout <<  Manager::get_instance()->get_user().get_id() << "\n";
+            hide();
             emit reg_signal();
         } else {
             QMessageBox::information(this, "Reg error", "Registration Error");

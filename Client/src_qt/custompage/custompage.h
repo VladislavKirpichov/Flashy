@@ -28,6 +28,8 @@ private slots:
 
     void on_save_button_clicked();
 
+    void on_add_question_button_clicked();
+
 private:
     Ui::CustomPage *ui;
     int page_num;

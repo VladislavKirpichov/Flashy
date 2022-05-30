@@ -76,9 +76,20 @@ void CustomPage::on_save_button_clicked()
         for(int i=Manager::get_instance()->get_page().get_questions_id().size(); i<question_fields.size(); ++i){
             QString quest_title = question_fields[i]->get_question();
             QString quest_answer = question_fields[i]->get_answer();
-            Manager::get_instance()->get_questions().emplace_back(Question(Manager::get_instance()->get_page().get_page_id()));
+            Manager::get_instance()->get_questions().emplace_back(Question(Manager::get_instance()->get_page().get_id()));
             Manager::get_instance()->get_questions()[i].set_title(quest_title.toStdString());
             Manager::get_instance()->get_questions()[i].set_answer(quest_answer.toStdString());
         }
         Manager::get_instance()->change_page_in_server();
+}
+
+void CustomPage::on_add_question_button_clicked()
+{
+    std::string page_id = Manager::get_instance()->get_page().get_page_id();
+    std::string str = Manager::get_instance()->create_question_to_server();
+    std::cout << str << "\n";
+    int question_id = std::stoi(str);
+    Manager::get_instance()->get_page().get_questions_id().emplace_back(question_id);
+    Manager::get_instance()->get_questions().emplace_back(Manager::get_instance()->get_question_from_server(question_id));
+    update();
 }

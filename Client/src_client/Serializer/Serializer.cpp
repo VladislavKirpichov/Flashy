@@ -30,8 +30,9 @@ User Serializer::user_deserialize(const std::string &json) {
 
 std::string Serializer::user_serialize(User &user) {
     std::string res = "{\n";
+
     res += "  \"id\": \"";
-    res += user.get_id();
+    res += std::to_string(user.get_id());
     res += "\",\n";
 
     res += "  \"name\": \"";
@@ -88,6 +89,7 @@ Page Serializer::page_deserialize(const std::string &json) {
     std::stringstream jsonEncoded(json);
     boost::property_tree::ptree root;
     boost::property_tree::read_json(jsonEncoded, root);
+    temp.set_id(root.get<int>("id", 0));
     temp.set_page_id(root.get<std::string>("page_id", "ERROR_ID"));
     temp.set_user_id(root.get<int>("user_id", 0));
     temp.set_title(root.get<std::string>("title", "ERROR_TITLE"));
@@ -108,6 +110,10 @@ Page Serializer::page_deserialize(const std::string &json) {
 
 std::string Serializer::page_serialize(Page &page) {
     std::string res = "{\n";
+
+    res += "  \"id\": \"";
+    res += std::to_string(page.get_id());
+    res += "\",\n";
 
     res += "  \"page_id\": \"";
     res += page.get_page_id();
@@ -167,7 +173,7 @@ Question Serializer::question_deserialize(const std::string &json) {
     boost::property_tree::ptree root;
     boost::property_tree::read_json(jsonEncoded, root);
     temp.set_question_id(root.get<int>("question_id", 0));
-    temp.set_page_id(root.get<std::string>("page_id", "ERROR_PAGE_ID"));
+    temp.set_page_id(root.get<int>("page_id", 0));
     temp.set_title(root.get<std::string>("title", "ERROR_TITLE"));
     temp.set_answer(root.get<std::string>("answer", "ERROR_ANSWER"));
 
@@ -183,8 +189,8 @@ std::string Serializer::question_serialize(Question &question) {
     res += "\",\n";
 
     res += "  \"page_id\": \"";
-    res += question.get_page_id();
-    res += "\"\n";
+    res += std::to_string(question.get_page_id());
+    res += "\",\n";
 
     res += "  \"title\": \"";
     res += question.get_title();
@@ -192,7 +198,7 @@ std::string Serializer::question_serialize(Question &question) {
 
     res += "  \"answer\": \"";
     res += question.get_answer();
-    res += "\",\n";
+    res += "\"\n";
 
 
 

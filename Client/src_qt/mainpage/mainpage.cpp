@@ -47,6 +47,7 @@ void MainPage::on_add_page_button_clicked() {
                                          tr("Page title: "), QLineEdit::Normal);
 
     if(Manager::get_instance()->create_page_to_server(text.toStdString())) {
-        emit open_page_signal(6);
+        Manager::get_instance()->get_page_from_server(Manager::get_instance()->get_page().get_page_id());
+        emit open_page_signal(3);
     }
 }
