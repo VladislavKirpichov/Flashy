@@ -7,12 +7,10 @@
 
 int main() {
 
-    Question question(2);
-
-    question.set_rec_question_mark("8", "1");
-
+    Question question(7, "lll", "7");
+    question.add_question();
     question.question_close_connect();
-
+    
 
     //User user("Bob");
     //user.update_email("new_email");

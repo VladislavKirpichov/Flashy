@@ -16,13 +16,14 @@ Question::Question(int id)
     //id = std::stoi(MyData[0][0]);
     
     std::string ID = std::to_string(this->id);
-    std::vector<std::vector<std::string>> MyData = database->Get("SELECT * FROM questions WHERE id=?", {"I:"+ ID}, 6);
+    std::vector<std::vector<std::string>> MyData = database->Get("SELECT * FROM questions WHERE id=?", {"I:"+ ID}, 7);
 
     page_id = std::stoi(MyData[0][1]);
     file = MyData[0][2];
     answer = MyData[0][3];
     right_answers = std::stoi(MyData[0][4]);
     wrong_answers = std::stoi(MyData[0][5]);
+    page_theme = MyData[0][6];
     //MyData = database->Get("SELECT `rightAnswers`, `wrongAnswers`, (`rightAnswers` / (`rightAnswers` + `wrongAnswers`)) FROM questions WHERE id=?", { "I:" + ID}, 1);
     //right_answers_rate = std::stod(MyData[0][7]);
     
@@ -38,7 +39,9 @@ void Question::question_close_connect() {
 
 void Question::add_question(){
     std::string Page_ID = std::to_string(page_id);
-    database->Insert("INSERT INTO questions(pageID,file,answer) VALUES (?, ?, ?)", { "I:" + Page_ID , "S:" + file, "S:" + answer });
+    std::vector<std::vector<std::string>> Mydata = database->Get("SELECT theme FROM page WHERE id=?", { "I:" + Page_ID}, 1);
+    page_theme = Mydata[0][0];
+    database->Insert("INSERT INTO questions(pageID,file,answer,page_theme) VALUES (?, ?, ?, ?)", { "I:" + Page_ID , "S:" + file, "S:" + answer, "S:" + page_theme });
     std::vector<std::vector<std::string>> MyData = database->Get("SELECT id FROM questions WHERE file=?", { "S:" + file}, 1);
     id = std::stoi(MyData[0][0]);
 }

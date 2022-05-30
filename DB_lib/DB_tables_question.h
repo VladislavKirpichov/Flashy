@@ -12,6 +12,7 @@ class Question {
         std::string answer;
         int right_answers;
         int wrong_answers;
+		std::string page_theme;
 		DB *database;
 
     public:
