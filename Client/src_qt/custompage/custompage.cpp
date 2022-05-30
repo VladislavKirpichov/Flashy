@@ -49,10 +49,6 @@ void CustomPage::open_page(int _page_num)
     }
 }
 
-void CustomPage::save_text(QString new_text)
-{
-    ui->text_field->setText(new_text);
-}
 
 void CustomPage::on_recom_notes_button_clicked()
 {
@@ -64,7 +60,24 @@ void CustomPage::on_start_testing_button_clicked()
     emit open_page_signal(2);
 }
 
-void CustomPage::on_edit_button_clicked()
+
+void CustomPage::on_save_button_clicked()
 {
-    emit open_page_signal(6);
+    QString _text = ui->text_field->toPlainText();
+    QString _title = ui->page_title->text();
+    Manager::get_instance()->get_page().set_text(_text.toStdString());
+    Manager::get_instance()->get_page().set_title(_title.toStdString());
+    for(int i=0; i< Manager::get_instance()->get_page().get_questions_id().size();i++){
+        QString quest_title = question_fields[i]->get_question();
+        QString quest_answer = question_fields[i]->get_answer();
+        Manager::get_instance()->get_questions()[i].set_title(quest_title.toStdString());
+        Manager::get_instance()->get_questions()[i].set_answer(quest_answer.toStdString());
+    }
+        for(int i=Manager::get_instance()->get_page().get_questions_id().size(); i<question_fields.size(); ++i){
+            QString quest_title = question_fields[i]->get_question();
+            QString quest_answer = question_fields[i]->get_answer();
+            Manager::get_instance()->get_questions().push_back(Question(Manager::get_instance()->get_page().get_page_id()));
+            Manager::get_instance()->get_questions()[i].set_title(quest_title.toStdString());
+            Manager::get_instance()->get_questions()[i].set_answer(quest_answer.toStdString());
+        }
 }

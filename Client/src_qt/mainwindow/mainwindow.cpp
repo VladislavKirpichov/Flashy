@@ -30,13 +30,6 @@ MainWindow::MainWindow(QWidget *parent) :
     user_page->hide();
     connect(this, &MainWindow::signal, user_page, &UserPage::open_page);
 
-    edit_page = new EditPage(this);
-    edit_page->hide();
-    connect(this, &MainWindow::signal, edit_page, &EditPage::open_page);
-    connect(edit_page, &EditPage::open_page_signal, this, &MainWindow::open_page);
-
-    connect(edit_page, &EditPage::save_page_signal, custom_page, &CustomPage::save_text);
-
 
     connect(this, &MainWindow::user_signal, user_page, &UserPage::update);
     connect(main_page, &MainPage::update_custom_page_signal, this, &MainWindow::update_custom_page_slot);
@@ -50,7 +43,6 @@ MainWindow::~MainWindow()
     delete custom_page;
     delete recom_page;
     delete test_page;
-    delete edit_page;
 }
 
 UserPage *MainWindow::get_page()

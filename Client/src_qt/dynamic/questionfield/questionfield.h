@@ -14,7 +14,7 @@ class QuestionFIeld : public QWidget
 public:
     explicit QuestionFIeld(QWidget *parent = nullptr, bool is_yours = true);
     ~QuestionFIeld();
-    void set_title(const std::string & new_title);
+    void set_data(const std::string & new_title, const std::string& new_answer);
 private slots:
     void on_like_button_clicked();
 
@@ -23,10 +23,13 @@ private slots:
     void on_answer_button_clicked();
 
 
-
+signals:
+    void answer_signal(bool);
 private:
     Ui::QuestionFIeld *ui;
+    QString answer;
     bool is_yours;
+    bool is_clicked;
 };
 
 #endif // QUESTIONFIELD_H

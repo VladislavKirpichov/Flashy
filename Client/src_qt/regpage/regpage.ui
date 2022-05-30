@@ -117,7 +117,7 @@ border-radius: 12px;
 color: #FFFFFF;</string>
     </property>
     <property name="text">
-     <string>Create account!</string>
+     <string>Sign up!</string>
     </property>
    </widget>
    <widget class="QWidget" name="layoutWidget">

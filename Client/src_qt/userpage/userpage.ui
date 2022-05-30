@@ -64,7 +64,8 @@ height: 43px;
 left: 276px;
 top: 264px;
 
-background: #005DF7;
+background: #FB5B8D;
+color: #FFFFFF;
 border-radius: 8px;</string>
    </property>
    <property name="text">
@@ -207,7 +208,7 @@ color: #000000;</string>
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>60</x>

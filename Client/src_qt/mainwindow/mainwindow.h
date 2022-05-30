@@ -8,7 +8,6 @@
 #include "custompage.h"
 #include "recompage.h"
 #include "testpage.h"
-#include "editpage.h"
 namespace Ui {
 class MainWindow;
 }
@@ -39,7 +38,6 @@ private:
     CustomPage * custom_page;
     RecomPage * recom_page;
     TestPage * test_page;
-    EditPage * edit_page;
 signals:
     void signal(int);
     void user_signal(QString, QString, QString);

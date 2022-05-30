@@ -2,6 +2,7 @@
 #include "ui_mainpage.h"
 #include "Manager.h"
 #include <QInputDialog>
+#include <QComboBox>
 MainPage::MainPage(QWidget *parent) :
         QWidget(parent),
         ui(new Ui::MainPage) {
@@ -36,7 +37,7 @@ void MainPage::open_custom_page(int note_num)
 
 void MainPage::on_add_page_button_clicked() {
     QString text = QInputDialog::getText(this, tr("Creating page"),
-                                         tr("Page title:"), QLineEdit::Normal);
+                                         tr("Page title: "), QLineEdit::Normal);
 
     if(Manager::get_instance()->create_page_to_server(text.toStdString())) {
         emit open_page_signal(6);

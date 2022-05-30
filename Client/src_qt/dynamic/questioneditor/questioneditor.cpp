@@ -37,3 +37,9 @@ void QuestionEditor::on_hide_button_clicked()
     }
     is_hide = !is_hide;
 }
+QString QuestionEditor::get_question(){
+    return ui->question->text();
+}
+QString QuestionEditor::get_answer(){
+    return ui->answer->text();
+}

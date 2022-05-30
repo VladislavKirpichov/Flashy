@@ -62,7 +62,8 @@ height: 51px;
 left: 724px;
 top: 315px;
 
-background: #005DF7;
+background: #FB5B8D;
+color: #FFFFFF;
 border: 2px solid rgba(255, 255, 255, 0.64);
 border-radius: 12px;</string>
    </property>

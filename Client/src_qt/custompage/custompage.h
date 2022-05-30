@@ -2,6 +2,7 @@
 #define CUSTOMPAGE_H
 
 #include <QWidget>
+#include "Question.h"
 #include "Manager.h"
 #include "questioneditor.h"
 namespace Ui {
@@ -18,16 +19,14 @@ public:
     void update();
 public slots:
     void open_page(int _page_num);
-    void save_text(QString new_text);
 private slots:
 
     void on_recom_notes_button_clicked();
 
     void on_start_testing_button_clicked();
 
-    void on_edit_button_clicked();
 
-
+    void on_save_button_clicked();
 
 private:
     Ui::CustomPage *ui;

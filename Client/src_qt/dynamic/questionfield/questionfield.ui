@@ -85,24 +85,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_5">
       <item>
-       <widget class="QLabel" name="label_4">
-        <property name="styleSheet">
-         <string notr="true">color: black</string>
-        </property>
-        <property name="text">
-         <string>Answer:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="answer_line">
-        <property name="styleSheet">
-         <string notr="true">color:black</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
+       <widget class="QLineEdit" name="answer_line"/>
       </item>
      </layout>
     </item>

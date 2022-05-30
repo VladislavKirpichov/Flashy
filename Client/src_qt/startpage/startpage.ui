@@ -266,7 +266,7 @@ border-radius: 12px;
 color: #FFFFFF;</string>
       </property>
       <property name="text">
-       <string>Sign up</string>
+       <string>Sign in</string>
       </property>
      </widget>
     </widget>

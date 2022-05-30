@@ -115,7 +115,7 @@ border-radius: 12px;</string>
     <string>Recom  to this note</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="edit_button">
+  <widget class="QPushButton" name="save_button">
    <property name="geometry">
     <rect>
      <x>490</x>

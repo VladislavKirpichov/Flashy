@@ -15,6 +15,8 @@ public:
     explicit QuestionEditor(QWidget *parent = nullptr);
     ~QuestionEditor();
     void set_data(const std::string & new_title, const std::string& new_answer);
+    QString get_question();
+    QString get_answer();
 
 private slots:
     void on_save_button_clicked();
