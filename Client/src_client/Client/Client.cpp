@@ -20,14 +20,15 @@ std::string HTTPClient::get_response(const std::string& host, const unsigned sho
     return res.body();
 }
 bool HTTPClient::post_request(const std::string& host, const unsigned short& port, const std::string& target,
-                         const std::string& body){
+                         const std::string& body, const std::string& type){
     auto const results = resolver.resolve(host, std::to_string(port));
     stream.connect(results);
+
     http::request<http::string_body> req(http::verb::post, target, 11);
-    req.set(http::field::body, body);
-    req.prepare_payload();
+    req.set(http::field::content_type, type);
     req.set(http::field::host, host);
     req.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
+    req.body() = body;
     req.prepare_payload();
 
     http::write(stream, req);

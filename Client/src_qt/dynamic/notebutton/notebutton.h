@@ -12,7 +12,7 @@ public:
     static int buttons_count;   // Статическая переменная, счетчик номеров кнопок
     int get_ID();        // Функция для возврата локального номера кнопки
 public slots:
-    void open_custom_page_slot(int ID);
+    void open_custom_page_slot();
 private:
         int button_num = 0;
         QString note_name;

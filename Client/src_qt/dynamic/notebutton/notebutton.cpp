@@ -21,8 +21,8 @@ int NoteButton::get_ID()
     return button_num;
 }
 
-void NoteButton::open_custom_page_slot(int ID)
+void NoteButton::open_custom_page_slot()
 {
-    emit open_custom_page_signal(ID);
+        emit open_custom_page_signal(button_num);
 }
 

@@ -6,8 +6,8 @@ std::string Manager::get(const std::string &target) {
     return client.get_response(host, port, target);
 }
 
-bool Manager::post(const std::string &target, const std::string &body) {
-    return client.post_request(host, port, target, body);
+bool Manager::post(const std::string &target, const std::string &body, const std::string & type) {
+    return client.post_request(host, port, target, body, type);
 }
 
 std::string Manager::put(const std::string &target, std::string &body) {
@@ -20,19 +20,27 @@ bool Manager::_delete(const std::string &target) {
 
 void Manager::get_user_from_server(const std::string &login, const std::string &password) {
     std::string target = "/user/?login=" + login + "&password=" + password;
-    current_user = serializer.user_deserialize(get(target));
+    std::string gt = get(target);
+    std::cout << gt << '\n';
+    current_user = serializer.user_deserialize(gt);
 }
 
 void Manager::get_page_from_server(const std::string &page_id) {
     current_questions.clear();
-//    std::string target = "/page?page_id=" + page_id;
-//    current_page = serializer.page_deserialize(get(target));
+    std::string target = "/page/?page_id=" + page_id;
+    std::cout << get(target) << '\n';
+    current_page = serializer.page_deserialize(get(target));
+    std::string _text = get(target + "&content=true");
+    _text.erase(_text.size() - 1);
+    current_page.set_text(_text);
     get_questions_from_page();
 }
 
 Question Manager::get_question_from_server(const int &question_id) {
-//    std::string target = "/question?question_id=" + std::to_string(question_id);
-//    return serializer.question_deserialize(get(target));
+    std::string target =
+            "/question/?question_id=" + std::to_string(question_id) + "&page_id=" + current_page.get_page_id();
+    std::cout << get(target);
+    return serializer.question_deserialize(get(target));
 }
 
 void Manager::get_questions_from_page() {
@@ -50,9 +58,9 @@ bool Manager::create_page_to_server(const std::string &title) {
     std::cout << current_user.get_id();
     current_page.set_user_id(current_user.get_id());
     std::string request = serializer.page_serialize(current_page);
-    std::string json =  put(target, request);
+    std::string json = put(target, request);
     std::cout << json;
-    if(json == "Bad Request 400\n"){
+    if (json == "Bad Request 400\n") {
         return false;
     }
     current_page = serializer.page_deserialize(json);
@@ -67,7 +75,7 @@ std::string Manager::create_question_to_server(size_t i) {
 
 bool Manager::change_user_in_server() {
     std::string target = "/user/?login=" + current_user.get_login() + "&password=" + current_user.get_password();
-    if (post(target, serializer.user_serialize(current_user)))
+    if (post(target, serializer.user_serialize(current_user),"application/json"))
         return true;
     else
         return false;
@@ -75,18 +83,32 @@ bool Manager::change_user_in_server() {
 
 bool Manager::change_page_in_server() {
     std::string target = "/page/?page_id=" + current_page.get_page_id();
-    if (post(target, serializer.page_serialize(current_page)))
+    std::cout << serializer.page_serialize(current_page) << "\n";
+    if (post(target, serializer.page_serialize(current_page),"application/json") &&
+        post(target + "&content=true", current_page.get_text(),"text/text")) {
+        if (change_question_from_page())
+            return true;
+        else
+            return false;
+    }
+    return false;
+}
+
+bool Manager::change_question_to_server(const int &question_index) {
+    std::string target =
+            "/question/?question_id=" + std::to_string(current_questions[question_index].get_question_id()) +
+            "&page_id= " + current_page.get_page_id();
+    if (post(target, serializer.question_serialize(current_questions[question_index]),"application/json")) {
         return true;
-    else
+    } else
         return false;
 }
 
-bool Manager::change_question_to_server(const int & question_index) {
-    std::string target = "/question/" + current_page.get_page_id();
-    if (post(target, serializer.page_serialize(current_page)))
-        return true;
-    else
-        return false;
+bool Manager::change_question_from_page() {
+    for (int i = 0; i < current_page.get_questions_id().size(); ++i) {
+        if (!change_question_to_server(i))
+            return false;
+    }
     return true;
 }
 
@@ -121,7 +143,8 @@ User &Manager::get_user() {
 Page &Manager::get_page() {
     return current_page;
 }
-std::vector<Question> &Manager::get_questions(){
+
+std::vector<Question> &Manager::get_questions() {
     return current_questions;
 }
 

@@ -141,9 +141,9 @@ std::string Serializer::page_serialize(Page &page) {
     res += page.get_last_visited_time();
     res += "\",\n";
 
-    res += "  \"text\": \"";
-    res += page.get_text();
-    res += "\",\n";
+//    res += "  \"text\": \"";
+//    res += page.get_text();
+//    res += "\",\n";
 
     std::vector<int> temp_questions_id = page.get_questions_id();
     res += "  \"questions_id\": [ ";

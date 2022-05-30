@@ -64,14 +64,14 @@ int main(int argc, char *argv[]) {
     std::string host = "192.168.43.143";
     unsigned short port = 8080;
     Manager::get_instance()->set_destination(host, port);
-    Serializer s;
-    Manager::get_instance()->get_user() = s.user_deserialize(user_json_example);
-    Manager::get_instance()->get_page() = s.page_deserialize(page_json_example1);
-
-    Question temp = s.question_deserialize(question_json_example1);
-    Manager::get_instance()->get_questions().push_back(temp);
-    temp =s.question_deserialize(question_json_example2);
-    Manager::get_instance()->get_questions().push_back(temp);
+//    Serializer s;
+//    Manager::get_instance()->get_user() = s.user_deserialize(user_json_example);
+//    Manager::get_instance()->get_page() = s.page_deserialize(page_json_example1);
+//
+//    Question temp = s.question_deserialize(question_json_example1);
+//    Manager::get_instance()->get_questions().push_back(temp);
+//    temp =s.question_deserialize(question_json_example2);
+//    Manager::get_instance()->get_questions().push_back(temp);
 
     QApplication a(argc, argv);
     StartPage w;

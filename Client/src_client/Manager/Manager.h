@@ -50,6 +50,8 @@ public:
 
     bool change_question_to_server(const int& question_index);
 
+    bool change_question_from_page();
+
     bool auth(const std::string &login, const std::string &password);
 
     bool reg(const std::string &name, const std::string &login, const std::string &password,
@@ -68,7 +70,7 @@ private:
 
     std::string get(const std::string &target);
 
-    bool post(const std::string &target, const std::string &body);
+    bool post(const std::string &target, const std::string &body, const std::string & type);
 
     std::string put(const std::string &target, std::string &body);
 

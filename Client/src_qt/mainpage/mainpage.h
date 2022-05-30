@@ -14,7 +14,7 @@ class MainPage : public QWidget
 public:
     explicit MainPage(QWidget *parent = nullptr);
     ~MainPage();
-
+    void update();
 public slots:
     void open_page(int _page_num);
     void open_custom_page(int note_num);

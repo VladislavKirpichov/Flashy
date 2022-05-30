@@ -76,8 +76,9 @@ void CustomPage::on_save_button_clicked()
         for(int i=Manager::get_instance()->get_page().get_questions_id().size(); i<question_fields.size(); ++i){
             QString quest_title = question_fields[i]->get_question();
             QString quest_answer = question_fields[i]->get_answer();
-            Manager::get_instance()->get_questions().push_back(Question(Manager::get_instance()->get_page().get_page_id()));
+            Manager::get_instance()->get_questions().emplace_back(Question(Manager::get_instance()->get_page().get_page_id()));
             Manager::get_instance()->get_questions()[i].set_title(quest_title.toStdString());
             Manager::get_instance()->get_questions()[i].set_answer(quest_answer.toStdString());
         }
+        Manager::get_instance()->change_page_in_server();
 }
