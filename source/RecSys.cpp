@@ -1,5 +1,11 @@
 #include "RecSys.h"
 
+#include <iostream>
+#include <algorithm>
+
+#include "Page.h"
+#include "Storage.h"
+
 double RecSys::fit() {
   //optimize hyperparameters:
   //learning rate
@@ -32,7 +38,7 @@ double RecSys::fit() {
       double loss = output.item().toDouble();
 
       std::cout << "Model {lr = " << lr_iter << ", k = " << k_iter << "}"
-       << "\nLoss: " << loss << std::endl;
+                << "\nLoss: " << loss << std::endl;
 
       if (loss < best_loss) {
         best_loss = loss;
@@ -45,10 +51,10 @@ double RecSys::fit() {
   const auto end_fit = std::chrono::steady_clock::now();
 
   std::cout << "Best loss:" << best_loss
-  << "\nBest k:" << best_k
-  << "\nBest learning rate" << best_lr
-  << "\nTIME: " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_fit - start_fit).count()
-  << "nanoseconds" << std::endl;
+            << "\nBest k:" << best_k
+            << "\nBest learning rate" << best_lr
+            << "\nTIME: " << std::chrono::duration_cast<std::chrono::nanoseconds>(end_fit - start_fit).count()
+            << "nanoseconds" << std::endl;
 
   //Training best model
   net_ = std::make_shared<Net>(docs_count, cards_count, best_k);
@@ -85,7 +91,7 @@ const std::vector<double> RecSys::generate_lr_grid(int count) {
 }
 
 double RecSys::eval_loss(const torch::Tensor &output,
-                                       std::shared_ptr<Dataset> p_dataset) {
+                         std::shared_ptr<Dataset> p_dataset) {
   double loss = 0;
   for (const auto& i: p_dataset->get_interactions_data()) {
     loss += std::pow((output[i.card_id][i.doc_id].item().to<double>() - i.mark), 2);
@@ -95,7 +101,7 @@ double RecSys::eval_loss(const torch::Tensor &output,
 }
 
 void RecSys::save_cards_embeddings(const torch::Tensor &p_flashcard_matrix,
-                                        std::shared_ptr<Dataset> p_dataset) {
+                                   std::shared_ptr<Dataset> p_dataset) {
   using namespace torch::indexing;
 
   for (int i = 0; i < p_dataset->get_flashcards_count(); ++i) {
@@ -105,7 +111,7 @@ void RecSys::save_cards_embeddings(const torch::Tensor &p_flashcard_matrix,
 }
 
 void RecSys::save_docs_embeddings(const torch::Tensor &p_documents_matrix,
-                                       std::shared_ptr<Dataset> p_dataset) {
+                                  std::shared_ptr<Dataset> p_dataset) {
 
   for (size_t i = 0; i < p_dataset->get_documents_count(); ++i) {
     document_embeddings_[p_dataset->get_documents()[i]] = p_documents_matrix[i];
@@ -116,7 +122,7 @@ void RecSys::save_docs_embeddings(const torch::Tensor &p_documents_matrix,
 RecSys::RecSys(const Dataset &p_dataset) {
   dataset_ = std::make_shared<Dataset>(p_dataset);
   net_ = std::make_shared<Net>(dataset_->get_documents_count(),
-                                 dataset_->get_flashcards_count());
+                               dataset_->get_flashcards_count());
 }
 
 RecSys::~RecSys() {
@@ -149,9 +155,9 @@ std::vector<int> RecSys::i2i_predictions(int card_id, int count) {
 
   std::sort(similarity_vec.begin(), similarity_vec.end(),
             [similarity_vec](std::pair<int, double> p1, std::pair<int, double> p2)
-  {
-    return p1.second < p2.second;
-  });
+            {
+              return p1.second < p2.second;
+            });
 
   std::vector<int> result(count + 1);
   for (const auto &i: similarity_vec) {
@@ -191,48 +197,55 @@ std::vector<int> RecSys::u2i_predictions(int doc_id, int count) {
 
   filter(result, doc_id);
 
-  Page page(std::to_string(doc_id));
+  Page page(std::to_string(doc_id), true);
   //save result to db
-  for (int i = 0; i < count; ++i) {
-    page.add_rec_question_id(std::to_string(result[i]));
-  }
+  for (int i = 0; i < std::min(count, static_cast<int>(result.size())); ++i)
+    page.add_one_rec_question_id(std::to_string(result[i]));
 
   std::cout << "Predicted result\n";
   for (auto i: result) {
     std::cout << i << " ";
   }
 
+  page.page_close_connect();
   return result;
 }
 
 
-const std::vector<int> RecSys::filter(const std::vector<int> &flashcards, int doc_id) {
-  Page page(std::to_string(doc_id));
+const std::vector<int> RecSys::filter(std::vector<int> &flashcards, int doc_id) {
+  Page page(std::to_string(doc_id), true);
 
   //get tests of page
-  std::vector<std::vector<std::string>> tests_from_curr_page = page.get_all_page_questions_id(std::to_string(doc_id));
+  std::vector<std::vector<std::string>> tests_from_curr_page_str = page.get_all_page_questions_id();
   //get title of page
   std::string title = page.get_page_title();
+  std::vector<int> tests_from_curr_page{};
 
-  std::transform(tests_from_curr_page.begin(), tests_from_curr_page.end()
-      , tests_from_curr_page.begin(), [tests_from_curr_page](std::vector<std::string> test_id){
-        return std::stoi(test_id[0]);
-      });
+  std::transform(tests_from_curr_page_str.begin(), tests_from_curr_page_str.end(), tests_from_curr_page.begin(), [](std::vector<std::string> test_id){
+    return std::stoi(test_id[0]);
+  });
 
   //get tests with curr title
-  std::vector<std::vector<std::string>> titles_tests = page.get_all_questions_by_title(title);
-  std::transform(titles_tests.begin(), titles_tests.end()
-      , titles_tests.begin(), [titles_tests](std::vector<std::string> test_id){
+  std::vector<std::vector<std::string>> titles_tests_str = page.get_all_questions_by_theme();
+  std::vector<int> titles_tests{};
+
+  std::transform(titles_tests_str.begin(), titles_tests_str.end(),
+                 titles_tests.begin(), [](std::vector<std::string> test_id) {
         return std::stoi(test_id[0]);
       });
 
   //remove test of page
-  std::remove_if(flashcards.begin(), flashcards.end()
-      , [flashcards, tests_from_curr_page, titles_tests](int test_id) {
-        return std::find(tests_from_curr_page.begin(), tests_from_curr_page.end(), test_id)
-            != tests_from_curr_page.end() ||
-            std::find(titles_tests.begin(),titles_tests.end(), test_id) != titles_tests.end();
-      });
+  std::remove_if(flashcards.begin(), flashcards.end(),
+                 [flashcards, tests_from_curr_page, titles_tests](int test_id) {
+                   return std::find(tests_from_curr_page.begin(), tests_from_curr_page.end(), test_id)
+                       != tests_from_curr_page.end() ||
+                       std::find(titles_tests.begin(), titles_tests.end(), test_id) != titles_tests.end();
+                 });
+
+  auto func = [tests_from_curr_page](std::vector<std::string> test_id){
+    return std::stoi(test_id[0]);
+  };
 
   return flashcards;
 }
+

@@ -14,13 +14,12 @@ class Net : public torch::nn::Module {
 
   torch::Tensor forward();
 
-
   void save_model();
 
   void load_model();
 
   torch::Tensor train(torch::Tensor input, size_t pEpoch = 1e3,
-                                   double learning_rate = 0.5);
+                      double learning_rate = 0.5);
 
   const torch::Tensor get_doc2card() const;
 
@@ -29,8 +28,6 @@ class Net : public torch::nn::Module {
   const torch::Tensor get_flashcards_embeddings() const;
 
  private:
-
-//  torch::Tensor forward();
 
   torch::Tensor doc2card;
   torch::Tensor documents_embeddings;

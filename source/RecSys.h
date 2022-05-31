@@ -20,7 +20,7 @@ class RecSys {
                              std::shared_ptr<Dataset> p_dataset);
 
   void save_docs_embeddings(const torch::Tensor &p_interactions,
-                             std::shared_ptr<Dataset> p_dataset);
+                            std::shared_ptr<Dataset> p_dataset);
 
   double eval_loss(const torch::Tensor &output,
                    std::shared_ptr<Dataset> p_dataset);
@@ -31,19 +31,19 @@ class RecSys {
 
   double cosine_similarity(torch::Tensor first, torch::Tensor second);
 
-  const std::vector<int> filter(const std::vector<int> &flashcards, int doc_id);
+  const std::vector<int> filter(std::vector<int> &flashcards, int doc_id);
 
  public:
 
   RecSys(const Dataset &p_dataset);
 
-  RecSys(const RecSys<Net> &other) = delete;
+  RecSys(const RecSys &other) = delete;
 
-  RecSys(RecSys<Net> &&other) = delete;
+  RecSys(RecSys &&other) = delete;
 
-  RecSys& operator=(const RecSys<Net> &other) = delete;
+  RecSys& operator=(const RecSys &other) = delete;
 
-  RecSys& operator=(RecSys<Net> &&other) = delete;
+  RecSys& operator=(RecSys &&other) = delete;
 
   ~RecSys();
 

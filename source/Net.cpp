@@ -36,7 +36,7 @@ void Net::load_model() {
 }
 
 torch::Tensor Net::train(torch::Tensor input, size_t pEpoch,
-                    double learning_rate)
+                         double learning_rate)
 {
   torch::optim::Adam nn_optimizers(this->parameters(),
                                    torch::optim::AdamOptions(learning_rate));
@@ -66,4 +66,3 @@ const torch::Tensor Net::get_documents_embeddings() const {
 const torch::Tensor Net::get_flashcards_embeddings() const {
   return flashcards_embedding;
 }
-
